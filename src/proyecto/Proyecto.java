@@ -28,6 +28,7 @@ public class Proyecto {
         this.equipo = new HashSet<>();
         this.tareas = new LinkedList<>();
         this.nombre = nombre;
+        this
         this.estado = Estado.PENDIENTE;
     }
 
