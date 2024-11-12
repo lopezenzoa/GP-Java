@@ -6,7 +6,7 @@ import proyecto.Proyecto;
 import enums.Rol;
 
 public class MiembroEquipo extends Usuario {
-    private HashSet<Proyecto> proyectosEnCurso;
+    private HashSet<String> proyectosEnCurso;
     private Rol rol;
 
     public MiembroEquipo(String nombre,
@@ -19,11 +19,13 @@ public class MiembroEquipo extends Usuario {
         this.rol = rol;
     }
 
-    public HashSet<Proyecto> getProyectosEnCurso() {
+
+
+    public HashSet<String> getProyectosEnCurso() {
         return proyectosEnCurso;
     }
 
-    public void setProyectosEnCurso(HashSet<Proyecto> proyectosEnCurso) {
+    public void setProyectosEnCurso(HashSet<String> proyectosEnCurso) {
         this.proyectosEnCurso = proyectosEnCurso;
     }
 

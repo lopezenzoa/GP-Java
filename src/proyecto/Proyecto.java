@@ -32,6 +32,8 @@ public class Proyecto <E extends Usuario>{
         this.estado = Estado.PENDIENTE;
     }
 
+
+
     // Getters y Setters
 
 
