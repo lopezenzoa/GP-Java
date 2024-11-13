@@ -68,5 +68,16 @@ public class Main  {
         System.out.println(monica_2);
 
          */
+
+        /* Prueba de serializacion de Proyecto y Tarea */
+        JSONObject p1JSON = nuevoProyecto.serializar();
+
+        System.out.println();
+        System.out.println(p1JSON);
+        System.out.println();
+
+        Proyecto nuevoProyecto_2 = new Proyecto(p1JSON);
+
+        System.out.println(nuevoProyecto_2);
     }
 }

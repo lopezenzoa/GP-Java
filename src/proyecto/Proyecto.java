@@ -8,18 +8,17 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import usuario.Administrador;
 import usuario.Lider;
-import usuario.MiembroEquipo;
 
 import enums.Estado;
-import usuario.Usuario;
+import usuario.MiembroEquipo;
 
 import java.util.Objects;
 
-public class Proyecto<E extends Usuario> {
+public class Proyecto {
     private int id;
     private Administrador administrador;
     private Lider lider;
-    private HashSet<E> equipo;
+    private HashSet<MiembroEquipo> equipo;
     private LinkedList<Tarea> tareas;
     private String nombre;
     private Estado estado;
@@ -41,10 +40,13 @@ public class Proyecto<E extends Usuario> {
             this.administrador = new Administrador(jsonObject.getJSONObject("administrador"));
             this.lider = new Lider(jsonObject.getJSONObject("lider"));
 
-            /**
-             * @todo resolver el uso del parametro para el atributo equipo.
-             * */
             this.equipo = new HashSet<>();
+            JSONArray equipoJSON = jsonObject.getJSONArray("equipo");
+
+            for (int i = 0; i < equipoJSON.length(); i++) {
+                JSONObject miembroJSON = equipoJSON.getJSONObject(i);
+                equipo.add(new MiembroEquipo(miembroJSON));
+            }
 
             this.tareas = new LinkedList<>();
             JSONArray tareasJSON = jsonObject.getJSONArray("tareas");
@@ -87,11 +89,11 @@ public class Proyecto<E extends Usuario> {
         this.lider = lider;
     }
 
-    public HashSet<E> getEquipo() {
+    public HashSet<MiembroEquipo> getEquipo() {
         return equipo;
     }
 
-    public void setEquipo(HashSet<E> equipo) {
+    public void setEquipo(HashSet<MiembroEquipo> equipo) {
         this.equipo = equipo;
     }
 
@@ -167,7 +169,7 @@ public class Proyecto<E extends Usuario> {
     public HashSet<Integer> obtenerIDsDelEquipo() {
         HashSet<Integer> IDs = new HashSet<>();
 
-        for (E miembro : equipo)
+        for (MiembroEquipo miembro : equipo)
             IDs.add(miembro.getId());
 
         return IDs;
@@ -219,17 +221,17 @@ public class Proyecto<E extends Usuario> {
     }
 
     // Método para agregar un miembro al equipo
-    public boolean agregarMiembro(E miembro) {
+    public boolean agregarMiembro(MiembroEquipo miembro) {
         return equipo.add(miembro); // Agrega al equipo y devuelve true si se añadió, false si ya existía
     }
 
     // Método para verificar si un miembro está en el equipo
-    public boolean existeMiembro(E miembro) {
+    public boolean existeMiembro(MiembroEquipo miembro) {
         return equipo.contains(miembro); // Devuelve true si el miembro ya está en el equipo
     }
 
     // Método para eliminar un miembro del equipo
-    public boolean eliminarMiembro(E miembro) {
+    public boolean eliminarMiembro(MiembroEquipo miembro) {
         return equipo.remove(miembro); // Devuelve true si el miembro fue eliminado, false si no se encontró
     }
 
@@ -250,7 +252,7 @@ public class Proyecto<E extends Usuario> {
             proyectoJSON.put("administrador", administrador.serializar());
             proyectoJSON.put("lider", lider.serializar());
 
-            for (E miembro : equipo)
+            for (MiembroEquipo miembro : equipo)
                 equipoJSON.put(miembro.serializar());
 
             proyectoJSON.put("equipo", equipoJSON);
