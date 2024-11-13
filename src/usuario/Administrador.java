@@ -50,7 +50,7 @@ public class Administrador extends Usuario {
     }
 
     // DESERIALIZACION
-    public Administrador deserializarAdmi(JSONObject admiJson){
+    /*public Administrador deserializarAdmi(JSONObject admiJson){
         Administrador admi= new Administrador();
         try{
             admi.setId(admiJson.getInt("id"));
@@ -68,7 +68,7 @@ public class Administrador extends Usuario {
             e.printStackTrace();
         }
         return admi;
-    }
+    }*/
 
 
 

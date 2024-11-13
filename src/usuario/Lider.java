@@ -43,7 +43,7 @@ public class Lider extends Usuario {
         proyectosEnCurso.remove(proyecto);
     }
 
-    public JSONObject serializarLider(Lider lider){
+   /* public JSONObject serializarLider(Lider lider){
         JSONObject liderJson= null;
         try{
             liderJson= new JSONObject();
@@ -69,7 +69,7 @@ public class Lider extends Usuario {
         return liderJson;
     }
 
-    public Lider deserializarLider(JSONObject liderJson){
+   /* public Lider deserializarLider(JSONObject liderJson){
         Lider lider= new Lider();
 
         try{
@@ -91,7 +91,7 @@ public class Lider extends Usuario {
 
         }
         return lider; // FALTA TERMINAR
-    }
+    }*/
 
 
 }
