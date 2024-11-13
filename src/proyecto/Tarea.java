@@ -1,6 +1,8 @@
 package proyecto;
 
 import enums.Estado;
+import org.json.JSONException;
+import org.json.JSONObject;
 import usuario.MiembroEquipo;
 
 import java.util.Objects;
@@ -21,8 +23,24 @@ public class Tarea {
         this.estado = Estado.PENDIENTE;
     }
 
-    // Getters y Setters
+    /**
+     * Construye una tarea a partir de un objeto de tipo JSONObject.
+     * @param jsonObject es el objeto en formato JSON que representa a la tarea.
+     * @author Enzo.
+     * */
+    public Tarea(JSONObject jsonObject) {
+        try {
+            this.id = jsonObject.getInt("id");
+            this.titulo = jsonObject.getString("titulo");
+            this.descripcion = jsonObject.getString("descripcion");
+            this.responsable = new MiembroEquipo(jsonObject.getJSONObject("responsable"));
 
+            String estadoJSON = jsonObject.getString("estado");
+            this.estado = Estado.valueOf(estadoJSON);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
 
     public int getId() {
         return id;
@@ -86,6 +104,30 @@ public class Tarea {
                 "    Responsable  : " + responsable + "\n" +
                 "    Estado       : " + estado + "\n" +
                 '}';
+    }
+
+
+    /**
+     * Serializa la clase Tarea.
+     * @return un objeto de tipo JSONObject con los atributos de la tarea.
+     * @author Enzo.
+     * */
+    public JSONObject serializar() {
+        JSONObject tareaJSON = null;
+
+        try {
+            tareaJSON = new JSONObject();
+
+            tareaJSON.put("id", id);
+            tareaJSON.put("titulo", titulo);
+            tareaJSON.put("descripcion", descripcion);
+            tareaJSON.put("responsable", responsable.serializar());
+            tareaJSON.put("estado", estado.toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return tareaJSON;
     }
 
 }
