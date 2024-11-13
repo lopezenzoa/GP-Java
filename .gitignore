@@ -27,7 +27,3 @@ bin/
 
 ### Mac OS ###
 .DS_Store
-
-### Others Files ###
-.idea/
-GP-Java.iml
