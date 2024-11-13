@@ -1,5 +1,6 @@
 package usuario;
 
+import enums.Rol;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -18,61 +19,75 @@ public class Administrador extends Usuario {
         this.lideresACargo = new HashSet<>();
     }
 
+    /**
+     * Construye un objeto de tipo Administrador a partir de un objeto de tipo JSONObject.
+     * @param jsonObject es el objeto en formato JSON que representa a la clase Administrador.
+     * @author Enzo.
+     * */
+    public Administrador(JSONObject jsonObject) {
+        // Construye al usuario recibiendo el JSONObject
+        super(jsonObject); // No se si es buena idea ponerlo fuera del bloque try-catch
+
+        try {
+            this.lideresACargo = new HashSet<>();
+
+            JSONArray lideresACargoJSON = jsonObject.getJSONArray("lideresACargo");
+
+            for (int i = 0; i < lideresACargoJSON.length(); i++) {
+                JSONObject liderACargoJSON = lideresACargoJSON.getJSONObject(i);
+                lideresACargo.add(new Lider(liderACargoJSON));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
     public HashSet<Lider> getLideresACargo() {
         return lideresACargo;
     }
 
-    public void setLideresACargo(HashSet<Lider> lideresACargo) {
-        this.lideresACargo = lideresACargo;}
+    public void setLideresACargo(HashSet<Lider> lideresACargo) {this.lideresACargo = lideresACargo;}
 
+    /**
+     * Agrega un lider a la coleccion lideresACargo.
+     * @param lider es el nombre del lider que se quiere agregar.
+     * @author Ailen.
+     * */
     public void agregarLider(Lider lider){
         lideresACargo.add(lider);
     }
+
+    /**
+     * Elimina un lider a cargo de la coleccion lideresACargo.
+     * @param lider es el nombre del lider que se quiere eliminar.
+     * @author Ailen.
+     * */
     public void eliminarLider(Lider lider){
         lideresACargo.remove(lider);
     }
 
-    // SERIALIZACION
-    public JSONObject serializar(Administrador admi){
-        JSONObject admiJson= null;
-        try{
-            admiJson= new JSONObject();
-            admiJson= super.serializar(admi);
-            JSONArray lideresJson= new JSONArray();
-            for(Lider lider: this.lideresACargo){
-                lideresJson.put(lider);
-            }
-            admiJson.put("lideres", lideresJson);
-        }catch (JSONException e){
-            e.printStackTrace();
-        }
-        return admiJson;
-    }
+    /**
+     * Serializa la clase administrador.
+     * @return un objeto de tipo JSONObject con los atributos de la clase.
+     * @author Ailen.
+     * */
+    @Override
+    public JSONObject serializar(){
+        JSONObject adminJSON = null;
 
-    // DESERIALIZACION
-    /*public Administrador deserializarAdmi(JSONObject admiJson){
-        Administrador admi= new Administrador();
-        try{
-            admi.setId(admiJson.getInt("id"));
-            admi.setNombre(admiJson.getString("nombre"));
-            admi.setApellido(admiJson.getString("apellido"));
-            admi.setEmail(admiJson.getString("email"));
-            admi.setTitulo(admiJson.getString("titulo"));
-            JSONArray lideresJson=  admiJson.getJSONArray("lideres");
-            for(int i =0; lideresJson.length() > i; i++){
-                JSONObject liderJson = lideresJson.getJSONObject(i);
-                Lider lider= deserializarLider(liderJson);
-                admi.agregarLider(lider);
+        try {
+            adminJSON = super.serializar();
+            JSONArray lideresACargoJSON = new JSONArray();
+
+            for(Lider lider: lideresACargo){
+                lideresACargoJSON.put(lider);
             }
+
+            adminJSON.put("lideresACargo", lideresACargoJSON);
         } catch (JSONException e){
             e.printStackTrace();
         }
-        return admi;
-    }*/
 
-
-
-
-
-
+        return adminJSON;
+    }
 }

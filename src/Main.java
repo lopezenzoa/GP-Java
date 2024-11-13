@@ -1,4 +1,5 @@
 import enums.Rol;
+import org.json.JSONObject;
 import proyecto.Proyecto;
 import proyecto.Tarea;
 import usuario.Administrador;
@@ -32,17 +33,45 @@ public class Main  {
 
         Proyecto nuevoProyecto = new Proyecto(Monica,Mike,"TPFINAL");
 
-        nuevoProyecto.agregarMiembro(Enzo.getId());nuevoProyecto.agregarMiembro(Lionel.getId());nuevoProyecto.agregarMiembro(Sergio.getId());nuevoProyecto.agregarMiembro(Angel.getId());nuevoProyecto.agregarMiembro(Emiliano.getId());
-        nuevoProyecto.agregarTarea(tarea1.getId());nuevoProyecto.agregarTarea(tarea2.getId());nuevoProyecto.agregarTarea(tarea3.getId());
+        nuevoProyecto.agregarMiembro(Enzo.getId());
+        nuevoProyecto.agregarMiembro(Lionel.getId());
+        nuevoProyecto.agregarMiembro(Sergio.getId());
+        nuevoProyecto.agregarMiembro(Angel.getId());
+        nuevoProyecto.agregarMiembro(Emiliano.getId());
+
+        nuevoProyecto.agregarTarea(tarea1.getId());
+        nuevoProyecto.agregarTarea(tarea2.getId());
+        nuevoProyecto.agregarTarea(tarea3.getId());
 
         nuevoProyecto.eliminarMiembro(Lionel.getId()); // Funciona
         nuevoProyecto.eliminarTareaPorId(tarea2.getId()); //Funciona
-        System.out.println(nuevoProyecto.existeTarea(tarea2)); //Funciona
-        System.out.println(nuevoProyecto.getEquipo()); // Hacer metodo en clase gestora que busque por ID los usuarios
+        // System.out.println(nuevoProyecto.existeTarea(tarea2)); //Funciona
+        // System.out.println(nuevoProyecto.getEquipo()); // Hacer metodo en clase gestora que busque por ID los usuarios
 
-        System.out.println(nuevoProyecto.toString());
+        // System.out.println(nuevoProyecto.toString());
 
+        /* Prueba de serializacion de clases referidas al usuario */
+        JSONObject enzoJSON = Enzo.serializar();
+        JSONObject sullivanJSON = Sullivan.serializar();
+        JSONObject monicaJSON = Monica.serializar();
 
+        /* Prueba de deserializacion de clases referidas al usuario */
+        MiembroEquipo Enzo_2 = new MiembroEquipo(enzoJSON);
+        Lider sullivan_2 = new Lider(sullivanJSON);
+        Administrador monica_2 = new Administrador(monicaJSON);
 
+        // MiembroEquipo
+        System.out.println(enzoJSON);
+        System.out.println(Enzo_2);
+        System.out.println();
+
+        // Lider
+        System.out.println(sullivanJSON);
+        System.out.println(sullivan_2);
+        System.out.println();
+
+        // Administrador
+        System.out.println(monicaJSON);
+        System.out.println(monica_2);
     }
 }

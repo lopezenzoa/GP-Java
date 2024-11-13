@@ -20,6 +20,23 @@ public abstract class Usuario {
         this.titulo = titulo;
     }
 
+    /**
+     * Construye un usuario a partir de un objeto de tipo JSONObject.
+     * @param jsonObject es el objeto en formato JSON que representa al usuario.
+     * @author Enzo.
+     * */
+    public Usuario(JSONObject jsonObject) {
+        try {
+            this.id = jsonObject.getInt("id");
+            this.nombre = jsonObject.getString("nombre");
+            this.apellido = jsonObject.getString("apellido");
+            this.email = jsonObject.getString("email");
+            this.titulo = jsonObject.getString("titulo");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
     public int getId() {
         return id;
     }
@@ -84,21 +101,25 @@ public abstract class Usuario {
                 ']';
     }
 
-    // SERIALIZAR
-    public JSONObject serializar(Usuario usuario){
-        JSONObject usuarioJson= null;
-        try{
-            usuarioJson= new JSONObject();
-            usuarioJson.put("id", usuario.getId());
-            usuarioJson.put("nombre", usuario.getNombre());
-            usuarioJson.put("apellido", usuario.getApellido());
-            usuarioJson.put("email", usuario.getEmail());
-            usuarioJson.put("titulo", usuario.getTitulo());
+    /***
+     * Serializa la clase usuario.
+     * @return un objeto de tipo JSONObject con los atributos del usuario.
+     */
+    public JSONObject serializar() {
+        JSONObject usuarioJson = null;
 
-        }catch (JSONException e){
+        try {
+            usuarioJson = new JSONObject();
+            usuarioJson.put("id", id);
+            usuarioJson.put("nombre", nombre);
+            usuarioJson.put("apellido", apellido);
+            usuarioJson.put("email", email);
+            usuarioJson.put("titulo", titulo);
+
+        } catch (JSONException e){
             e.printStackTrace();
         }
+
         return usuarioJson;
     }
-
 }
