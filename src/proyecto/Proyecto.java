@@ -3,6 +3,9 @@ package proyecto;
 import java.util.HashSet;
 import java.util.LinkedList;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import usuario.Administrador;
 import usuario.Lider;
 import usuario.MiembroEquipo;
@@ -31,11 +34,6 @@ public class Proyecto {
         this.nombre = nombre;
         this.estado = Estado.PENDIENTE;
     }
-
-
-
-    // Getters y Setters
-
 
     public int getId() {
         return id;
@@ -179,8 +177,41 @@ public class Proyecto {
         return equipo.remove(miembro); // Devuelve true si el miembro fue eliminado, false si no se encontró
     }
 
+    /**
+     * Serializa la clase Proyecto.
+     * @return un objeto de tipo JSONObject con los atributos del proyecto.
+     * @author Enzo.
+     * */
+    public JSONObject serializar() {
+        JSONObject proyectoJSON = null;
 
 
+        try {
+            /*
+            * this.id = (int) (Math.random() * 100000 + 1);
+        this.administrador = administrador;
+        this.lider = lider;
+        this.equipo = new HashSet<>();
+        this.tareas = new LinkedList<>();
+        this.nombre = nombre;
+        this.estado = Estado.PENDIENTE;
+            * */
+
+            proyectoJSON = new JSONObject();
+            JSONArray equipoJSON = new JSONArray();
+
+            proyectoJSON.put("id", id);
+            proyectoJSON.put("administrador", administrador.serializar());
+            proyectoJSON.put("lider", lider.serializar());
+
+            // ...
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return proyectoJSON;
+    }
 
 }
 
