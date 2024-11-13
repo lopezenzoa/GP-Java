@@ -1,5 +1,8 @@
 package usuario;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.Objects;
 
 public abstract class Usuario {
@@ -72,12 +75,30 @@ public abstract class Usuario {
 
     @Override
     public String toString() {
-        return "Usuarios.Usuario{" +
+        return "Usuarios.Usuario[" +
                 "id=" + id +
                 ", nombre='" + nombre + '\'' +
                 ", apellido='" + apellido + '\'' +
                 ", email='" + email + '\'' +
                 ", titulo='" + titulo + '\'' +
-                '}';
+                ']';
     }
+
+    // SERIALIZAR
+    public JSONObject serializar(Usuario usuario){
+        JSONObject usuarioJson= null;
+        try{
+            usuarioJson= new JSONObject();
+            usuarioJson.put("id", usuario.getId());
+            usuarioJson.put("nombre", usuario.getNombre());
+            usuarioJson.put("apellido", usuario.getApellido());
+            usuarioJson.put("email", usuario.getEmail());
+            usuarioJson.put("titulo", usuario.getTitulo());
+
+        }catch (JSONException e){
+            e.printStackTrace();
+        }
+        return usuarioJson;
+    }
+
 }
