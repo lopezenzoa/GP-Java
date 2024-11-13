@@ -12,18 +12,18 @@ import usuario.Usuario;
 
 import java.util.Objects;
 
-public class Proyecto <E extends Usuario>{
+public class Proyecto {
     private int id;
     private Administrador administrador;
     private Lider lider;
-    private HashSet<E> equipo;
-    private LinkedList<Tarea> tareas;
+    private HashSet<Integer> equipo;
+    private LinkedList<Integer> tareas;
     private String nombre;
     private Estado estado;
 
     // Constructor principal
     public Proyecto(Administrador administrador, Lider lider, String nombre) {
-        this.id = (int) (Math.random() * 100 + 1);
+        this.id = (int) (Math.random() * 100000 + 1);
         this.administrador = administrador;
         this.lider = lider;
         this.equipo = new HashSet<>();
@@ -31,6 +31,8 @@ public class Proyecto <E extends Usuario>{
         this.nombre = nombre;
         this.estado = Estado.PENDIENTE;
     }
+
+
 
     // Getters y Setters
 
@@ -59,19 +61,19 @@ public class Proyecto <E extends Usuario>{
         this.lider = lider;
     }
 
-    public HashSet<E> getEquipo() {
+    public HashSet<Integer> getEquipo() {
         return equipo;
     }
 
-    public void setEquipo(HashSet<E> equipo) {
+    public void setEquipo(HashSet<Integer> equipo) {
         this.equipo = equipo;
     }
 
-    public LinkedList<Tarea> getTareas() {
+    public LinkedList<Integer> getTareas() {
         return tareas;
     }
 
-    public void setTareas(LinkedList<Tarea> tareas) {
+    public void setTareas(LinkedList<Integer> tareas) {
         this.tareas = tareas;
     }
 
@@ -106,19 +108,20 @@ public class Proyecto <E extends Usuario>{
 
     @Override
     public String toString() {
-        return "Proyecto{" +
-                "id=" + id +
-                ", administrador=" + administrador +
-                ", lider=" + lider +
-                ", equipo=" + equipo +
-                ", tareas=" + tareas +
-                ", nombre='" + nombre + '\'' +
-                ", estado=" + estado +
+        return "Proyecto {" + "\n" +
+                "    ID            : " + id + "\n" +
+                "    Administrador : " + administrador + "\n" +
+                "    Líder         : " + lider + "\n" +
+                "    Miembros      : " + equipo + "\n" +
+                "    Tareas        : " + tareas + "\n" +
+                "    Nombre        : '" + nombre + '\'' + "\n" +
+                "    Estado        : " + estado + "\n" +
                 '}';
     }
 
+
     // Método para agregar una tarea a la lista de tareas
-    public boolean agregarTarea(Tarea tarea) {
+    public boolean agregarTarea(Integer tarea) {
         if (!tareas.contains(tarea)) {
             tareas.add(tarea);
             return true; // Tarea agregada con éxito
@@ -133,7 +136,7 @@ public class Proyecto <E extends Usuario>{
 
     // Método para eliminar una tarea por su ID
     public boolean eliminarTareaPorId(int id) {
-        Tarea tareaAEliminar = buscarTareaPorId(id);
+        Integer tareaAEliminar = buscarTareaPorId(id);
         if (tareaAEliminar != null) {
             tareas.remove(tareaAEliminar);
             return true; // Tarea eliminada con éxito
@@ -143,7 +146,7 @@ public class Proyecto <E extends Usuario>{
 
     // Método para buscar si una tarea existe en la lista
     public boolean existeTarea(Tarea tarea) {
-        return tareas.contains(tarea); // Devuelve true si la tarea está en la lista, false en caso contrario
+        return tareas.contains(tarea.getId()); // Devuelve true si la tarea está en la lista, false en caso contrario
     }
 
     // Método para buscar si una tarea existe en la lista por ID
@@ -152,9 +155,9 @@ public class Proyecto <E extends Usuario>{
     }
 
     // Método auxiliar para buscar una tarea por su ID
-    private Tarea buscarTareaPorId(int id) {
-        for (Tarea tarea : tareas) {
-            if (tarea.getId() == id) {
+    private Integer buscarTareaPorId(int id) {
+        for (Integer tarea : tareas) {
+            if (tarea == id) {
                 return tarea; // Retorna la tarea si se encontró
             }
         }
@@ -162,17 +165,17 @@ public class Proyecto <E extends Usuario>{
     }
 
     // Método para agregar un miembro al equipo
-    public boolean agregarMiembro(E miembro) {
+    public boolean agregarMiembro(Integer miembro) {
         return equipo.add(miembro); // Agrega al equipo y devuelve true si se añadió, false si ya existía
     }
 
     // Método para verificar si un miembro está en el equipo
-    public boolean existeMiembro(E miembro) {
+    public boolean existeMiembro(Integer miembro) {
         return equipo.contains(miembro); // Devuelve true si el miembro ya está en el equipo
     }
 
     // Método para eliminar un miembro del equipo
-    public boolean eliminarMiembro(E miembro) {
+    public boolean eliminarMiembro(Integer miembro) {
         return equipo.remove(miembro); // Devuelve true si el miembro fue eliminado, false si no se encontró
     }
 

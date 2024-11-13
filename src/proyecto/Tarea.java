@@ -14,7 +14,7 @@ public class Tarea {
 
     // Constructores
     public Tarea(String titulo, String descripcion, MiembroEquipo responsable) {
-        this.id = (int) (Math.random() * 100 + 1);
+        this.id = (int) (Math.random() * 100000 + 1);
         this.titulo = titulo;
         this.descripcion = descripcion;
         this.responsable = responsable;
@@ -79,12 +79,13 @@ public class Tarea {
 
     @Override
     public String toString() {
-        return "Tarea{" +
-                "id=" + id +
-                ", titulo='" + titulo + '\'' +
-                ", descripcion='" + descripcion + '\'' +
-                ", responsable=" + responsable +
-                ", estado=" + estado +
+        return "Tarea {" + "\n" +
+                "    ID           : " + id + "\n" +
+                "    Título       : '" + titulo + '\'' + "\n" +
+                "    Descripción  : '" + descripcion + '\'' + "\n" +
+                "    Responsable  : " + responsable + "\n" +
+                "    Estado       : " + estado + "\n" +
                 '}';
     }
+
 }
