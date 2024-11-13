@@ -10,7 +10,7 @@ public abstract class Usuario {
     private String titulo;
 
     public Usuario(String nombre, String apellido, String email, String titulo) {
-        this.id = (int) (Math.random() * 100 + 1);
+        this.id = (int) (Math.random() * 100000 + 1);
         this.nombre = nombre;
         this.apellido = apellido;
         this.email = email;
@@ -72,7 +72,7 @@ public abstract class Usuario {
 
     @Override
     public String toString() {
-        return "Usuarios.Usuario{" +
+        return "{" +
                 "id=" + id +
                 ", nombre='" + nombre + '\'' +
                 ", apellido='" + apellido + '\'' +
