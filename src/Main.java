@@ -1,4 +1,7 @@
 import enums.Rol;
+import gestion.GestionUsuarios;
+import gestion.OperacionesLectoEscritura;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import proyecto.Proyecto;
 import proyecto.Tarea;
@@ -40,7 +43,7 @@ public class Main  {
         // System.out.println(nuevoProyecto.existeTarea(tarea2)); //Funciona
         // System.out.println(nuevoProyecto.getEquipo()); // Hacer metodo en clase gestora que busque por ID los usuarios
 
-        System.out.println(nuevoProyecto.toString());
+        // System.out.println(nuevoProyecto.toString());
 
         /* Prueba de serializacion de clases referidas al usuario */
         JSONObject enzoJSON = Enzo.serializar();
@@ -72,12 +75,48 @@ public class Main  {
         /* Prueba de serializacion de Proyecto y Tarea */
         JSONObject p1JSON = nuevoProyecto.serializar();
 
+        /*
         System.out.println();
         System.out.println(p1JSON);
         System.out.println();
 
+         */
+
         Proyecto nuevoProyecto_2 = new Proyecto(p1JSON);
 
-        System.out.println(nuevoProyecto_2);
+        // System.out.println(nuevoProyecto_2);
+
+        /* Pruebas de la clase GestionUsuarios */
+        /*
+        GestionUsuarios.agregarUsuario(Enzo);
+        GestionUsuarios.agregarUsuario(Mike);
+
+         */
+
+        /*
+        GestionUsuarios.agregarUsuario(Enzo);
+        GestionUsuarios.agregarUsuario(Mike);
+        GestionUsuarios.agregarUsuario(Monica);
+
+         */
+
+        /*
+        GestionUsuarios.eliminarUsuario(Enzo);
+        GestionUsuarios.eliminarUsuario(Mike);
+        GestionUsuarios.eliminarUsuario(Monica);
+
+         */
+
+        // GestionUsuarios.agregarUsuario(Lionel);
+        /*
+        GestionUsuarios.mostrarUsuariosActivos();
+        System.out.println();
+        GestionUsuarios.mostrarUsuariosInactivos();
+
+
+         */
+
+        // Probando los metodos para comprobar la existencia dentro del archivo
+
     }
 }
