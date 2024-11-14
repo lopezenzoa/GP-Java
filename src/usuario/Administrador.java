@@ -1,6 +1,8 @@
 package usuario;
 
+import enums.AltaBaja;
 import enums.Rol;
+import interfaces.ABMLable;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -8,7 +10,7 @@ import org.json.JSONTokener;
 
 import java.util.HashSet;
 
-public class Administrador extends Usuario {
+public class Administrador extends Usuario implements ABMLable<Administrador> {
     private HashSet<Lider> lideresACargo;
 
     public Administrador(String nombre,
@@ -47,6 +49,8 @@ public class Administrador extends Usuario {
     }
 
     public void setLideresACargo(HashSet<Lider> lideresACargo) {this.lideresACargo = lideresACargo;}
+
+
 
     /**
      * Agrega un lider a la coleccion lideresACargo.
@@ -90,4 +94,27 @@ public class Administrador extends Usuario {
 
         return adminJSON;
     }
+
+    @Override
+    public void alta() {
+        setAltaObaja(AltaBaja.ACTIVO);
+    }
+
+    @Override
+    public void baja() {
+        setAltaObaja(AltaBaja.INACTIVO);
+    }
+
+    @Override
+    public void modificar(Administrador nuevoDato) {
+        this.lideresACargo = nuevoDato.lideresACargo;
+        this.setId(nuevoDato.getId());
+        this.setNombre(nuevoDato.getNombre());
+        this.setApellido(nuevoDato.getApellido());
+        this.setEmail(nuevoDato.getEmail());
+        this.setTitulo(nuevoDato.getTitulo());
+        this.setAltaObaja(nuevoDato.getAltaObaja());
+    }
+
+
 }

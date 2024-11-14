@@ -2,9 +2,8 @@ package interfaces;
 
 import java.util.List;
 
-public interface ABMLable<T> {
-    T agregar(T dato);
-    T eliminar(T dato);
-    T modificar(T dato, T nuevoDato);
-    List<T> listar();
+public interface ABMLable<T>{
+    void alta();
+    void baja();
+    void modificar( T nuevoDato);
 }

@@ -1,5 +1,6 @@
 package usuario;
 
+import enums.AltaBaja;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -11,6 +12,7 @@ public abstract class Usuario {
     private String apellido;
     private String email;
     private String titulo;
+    private AltaBaja altaObaja;
 
     public Usuario(String nombre, String apellido, String email, String titulo) {
         this.id = (int) (Math.random() * 100 + 1);
@@ -18,6 +20,7 @@ public abstract class Usuario {
         this.apellido = apellido;
         this.email = email;
         this.titulo = titulo;
+        this.altaObaja = AltaBaja.ACTIVO;
     }
 
     /**
@@ -32,6 +35,7 @@ public abstract class Usuario {
             this.apellido = jsonObject.getString("apellido");
             this.email = jsonObject.getString("email");
             this.titulo = jsonObject.getString("titulo");
+            this.altaObaja = AltaBaja.valueOf("estado");
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -77,6 +81,14 @@ public abstract class Usuario {
         this.titulo = titulo;
     }
 
+    public AltaBaja getAltaObaja() {
+        return altaObaja;
+    }
+
+    public void setAltaObaja(AltaBaja altaObaja) {
+        this.altaObaja = altaObaja;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -115,6 +127,7 @@ public abstract class Usuario {
             usuarioJson.put("apellido", apellido);
             usuarioJson.put("email", email);
             usuarioJson.put("titulo", titulo);
+            usuarioJson.put("estado", altaObaja.toString() );
 
         } catch (JSONException e){
             e.printStackTrace();

@@ -3,6 +3,8 @@ package proyecto;
 import java.util.HashSet;
 import java.util.LinkedList;
 
+import enums.AltaBaja;
+import interfaces.ABMLable;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -12,9 +14,10 @@ import usuario.Lider;
 import enums.Estado;
 import usuario.MiembroEquipo;
 
+import java.util.List;
 import java.util.Objects;
 
-public class Proyecto {
+public class Proyecto implements ABMLable<Proyecto> {
     private int id;
     private Administrador administrador;
     private Lider lider;
@@ -22,6 +25,7 @@ public class Proyecto {
     private LinkedList<Tarea> tareas;
     private String nombre;
     private Estado estado;
+    private AltaBaja altaObaja;
 
     // Constructor principal
     public Proyecto(Administrador administrador, Lider lider, String nombre) {
@@ -32,6 +36,7 @@ public class Proyecto {
         this.tareas = new LinkedList<>();
         this.nombre = nombre;
         this.estado = Estado.PENDIENTE;
+        this.altaObaja = AltaBaja.ACTIVO;
     }
 
     public Proyecto(JSONObject jsonObject) {
@@ -39,7 +44,7 @@ public class Proyecto {
             this.id = jsonObject.getInt("id");
             this.administrador = new Administrador(jsonObject.getJSONObject("administrador"));
             this.lider = new Lider(jsonObject.getJSONObject("lider"));
-
+            this.altaObaja = AltaBaja.valueOf(jsonObject.getString("altaObaja"));
             this.equipo = new HashSet<>();
             JSONArray equipoJSON = jsonObject.getJSONArray("equipo");
 
@@ -251,7 +256,7 @@ public class Proyecto {
             proyectoJSON.put("id", id);
             proyectoJSON.put("administrador", administrador.serializar());
             proyectoJSON.put("lider", lider.serializar());
-
+            proyectoJSON.put("altaObaja", altaObaja.toString());
             for (MiembroEquipo miembro : equipo)
                 equipoJSON.put(miembro.serializar());
 
@@ -269,6 +274,29 @@ public class Proyecto {
 
         return proyectoJSON;
     }
+
+    @Override
+    public void alta() {
+        this.altaObaja = AltaBaja.ACTIVO;
+    }
+
+    @Override
+    public void baja() {
+        this.altaObaja = AltaBaja.INACTIVO;
+    }
+
+    @Override
+    public void modificar(Proyecto nuevoDato) {
+        this.id = nuevoDato.id;
+        this.estado = nuevoDato.estado;
+        this.administrador = nuevoDato.administrador;
+        this.altaObaja = nuevoDato.altaObaja;
+        this.lider = nuevoDato.lider;
+        this.equipo = nuevoDato.equipo;
+        this.tareas = nuevoDato.tareas;
+        this.nombre = nuevoDato.nombre;
+    }
+
 }
 
 

@@ -2,6 +2,8 @@ package usuario;
 
 import java.util.HashSet;
 
+import enums.AltaBaja;
+import interfaces.ABMLable;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -9,7 +11,7 @@ import proyecto.Proyecto;
 
 import enums.Rol;
 
-public class MiembroEquipo extends Usuario {
+public class MiembroEquipo extends Usuario implements ABMLable<MiembroEquipo> {
     private HashSet<String> proyectosEnCurso;
     private Rol rol;
 
@@ -104,5 +106,29 @@ public class MiembroEquipo extends Usuario {
 
         return miembroJSON;
     }
+
+    @Override
+    public void alta() {
+        setAltaObaja(AltaBaja.ACTIVO);
+    }
+
+    @Override
+    public void baja() {
+        setAltaObaja(AltaBaja.INACTIVO);
+    }
+
+    @Override
+    public void modificar(MiembroEquipo nuevoDato) {
+        this.proyectosEnCurso = nuevoDato.proyectosEnCurso;
+        this.rol = nuevoDato.rol;
+        this.setId(nuevoDato.getId());
+        this.setNombre(nuevoDato.getNombre());
+        this.setApellido(nuevoDato.getApellido());
+        this.setEmail(nuevoDato.getEmail());
+        this.setTitulo(nuevoDato.getTitulo());
+        this.setAltaObaja(nuevoDato.getAltaObaja());
+    }
+
+
 
 }
