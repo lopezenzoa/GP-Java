@@ -130,5 +130,12 @@ public class MiembroEquipo extends Usuario implements ABMLable<MiembroEquipo> {
     }
 
 
-
+    @Override
+    public String toString() {
+        return "MiembroEquipo{" +
+                super.toString() +
+                ", proyectosEnCurso=" + proyectosEnCurso +
+                ", rol=" + rol +
+                '}';
+    }
 }

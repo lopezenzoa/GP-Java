@@ -7,6 +7,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
+import proyecto.Tarea;
 
 import java.util.HashSet;
 
@@ -116,5 +117,25 @@ public class Administrador extends Usuario implements ABMLable<Administrador> {
         this.setAltaObaja(nuevoDato.getAltaObaja());
     }
 
+    @Override
+    public String toString() {
+        return "Administrador{" +
+                super.toString() +
+                ", lideresACargo=" + obtenerIDsDeLideres() +
+                '}';
+    }
 
+    /**
+     * Retorna una coleccion con los IDs de lideres a cargo del administrador.
+     * @return un Set con los IDs de los lideres.
+     * @author Enzo.
+     * */
+    public HashSet<Integer> obtenerIDsDeLideres() {
+        HashSet<Integer> IDs = new HashSet<>();
+
+        for (Lider lider : lideresACargo)
+            IDs.add(lider.getId());
+
+        return IDs;
+    }
 }

@@ -35,7 +35,9 @@ public abstract class Usuario {
             this.apellido = jsonObject.getString("apellido");
             this.email = jsonObject.getString("email");
             this.titulo = jsonObject.getString("titulo");
-            this.altaObaja = AltaBaja.valueOf("estado");
+
+            String altaOBajaJSON = jsonObject.getString("estado");
+            this.altaObaja = AltaBaja.valueOf(altaOBajaJSON);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -104,13 +106,12 @@ public abstract class Usuario {
 
     @Override
     public String toString() {
-        return "Usuarios.Usuario[" +
-                "id=" + id +
+        return "id=" + id +
                 ", nombre='" + nombre + '\'' +
                 ", apellido='" + apellido + '\'' +
                 ", email='" + email + '\'' +
                 ", titulo='" + titulo + '\'' +
-                ']';
+                ", altaObaja=" + altaObaja;
     }
 
     /***

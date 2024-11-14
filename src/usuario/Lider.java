@@ -155,4 +155,27 @@ public class Lider extends Usuario implements ABMLable<Lider> {
         this.setTitulo(nuevoDato.getTitulo());
         this.setAltaObaja(nuevoDato.getAltaObaja());
     }
+
+    @Override
+    public String toString() {
+        return "Lider{" +
+                super.toString() +
+                ", proyectosEnCurso=" + proyectosEnCurso +
+                ", miembrosACargo=" + obtenerIDsDeMiembros() +
+                '}';
+    }
+
+    /**
+     * Retorna una coleccion con los IDs de miembros a cargo del lider.
+     * @return un Set con los IDs de los miembros.
+     * @author Enzo.
+     * */
+    public HashSet<Integer> obtenerIDsDeMiembros() {
+        HashSet<Integer> IDs = new HashSet<>();
+
+        for (MiembroEquipo miembroEquipo : miembrosACargo)
+            IDs.add(miembroEquipo.getId());
+
+        return IDs;
+    }
 }
