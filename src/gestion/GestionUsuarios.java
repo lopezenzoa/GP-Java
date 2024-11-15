@@ -2,7 +2,7 @@ package gestion;
 
 import enums.AltaBaja;
 import enums.Rol;
-import exception.MiembroExisteException;
+import exception.UsuarioExisteException;
 import exception.UsuarioExisteException;
 import exception.UsuarioNoEncontradoException;
 import org.json.JSONArray;
