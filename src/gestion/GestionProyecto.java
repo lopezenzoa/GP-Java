@@ -20,22 +20,34 @@ public class GestionProyecto {
     public GestionProyecto() {
         proyectos = new ArrayList<>();
     }
-
+    /**
+     * Este metódo da de baja un proyecto y actualiza el archivo.
+     * @author Emilia
+     */
     public void removeProyecto(Proyecto proyecto){
         proyectos.remove(proyecto);
     }
 
+    /**
+     * Este metódo agrega un proyecto y actualiza el archivo.
+     * @author Emilia
+     */
     public void addProyecto(Proyecto proyecto){
        proyectos.add(proyecto);
     }
 
-    public JSONObject serializarListaProyectos(ArrayList<Proyecto> proyectos) {
+    /**
+     * Este metódo serializa un arreglo de proyectos.
+     * @return retorna un JSONObject que contiene un JSONArray con todos los proyectos.
+     * @author Emilia
+     */
+    public JSONObject serializarListaProyectos() {
         JSONObject proyectosJSON = null;
         JSONArray listaProyectos = null;
         try{
             proyectosJSON = new JSONObject();
             listaProyectos = new JSONArray();
-            for (Proyecto proyecto : proyectos) {
+            for (Proyecto proyecto : this.proyectos) {
                 listaProyectos.put(proyecto.serializar());
             }
 
@@ -48,6 +60,11 @@ public class GestionProyecto {
         return proyectosJSON;
     }
 
+    /**
+     * Este metódo lee el contenido del archivo "proyecto.json" y lo combuerte en un JSONObject.
+     * @return retorna un ArrayList de Proyectos.
+     * @author
+     */
     public ArrayList<Proyecto> deserializarListaProyectos(JSONObject proyectosJSON) {
         ArrayList<Proyecto> proyectos = new ArrayList<>();
 
@@ -72,16 +89,24 @@ public class GestionProyecto {
         return proyectos;
     }
 
+    /**
+     * @param proyectosJSON en un JSONObject que tiene un JSONArray con todos los proyectos
+     * lo guarda en el archivo .
+     * @author Emilia
+     */
     public void guardarProyectosEnArchivo(JSONObject proyectosJSON) {
         OperacionesLectoEscritura.grabar(nomJSON, proyectosJSON);
     }
 
-    public JSONObject leerArchivoProyectos(String nombreArchivo) {
+    /**
+     * Este metódo lee el contenido del archivo "proyecto.json" y lo combierte en un JSONObject.
+     * @return retorna un JSONObject que contiene un JSONArray con todos los proyectos.
+     */
+    public JSONObject leerArchivoProyectos() {
         StringBuilder contenido = new StringBuilder();
 
-        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(nombreArchivo))) {
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(nomJSON))) {
             String linea;
-
             // Leer línea por línea
             while ((linea = bufferedReader.readLine()) != null) {
                 contenido.append(linea);
@@ -94,11 +119,17 @@ public class GestionProyecto {
         return new JSONObject(contenido.toString());
     }
 
+    /**
+     * Este metódo agrega una tarea y actualiza el archivo.
+     * @param idProyecto es el id del proyecto en donde esta a tarea.
+     * @param nuevaTarea es la tarea que se agrega.
+     * @author Emilia
+     */
     public void agregarTareaAlProyecto(int idProyecto, Tarea nuevaTarea) {
         JSONObject proyectosJSON = null;
         JSONArray proyectosArray = null;
         try {
-            proyectosJSON = leerArchivoProyectos(nomJSON);
+            proyectosJSON = leerArchivoProyectos();
             proyectosArray = proyectosJSON.getJSONArray("proyectos");
             boolean proyectoEncontrado = false;
 
@@ -131,12 +162,18 @@ public class GestionProyecto {
         }
     }
 
-    public void eliminarTareaDelProyecto(int idProyecto, int idTarea) {
+    /**
+     * Este metódo da de baja una tarea y actualiza el archivo.
+     * @param idProyecto es el id del proyecto en donde esta a tarea.
+     * @param idTarea es el id de la tarea que se va a der de baja.
+     * @author Emilia
+     */
+    public void darDeBajaTarea(int idProyecto, int idTarea) {
         JSONObject proyectosJSON = null;
         JSONArray proyectosArray = null;
 
         try {
-            proyectosJSON = leerArchivoProyectos(nomJSON);
+            proyectosJSON = leerArchivoProyectos();
             proyectosArray = proyectosJSON.getJSONArray("proyectos");
             boolean proyectoEncontrado = false;
 

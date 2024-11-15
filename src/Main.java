@@ -1,4 +1,5 @@
 import enums.Rol;
+import gestion.GestionProyecto;
 import gestion.GestionUsuarios;
 import gestion.OperacionesLectoEscritura;
 import org.json.JSONArray;
@@ -8,6 +9,8 @@ import proyecto.Tarea;
 import usuario.Administrador;
 import usuario.Lider;
 import usuario.MiembroEquipo;
+
+import java.util.ArrayList;
 
 public class Main  {
     public static void main(String[] args) {
@@ -117,6 +120,17 @@ public class Main  {
          */
 
         // Probando los metodos para comprobar la existencia dentro del archivo
+
+        GestionProyecto proyectos = new GestionProyecto();
+
+        proyectos.addProyecto(nuevoProyecto);
+        proyectos.guardarProyectosEnArchivo(proyectos.serializarListaProyectos());
+        ArrayList<Proyecto> aaa = new ArrayList<>();
+        aaa = proyectos.deserializarListaProyectos(proyectos.leerArchivoProyectos());
+
+        System.out.println("leido correctamente " + aaa.toString());
+
+
 
     }
 }
