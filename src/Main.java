@@ -18,6 +18,7 @@ public class Main  {
         MiembroEquipo Emiliano = new MiembroEquipo("Emiliano", "Martinez", "dibu1@gmail.com", "Arquero", Rol.DEVOPS);
 
         Administrador Monica = new Administrador("Monica", "Richiardi", "moni@hotmail.com","Computer Science");
+        Administrador Cesar = new Administrador("Cesar", "II", "ceseremperador@hotmail.com","Emperador");
 
         Lider Mike = new Lider("Mike","Wazowszki","Mikewazawski@gmail.com","Asustador");
         Lider Sullivan = new Lider("Sullivan","Mikelson","sullivan@gmail.com","Asustador");
@@ -87,11 +88,7 @@ public class Main  {
         // System.out.println(nuevoProyecto_2);
 
         /* Pruebas de la clase GestionUsuarios */
-        /*
-        GestionUsuarios.agregarUsuario(Enzo);
-        GestionUsuarios.agregarUsuario(Mike);
 
-         */
 
         /*
         GestionUsuarios.agregarUsuario(Enzo);
@@ -108,15 +105,41 @@ public class Main  {
          */
 
         // GestionUsuarios.agregarUsuario(Lionel);
-        /*
+
         GestionUsuarios.mostrarUsuariosActivos();
         System.out.println();
-        GestionUsuarios.mostrarUsuariosInactivos();
+        // GestionUsuarios.mostrarUsuariosInactivos();
 
+        // Probando los metodos para comprobar la existencia dentro del archivo
+        /*
+        System.out.println(GestionUsuarios.comprobarExistencia(Enzo));
+        System.out.println(GestionUsuarios.comprobarExistencia(Sullivan));
 
          */
 
-        // Probando los metodos para comprobar la existencia dentro del archivo
+        // Probando los metodos para encontrar un usuario
+        /*
+        System.out.println(GestionUsuarios.buscarMiembroEquipo(82));
+        System.out.println(GestionUsuarios.buscarLider(99));
+        System.out.println(GestionUsuarios.buscarAdministrador(77));
+        System.out.println(GestionUsuarios.buscarAdministrador(45));
 
+         */
+
+        // Probando los metodos para modificar usuarios
+        /*
+        MiembroEquipo usuarioViejo = GestionUsuarios.buscarMiembroEquipo(59);
+        Lider liderViejo = GestionUsuarios.buscarLider(99);
+        Administrador administradorViejo = GestionUsuarios.buscarAdministrador(77);
+
+        System.out.println(GestionUsuarios.modificarUsuario(usuarioViejo, Enzo));
+        System.out.println(GestionUsuarios.modificarUsuario(liderViejo, Sullivan));
+        System.out.println(GestionUsuarios.modificarUsuario(administradorViejo, Cesar));
+
+        System.out.println();
+
+        GestionUsuarios.mostrarUsuariosActivos();
+
+         */
     }
 }

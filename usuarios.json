@@ -1,1 +1,1 @@
-{"miembrosEquipo": [], "administradores": [], "lideres": []}
+{"miembrosEquipo":[{"estado":"ACTIVO","apellido":"Fernandez","titulo":"Futbolista","id":52,"nombre":"Enzo","email":"elmaleducado21@gmail.com","rol":"DEVOPS","proyectosEnCurso":[]}],"administradores":[{"estado":"ACTIVO","lideresACargo":[],"apellido":"II","titulo":"Emperador","id":13,"nombre":"Cesar","email":"ceseremperador@hotmail.com"}],"lideres":[{"estado":"ACTIVO","miembrosACargo":[],"apellido":"Mikelson","titulo":"Asustador","id":81,"nombre":"Sullivan","email":"sullivan@gmail.com","proyectosEnCurso":[]}]}
