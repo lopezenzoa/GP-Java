@@ -2,6 +2,8 @@ package gestion;
 
 import enums.AltaBaja;
 import enums.Rol;
+import exception.UsuarioExisteException;
+import exception.UsuarioNoEncontradoException;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -14,13 +16,19 @@ import usuario.Usuario;
 public class GestionUsuarios {
     public GestionUsuarios() {}
 
-    // Este metodo puede arrojar un error si el miembro ya existe dnetro del proyecto
-    public static void agregarMiembroAlEquipo(MiembroEquipo miembroEquipo, Proyecto p) {
+    // Se lanza la Exception personalizada si el miembro ya existe en el equipo
+    public static void agregarMiembroAlEquipo(MiembroEquipo miembroEquipo, Proyecto p) throws UsuarioExisteException {
+        if(p.getEquipo().contains(miembroEquipo)){
+            throw new UsuarioExisteException("El miembro que quieres agregar al proyecto ya existe.");
+        }
         p.agregarMiembro(miembroEquipo);
     }
 
-    // Este metodo puede arroojar un error si el miembro no existe dentro del equipo
-    public static void eliminarMiembroDelEquipo(MiembroEquipo miembroEquipo, Proyecto p) {
+    // Se lanza la Exception personalizada si el miembro no existe en el equipo
+    public static void eliminarMiembroDelEquipo(MiembroEquipo miembroEquipo, Proyecto p) throws UsuarioNoEncontradoException {
+        if(!p.getEquipo().contains(miembroEquipo)){
+            throw new UsuarioNoEncontradoException("El miembro que estas queriendo eliminar no se encuentra en el proyecto.");
+        }
         p.eliminarMiembro(miembroEquipo);
     }
 
@@ -32,14 +40,21 @@ public class GestionUsuarios {
         return new Administrador(nombre, apellido, email, titulo);
     }
 
-    // Los 3 metodos que siguen puedes arrojar el error si el usuario ya existe en el sistema
-    public static void agregarUsuario(MiembroEquipo miembroEquipo) {
+    // Se lanza la Exception personalizada si el miembro existe en el sistema
+    public static void agregarUsuario(MiembroEquipo miembroEquipo) throws UsuarioExisteException {
         JSONObject usuariosJSON = null;
         JSONArray miembrosJSON = null;
 
         try {
             usuariosJSON = new JSONObject(OperacionesLectoEscritura.leer("usuarios.json"));
             miembrosJSON = usuariosJSON.getJSONArray("miembrosEquipo");
+
+            for(int i=0; i < miembrosJSON.length(); i++){
+                JSONObject miembroJson= miembrosJSON.getJSONObject(i);
+                if(miembroJson.getInt("id") == miembroEquipo.getId()){
+                    throw new UsuarioExisteException("El usuario con el ID " + miembroEquipo.getId() +" ya existe en el sistema.");
+                }
+            }
 
             miembrosJSON.put(miembroEquipo.serializar());
 
@@ -49,13 +64,22 @@ public class GestionUsuarios {
         }
     }
 
-    public static void agregarUsuario(Lider lider) {
+
+    // Exception personalizada si ya existe el lider que se quiere agregar
+    public static void agregarUsuario(Lider lider) throws UsuarioExisteException {
         JSONObject usuariosJSON = null;
         JSONArray lideresJSON = null;
 
         try {
             usuariosJSON = new JSONObject(OperacionesLectoEscritura.leer("usuarios.json"));
             lideresJSON = usuariosJSON.getJSONArray("lideres");
+
+            for(int i=0; i < lideresJSON.length(); i++){
+                JSONObject liderJson= lideresJSON.getJSONObject(i);
+                if(liderJson.getInt("id") == lider.getId()){
+                    throw new UsuarioExisteException("El usuario con el ID " + lider.getId() +" ya existe en el sistema.");
+                }
+            }
 
             lideresJSON.put(lider.serializar());
 
@@ -64,14 +88,21 @@ public class GestionUsuarios {
             e.printStackTrace();
         }
     }
-
-    public static void agregarUsuario(Administrador administrador) {
+    // Exception personalizada si ya existe el administrador que se quiere agregar
+    public static void agregarUsuario(Administrador administrador) throws UsuarioExisteException {
         JSONObject usuariosJSON = null;
         JSONArray adminsJSON = null;
 
         try {
             usuariosJSON = new JSONObject(OperacionesLectoEscritura.leer("usuarios.json"));
             adminsJSON = usuariosJSON.getJSONArray("administradores");
+
+            for(int i=0; i < adminsJSON.length(); i++){
+                JSONObject admiJson= adminsJSON.getJSONObject(i);
+                if(admiJson.getInt("id") == administrador.getId()){
+                    throw new UsuarioExisteException("El usuario con el ID " + administrador.getId() +" ya existe en el sistema.");
+                }
+            }
 
             adminsJSON.put(administrador.serializar());
 
@@ -318,4 +349,160 @@ public class GestionUsuarios {
 
         return false;
     }
+
+    // Los 3 metodos pueden arrojar un error si el usuario existe dentro del archivo
+    public static MiembroEquipo buscarMiembroEquipo(int id) {
+        JSONObject usuariosJSON = null;
+
+        try {
+            usuariosJSON = new JSONObject(OperacionesLectoEscritura.leer("usuarios.json"));
+            JSONArray miembrosJSON = usuariosJSON.getJSONArray("miembrosEquipo");
+
+            for (int i = 0; i < miembrosJSON.length(); i++) {
+                MiembroEquipo m = new MiembroEquipo(miembrosJSON.getJSONObject(i));
+
+                if (m.getId() == id)
+                    return m;
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public static Administrador buscarAdministrador(int id) {
+        JSONObject usuariosJSON = null;
+
+        try {
+            usuariosJSON = new JSONObject(OperacionesLectoEscritura.leer("usuarios.json"));
+            JSONArray adminsJSON = usuariosJSON.getJSONArray("administradores");
+
+            for (int i = 0; i < adminsJSON.length(); i++) {
+                Administrador a = new Administrador(adminsJSON.getJSONObject(i));
+
+                if (a.getId() == id)
+                    return a;
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public static Lider buscarLider(int id) {
+        JSONObject usuariosJSON = null;
+
+        try {
+            usuariosJSON = new JSONObject(OperacionesLectoEscritura.leer("usuarios.json"));
+            JSONArray lideresJSON = usuariosJSON.getJSONArray("lideres");
+
+            for (int i = 0; i < lideresJSON.length(); i++) {
+                Lider l = new Lider(lideresJSON.getJSONObject(i));
+
+                if (l.getId() == id)
+                    return l;
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    // Los 3 metodos que siguen pueden arrojar un error si el usuario no existe dentro del archivo
+    public static String modificarUsuario(Administrador viejo, Administrador nuevo) {
+        Administrador encontrado = buscarAdministrador(viejo.getId());
+        JSONObject usuariosJSON = null;
+
+        if (encontrado != null) {
+            try {
+                usuariosJSON = new JSONObject(OperacionesLectoEscritura.leer("usuarios.json"));
+                JSONArray adminsJSON = usuariosJSON.getJSONArray("administradores");
+
+                for (int i = 0; i < adminsJSON.length(); i++) {
+                    Administrador a = new Administrador(adminsJSON.getJSONObject(i));
+
+                    if (a.getId() == viejo.getId()) {
+                        adminsJSON.remove(i);
+                        adminsJSON.put(i, nuevo.serializar());
+
+                        usuariosJSON.put("administradores", adminsJSON);
+                        OperacionesLectoEscritura.grabar("usuarios.json", usuariosJSON);
+                    }
+                }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            return "El usuario fue modificado";
+        } else {
+            return "El usuario no pudo ser modificado";
+        }
+    }
+
+    public static String modificarUsuario(Lider viejo, Lider nuevo) {
+        Lider encontrado = buscarLider(viejo.getId());
+        JSONObject usuariosJSON = null;
+
+        if (encontrado != null) {
+            try {
+                usuariosJSON = new JSONObject(OperacionesLectoEscritura.leer("usuarios.json"));
+                JSONArray lideresJSON = usuariosJSON.getJSONArray("lideres");
+
+                for (int i = 0; i < lideresJSON.length(); i++) {
+                    Lider l = new Lider(lideresJSON.getJSONObject(i));
+
+                    if (l.getId() == viejo.getId()) {
+                        lideresJSON.remove(i);
+                        lideresJSON.put(i, nuevo.serializar());
+
+                        usuariosJSON.put("lideres", lideresJSON);
+                        OperacionesLectoEscritura.grabar("usuarios.json", usuariosJSON);
+                    }
+                }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            return "El usuario fue modificado";
+        } else {
+            return "El usuario no pudo ser modificado";
+        }
+    }
+
+    public static String modificarUsuario(MiembroEquipo viejo, MiembroEquipo nuevo) {
+        MiembroEquipo encontrado = buscarMiembroEquipo(viejo.getId());
+        JSONObject usuariosJSON = null;
+
+        if (encontrado != null) {
+            try {
+                usuariosJSON = new JSONObject(OperacionesLectoEscritura.leer("usuarios.json"));
+                JSONArray miembrosJSON = usuariosJSON.getJSONArray("miembrosEquipo");
+
+                for (int i = 0; i < miembrosJSON.length(); i++) {
+                    MiembroEquipo m = new MiembroEquipo(miembrosJSON.getJSONObject(i));
+
+                    if (m.getId() == viejo.getId()) {
+                        miembrosJSON.remove(i);
+                        miembrosJSON.put(i, nuevo.serializar());
+
+                        usuariosJSON.put("miembrosEquipo", miembrosJSON);
+                        OperacionesLectoEscritura.grabar("usuarios.json", usuariosJSON);
+                    }
+                }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            return "El usuario fue modificado";
+        } else {
+            return "El usuario no pudo ser modificado";
+        }
+    }
+
 }
