@@ -1,7 +1,9 @@
 package gestion;
 
+import enums.AltaBaja;
 import exception.ProyectoNoEncontradoException;
 import exception.TareaNoEncontradaException;
+import exception.UsuarioExisteException;
 import exception.UsuarioNoEncontradoException;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -10,6 +12,7 @@ import org.json.JSONTokener;
 import proyecto.Proyecto;
 import proyecto.Tarea;
 import usuario.Administrador;
+import usuario.MiembroEquipo;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -21,15 +24,72 @@ public class GestionProyecto {
 
     private String nomJSON = "proyectos.json";
 
-    public GestionProyecto() {}
+    public GestionProyecto() {
+    }
+    /**
+     * Este metódo da de baja un proyecto y actualiza el archivo.
+     * @author Emilia
+     */
+    public static void removeProyecto(Proyecto proyecto)throws ProyectoNoEncontradoException{
 
+        JSONObject proyectosJSON = null;
+        JSONArray listaProyectosJSON = null;
+
+        try {
+            proyectosJSON = new JSONObject(OperacionesLectoEscritura.leer("proyectos.json"));
+            listaProyectosJSON = proyectosJSON.getJSONArray("proyectos");
+            boolean proyectoEncontrado = false;
+            int i = 0;
+
+            while (!proyectoEncontrado && i < listaProyectosJSON.length()) {
+                Proyecto a = new Proyecto(listaProyectosJSON.getJSONObject(i));
+
+                if (a.equals(listaProyectosJSON)) {
+                        a.baja();
+
+                        // Se elimina el proyecto  del arreglo
+                    listaProyectosJSON.remove(i);
+                    listaProyectosJSON.put(i, a.serializar());
+
+                        // Se agrega el arreglo modificado al objeto
+                    proyectosJSON.put("proyectos", listaProyectosJSON);
+                        OperacionesLectoEscritura.grabar("proyectos.json", proyectosJSON);
+                    }
+
+                    i++;
+                }
+                if(!proyectoEncontrado){
+                    throw new ProyectoNoEncontradoException("El proyecto que quieres eliminar no existe.");
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+
+        }
+    }
+
+    /**
+     * Este metódo agrega un proyecto y actualiza el archivo.
+     * @author Emilia
+     */
+    public static void addProyecto(Proyecto proyecto){
+        JSONObject proyectosJSON = null;
+        JSONArray listaProyectosJSON = null;
+        try {
+            proyectosJSON = new JSONObject(OperacionesLectoEscritura.leer("proyecto.json"));
+            listaProyectosJSON = proyectosJSON.getJSONArray("proyectos");
+            listaProyectosJSON.put(proyecto.serializar());
+            OperacionesLectoEscritura.grabar("proyecto.json", proyectosJSON);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
 
     /**
      * Este metódo serializa un arreglo de proyectos.
      * @return retorna un JSONObject que contiene un JSONArray con todos los proyectos.
      * @author Emilia
      */
-    public JSONObject serializarListaProyectos(ArrayList<Proyecto> proyectos) {
+    public static JSONObject serializarListaProyectos(ArrayList<Proyecto> proyectos) {
         JSONObject proyectosJSON = null;
         JSONArray listaProyectos = null;
         try{
@@ -49,11 +109,11 @@ public class GestionProyecto {
     }
 
     /**
-     * Este metódo lee el contenido del archivo "proyecto.json" y lo combuerte en un JSONObject.
+     * Este metódo deserializa un array list de proyectos.
      * @return retorna un ArrayList de Proyectos.
-     * @author
+     * @author Emilia
      */
-    public ArrayList<Proyecto> deserializarListaProyectos(JSONObject proyectosJSON) {
+    public static ArrayList<Proyecto> deserializarListaProyectos(JSONObject proyectosJSON) {
         ArrayList<Proyecto> proyectos = new ArrayList<>();
 
         try {
@@ -80,60 +140,131 @@ public class GestionProyecto {
     /**
      * Este metódo lee el contenido del archivo "proyecto.json" y lo combierte en un JSONObject.
      * @return retorna un JSONObject que contiene un JSONArray con todos los proyectos.
+     *  @author Emilia
      */
-    public JSONObject leerArchivoProyectos() {
-        JSONObject proyectos = null;
-        try{
-            proyectos = new JSONObject(OperacionesLectoEscritura.leer("proyecto.json"));
-        }catch (JSONException e){
-            e.printStackTrace();
-        }
-        return proyectos;
+    public static JSONObject leerArchivoProyectos() {
+       JSONObject proyectos = null;
+       try {
+           proyectos = new JSONObject(OperacionesLectoEscritura.leer("proyectos.json"));
+
+       }catch (JSONException e){
+           e.printStackTrace();
+       }
+       return proyectos;
     }
 
     /**
-     * Este metódo da de baja un proyecto y actualiza el archivo.
+     * ver solo los proyectos activos
+     * @return una lista con los proyectos activos
      * @author Emilia
      */
-    public static void eliminarUsuario(Administrador administrador) throws UsuarioNoEncontradoException {
-        JSONObject usuariosJSON = null;
-        JSONArray adminsJSON = null;
+    public static ArrayList<Proyecto> verProyectosActivos(){
+        ArrayList<Proyecto> listaProyectos = new ArrayList<>();
+        JSONObject proyectosJSON = null;
+        try {
+            proyectosJSON = leerArchivoProyectos();
+            listaProyectos = deserializarListaProyectos(proyectosJSON);
+            for (Proyecto o : listaProyectos) {
+                if (o.getAltaObaja() == AltaBaja.ACTIVO) {
+                    listaProyectos.add(o);
+                }
+            }
+        }catch (JSONException e){
+            e.printStackTrace();
+        }
+        return listaProyectos;
+    }
+
+    /**
+     * ver solo proyectos inactivos
+     * @return una lista con los proyectos inactivos
+     * @author Emilia
+     */
+    public static ArrayList<Proyecto> verProyectosinactivos(){
+        ArrayList<Proyecto> listaProyectos = new ArrayList<>();
+        JSONObject proyectosJSON = null;
+        try {
+            proyectosJSON = leerArchivoProyectos();
+            listaProyectos = deserializarListaProyectos(proyectosJSON);
+            for (Proyecto o : listaProyectos) {
+                if (o.getAltaObaja() == AltaBaja.INACTIVO) {
+                    listaProyectos.add(o);
+                }
+            }
+        }catch (JSONException e){
+            e.printStackTrace();
+        }
+        return listaProyectos;
+    }
+
+    /**
+     * ver las tareas de un proyecto segun el id de la persona a la que se le asignó.
+     * @param idProyecto es el id del proyecto de donde se quiere saber las tareas.
+     * @param responsable es el miembro el cual se quiere saber que tareas tiene asignadas.
+     *
+     */
+
+    public static ArrayList<Tarea> tareasDeMiembro(int idProyecto, MiembroEquipo responsable) throws  ProyectoNoEncontradoException {
+        ArrayList<Tarea> listaTareas = new ArrayList<>();
+        JSONObject proyectosJSON = null;
+        JSONArray proyectosArray = null;
 
         try {
-            usuariosJSON = new JSONObject(OperacionesLectoEscritura.leer("usuarios.json"));
-            adminsJSON = usuariosJSON.getJSONArray("administradores");
-            boolean adminEncontrado = false;
-            int i = 0;
+            proyectosJSON = leerArchivoProyectos();
+            proyectosArray = proyectosJSON.getJSONArray("proyectos");
+            boolean proyectoEncontrado = false;
 
-            while (!adminEncontrado && i < adminsJSON.length()) {
-                Administrador a = new Administrador(adminsJSON.getJSONObject(i));
+            for (int i = 0; i < proyectosArray.length(); i++) {
+                JSONObject proyectoJSON = proyectosArray.getJSONObject(i);
 
-                if (a.equals(administrador)) {
-                    a.baja();
+                // Verificar si el proyecto coincide con el ID proporcionado
+                if (proyectoJSON.getInt("id") == idProyecto) {
+                    proyectoEncontrado = true;
+                    // Obtener el arreglo de tareas del proyecto
+                    JSONArray tareasArray = proyectoJSON.getJSONArray("tareas");
+                    for(int u = 0; tareasArray.length() <= u ; u++){
 
-                    // Se reemplaza el usuario en el arreglo
-                    adminsJSON.remove(i);
-                    adminsJSON.put(i, a.serializar());
-
-                    // Se agrega el arreglo modificado al objeto
-                    usuariosJSON.put("administradores", adminsJSON);
-                    OperacionesLectoEscritura.grabar("usuarios.json", usuariosJSON);
+                        Tarea tareaDeserializada = new Tarea(tareasArray.getJSONObject(u));
+                        if(tareaDeserializada.getResponsable().equals(responsable)){
+                            listaTareas.add(tareaDeserializada);
+                        }
+                    }
+                    break; // Salir del bucle una vez que encontramos el proyecto
                 }
-
-                i++;
             }
-            if(!adminEncontrado){
-                throw new UsuarioNoEncontradoException("El usuario que quieres eliminar no existe.");
+            if (proyectoEncontrado) {
+                // Serializar el objeto `proyectosJSON` nuevamente al archivo
+                OperacionesLectoEscritura.grabar("proyectos.json", proyectosJSON);
+            } else {
+                throw new ProyectoNoEncontradoException("El proyecto con ID: " + idProyecto + " no se encuentra.");
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
+        return listaTareas;
     }
 
-    /**
-     * Este metódo agrega un proyecto y actualiza el archivo.
-     * @author Emilia
-     */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     /**
@@ -143,7 +274,7 @@ public class GestionProyecto {
      * @param nuevaTarea es la tarea que se agrega.
      * @author Emilia
      */
-    public void agregarTareaAlProyecto(int idProyecto, Tarea nuevaTarea) throws ProyectoNoEncontradoException {
+    public static void agregarTareaAlProyecto(int idProyecto, Tarea nuevaTarea) throws ProyectoNoEncontradoException {
         JSONObject proyectosJSON = null;
         JSONArray proyectosArray = null;
         try {
@@ -172,7 +303,7 @@ public class GestionProyecto {
             if (!proyectoEncontrado) {
                 throw new ProyectoNoEncontradoException("El proyecto con ID: " + idProyecto + " no ha sido encontrado.");
             }
-                OperacionesLectoEscritura.grabar("proyectos.json", proyectosJSON);
+            OperacionesLectoEscritura.grabar("proyectos.json", proyectosJSON);
         }catch(JSONException e){
             e.printStackTrace();
         }
@@ -183,10 +314,10 @@ public class GestionProyecto {
      * Exception personalizada si no encuentra el id del proyecto.
      * Exception personalizada si no se encuentra el id de la tarea.
      * @param idProyecto es el id del proyecto en donde esta a tarea.
-     * @param idTarea es el id de la tarea que se va a der de baja.
+     * @param tarea es el id de la tarea que se va a der de baja.
      * @author Emilia
      */
-    public void darDeBajaTarea(int idProyecto, int idTarea) throws TareaNoEncontradaException, ProyectoNoEncontradoException {
+    public static void darDeBajaTarea(int idProyecto, Tarea tarea) throws TareaNoEncontradaException, ProyectoNoEncontradoException {
         JSONObject proyectosJSON = null;
         JSONArray proyectosArray = null;
 
@@ -210,7 +341,7 @@ public class GestionProyecto {
                     for (int j = 0; j < tareasArray.length(); j++) {
                         JSONObject tareaJSON = tareasArray.getJSONObject(j);
 
-                        if (tareaJSON.getInt("id") == idTarea) {
+                        if (tareaJSON.getInt("id") == tarea.getId()) {
                             tareasArray.remove(j); // Eliminar la tarea
                             tareaEncontrada = true;
                             break; // Salir del bucle una vez que encontramos la tarea
@@ -218,7 +349,7 @@ public class GestionProyecto {
                     }
 
                     if (!tareaEncontrada) {
-                       throw new TareaNoEncontradaException("Tarea no encontrada con ID: " + idTarea);
+                       throw new TareaNoEncontradaException("Tarea no encontrada con ID: " + tarea.getId());
                     }
 
                     break; // Salir del bucle una vez que encontramos el proyecto
@@ -227,7 +358,7 @@ public class GestionProyecto {
 
             if (proyectoEncontrado) {
                 // Serializar el objeto `proyectosJSON` nuevamente al archivo
-                guardarProyectosEnArchivo(proyectosJSON);
+                OperacionesLectoEscritura.grabar("proyectos.json", proyectosJSON);
             } else {
                 throw new ProyectoNoEncontradoException("El proyecto con ID: " + idProyecto + " no se encuentra.");
             }
@@ -237,35 +368,110 @@ public class GestionProyecto {
     }
 
     /**
-     * ver solo proyectos activos
+     * Este metódo agrega un miembro al equipo.
+     * @param idProyecto es el id del proyecto al que se quiere agregar el miembro.
+     * @param miembroEquipo es el miembro del equipo que se quiere agregar.
+     * @author Enzo.
      */
+    public static void agregarMiembroAlEquipo(int idProyecto, MiembroEquipo miembroEquipo) throws UsuarioExisteException {
+        JSONObject proyectosJSON = null;
+        JSONArray proyectosArray = null;
+
+        try {
+            proyectosJSON = leerArchivoProyectos();
+            proyectosArray = proyectosJSON.getJSONArray("proyectos");
+            boolean proyectoEncontrado = false;
+
+            for (int i = 0; i < proyectosArray.length(); i++) {
+                JSONObject proyectoJSON = proyectosArray.getJSONObject(i);
+
+                // Suponiendo que cada proyecto tiene un ID
+                if (proyectoJSON.getInt("id") == idProyecto) {
+                    Proyecto proyecto = new Proyecto(proyectoJSON);
+                    proyectoEncontrado = true;
+
+                    // Crear el JSONObject del nuevo miembro
+                    JSONObject miembroJSON = miembroEquipo.serializar();
+
+                    // Agregar el miembro al proyecto
+                    JSONArray miembrosJSON = proyectoJSON.getJSONArray("equipo");
+
+                    if (proyecto.getEquipo().contains(miembroEquipo)){
+                        throw new UsuarioExisteException("El miembro que quieres agregar al proyecto ya existe.");
+                    }
+
+                    miembrosJSON.put(miembroJSON);
+
+                    break; // Salir del bucle una vez que encontramos el proyecto
+                }
+            }
+
+            if (proyectoEncontrado) {
+                // Serializar el objeto `proyectosJSON` nuevamente al archivo
+                OperacionesLectoEscritura.grabar("proyectos.json", proyectosJSON);
+            } else {
+                System.out.println("Proyecto no encontrado con ID: " + idProyecto);
+            }
+        } catch(JSONException e) {
+            e.printStackTrace();
+        }
+    }
 
     /**
-     * ver solo proyectos inactivos
+     * Este metódo agrega un miembro al equipo.
+     * @param idProyecto es el id del proyecto al que se quiere agregar el miembro.
+     * @param idMiembroEquipo es el miembro del equipo que se quiere agregar.
+     * @author Enzo.
      */
+    public static void eliminarMiembroDelEquipo(int idProyecto, int idMiembroEquipo) throws UsuarioNoEncontradoException {
+        JSONObject proyectosJSON = null;
+        JSONArray proyectosArray = null;
+
+        try {
+            proyectosJSON = leerArchivoProyectos();
+            proyectosArray = proyectosJSON.getJSONArray("proyectos");
+            boolean proyectoEncontrado = false;
+
+            for (int i = 0; i < proyectosArray.length(); i++) {
+                JSONObject proyectoJSON = proyectosArray.getJSONObject(i);
+
+                // Verificar si el proyecto coincide con el ID proporcionado
+                if (proyectoJSON.getInt("id") == idProyecto) {
+                    proyectoEncontrado = true;
+
+                    // Obtener el arreglo de tareas del proyecto
+                    JSONArray equipoJSON = proyectoJSON.getJSONArray("equipo");
+                    boolean miembroEncontrado = false;
+
+                    // Buscar el miembro por su ID y eliminarlo si se encuentra
+                    for (int j = 0; j < equipoJSON.length(); j++) {
+                        JSONObject miembroJSON = equipoJSON.getJSONObject(j);
+
+                        if (miembroJSON.getInt("id") == idMiembroEquipo) {
+                            equipoJSON.remove(j); // Eliminar el usuario
+                            miembroEncontrado = true;
+                            break; // Salir del bucle una vez que encontramos el miembro
+                        }
+                    }
+
+                    if (!miembroEncontrado) {
+                        throw new UsuarioNoEncontradoException("El Miembro no pudo ser encontrado dentro del equipo");
+                    }
+
+                    break; // Salir del bucle una vez que encontramos el proyecto
+                }
+            }
+
+            if (proyectoEncontrado) {
+                // Serializar el objeto `proyectosJSON` nuevamente al archivo
+                OperacionesLectoEscritura.grabar("proyectos.json", proyectosJSON);
+            } else {
+                System.out.println("Proyecto no encontrado con ID: " + idProyecto);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
 
 
-    /**
-     * Modificar el estado de un proyecto
-     */
-
-    /**
-     *Modificar estado de una tarea
-     */
-
-    /**
-     * ver las tareas segun a quien le pertenecen
-     */
-
-    /**
-     * ver solo tareas activas
-     */
-
-    /**
-     * ver solo tareas inactivas
-     */
-
-    /**
-     * asignarle una tarea a un miembro
-     */
 }
