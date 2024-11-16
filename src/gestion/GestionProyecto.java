@@ -1,11 +1,15 @@
 package gestion;
 
+import exception.ProyectoNoEncontradoException;
+import exception.TareaNoEncontradaException;
+import exception.UsuarioNoEncontradoException;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 import proyecto.Proyecto;
 import proyecto.Tarea;
+import usuario.Administrador;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -16,38 +20,22 @@ import java.util.ArrayList;
 public class GestionProyecto {
 
     private String nomJSON = "proyectos.json";
-    private ArrayList<Proyecto> proyectos;
-    public GestionProyecto() {
-        proyectos = new ArrayList<>();
-    }
-    /**
-     * Este metódo da de baja un proyecto y actualiza el archivo.
-     * @author Emilia
-     */
-    public void removeProyecto(Proyecto proyecto){
-        proyectos.remove(proyecto);
-    }
 
-    /**
-     * Este metódo agrega un proyecto y actualiza el archivo.
-     * @author Emilia
-     */
-    public void addProyecto(Proyecto proyecto){
-       proyectos.add(proyecto);
-    }
+    public GestionProyecto() {}
+
 
     /**
      * Este metódo serializa un arreglo de proyectos.
      * @return retorna un JSONObject que contiene un JSONArray con todos los proyectos.
      * @author Emilia
      */
-    public JSONObject serializarListaProyectos() {
+    public JSONObject serializarListaProyectos(ArrayList<Proyecto> proyectos) {
         JSONObject proyectosJSON = null;
         JSONArray listaProyectos = null;
         try{
             proyectosJSON = new JSONObject();
             listaProyectos = new JSONArray();
-            for (Proyecto proyecto : this.proyectos) {
+            for (Proyecto proyecto : proyectos) {
                 listaProyectos.put(proyecto.serializar());
             }
 
@@ -90,42 +78,72 @@ public class GestionProyecto {
     }
 
     /**
-     * @param proyectosJSON en un JSONObject que tiene un JSONArray con todos los proyectos
-     * lo guarda en el archivo .
-     * @author Emilia
-     */
-    public void guardarProyectosEnArchivo(JSONObject proyectosJSON) {
-        OperacionesLectoEscritura.grabar(nomJSON, proyectosJSON);
-    }
-
-    /**
      * Este metódo lee el contenido del archivo "proyecto.json" y lo combierte en un JSONObject.
      * @return retorna un JSONObject que contiene un JSONArray con todos los proyectos.
      */
     public JSONObject leerArchivoProyectos() {
-        StringBuilder contenido = new StringBuilder();
-
-        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(nomJSON))) {
-            String linea;
-            // Leer línea por línea
-            while ((linea = bufferedReader.readLine()) != null) {
-                contenido.append(linea);
-            }
-        } catch (IOException e) {
+        JSONObject proyectos = null;
+        try{
+            proyectos = new JSONObject(OperacionesLectoEscritura.leer("proyecto.json"));
+        }catch (JSONException e){
             e.printStackTrace();
         }
-
-        // Convertir el contenido al JSONObject
-        return new JSONObject(contenido.toString());
+        return proyectos;
     }
 
     /**
+     * Este metódo da de baja un proyecto y actualiza el archivo.
+     * @author Emilia
+     */
+    public static void eliminarUsuario(Administrador administrador) throws UsuarioNoEncontradoException {
+        JSONObject usuariosJSON = null;
+        JSONArray adminsJSON = null;
+
+        try {
+            usuariosJSON = new JSONObject(OperacionesLectoEscritura.leer("usuarios.json"));
+            adminsJSON = usuariosJSON.getJSONArray("administradores");
+            boolean adminEncontrado = false;
+            int i = 0;
+
+            while (!adminEncontrado && i < adminsJSON.length()) {
+                Administrador a = new Administrador(adminsJSON.getJSONObject(i));
+
+                if (a.equals(administrador)) {
+                    a.baja();
+
+                    // Se reemplaza el usuario en el arreglo
+                    adminsJSON.remove(i);
+                    adminsJSON.put(i, a.serializar());
+
+                    // Se agrega el arreglo modificado al objeto
+                    usuariosJSON.put("administradores", adminsJSON);
+                    OperacionesLectoEscritura.grabar("usuarios.json", usuariosJSON);
+                }
+
+                i++;
+            }
+            if(!adminEncontrado){
+                throw new UsuarioNoEncontradoException("El usuario que quieres eliminar no existe.");
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Este metódo agrega un proyecto y actualiza el archivo.
+     * @author Emilia
+     */
+
+
+    /**
      * Este metódo agrega una tarea y actualiza el archivo.
+     * Exception personalizada si no se encuentra el id del proyecto.
      * @param idProyecto es el id del proyecto en donde esta a tarea.
      * @param nuevaTarea es la tarea que se agrega.
      * @author Emilia
      */
-    public void agregarTareaAlProyecto(int idProyecto, Tarea nuevaTarea) {
+    public void agregarTareaAlProyecto(int idProyecto, Tarea nuevaTarea) throws ProyectoNoEncontradoException {
         JSONObject proyectosJSON = null;
         JSONArray proyectosArray = null;
         try {
@@ -151,12 +169,10 @@ public class GestionProyecto {
                 }
             }
 
-            if (proyectoEncontrado) {
-                // Serializar el objeto `proyectosJSON` nuevamente al archivo
-                guardarProyectosEnArchivo(proyectosJSON);
-            } else {
-                System.out.println("Proyecto no encontrado con ID: " + idProyecto);
+            if (!proyectoEncontrado) {
+                throw new ProyectoNoEncontradoException("El proyecto con ID: " + idProyecto + " no ha sido encontrado.");
             }
+                OperacionesLectoEscritura.grabar("proyectos.json", proyectosJSON);
         }catch(JSONException e){
             e.printStackTrace();
         }
@@ -164,11 +180,13 @@ public class GestionProyecto {
 
     /**
      * Este metódo da de baja una tarea y actualiza el archivo.
+     * Exception personalizada si no encuentra el id del proyecto.
+     * Exception personalizada si no se encuentra el id de la tarea.
      * @param idProyecto es el id del proyecto en donde esta a tarea.
      * @param idTarea es el id de la tarea que se va a der de baja.
      * @author Emilia
      */
-    public void darDeBajaTarea(int idProyecto, int idTarea) {
+    public void darDeBajaTarea(int idProyecto, int idTarea) throws TareaNoEncontradaException, ProyectoNoEncontradoException {
         JSONObject proyectosJSON = null;
         JSONArray proyectosArray = null;
 
@@ -200,7 +218,7 @@ public class GestionProyecto {
                     }
 
                     if (!tareaEncontrada) {
-                        System.out.println("Tarea no encontrada con ID: " + idTarea);
+                       throw new TareaNoEncontradaException("Tarea no encontrada con ID: " + idTarea);
                     }
 
                     break; // Salir del bucle una vez que encontramos el proyecto
@@ -211,11 +229,43 @@ public class GestionProyecto {
                 // Serializar el objeto `proyectosJSON` nuevamente al archivo
                 guardarProyectosEnArchivo(proyectosJSON);
             } else {
-                System.out.println("Proyecto no encontrado con ID: " + idProyecto);
+                throw new ProyectoNoEncontradoException("El proyecto con ID: " + idProyecto + " no se encuentra.");
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
 
+    /**
+     * ver solo proyectos activos
+     */
+
+    /**
+     * ver solo proyectos inactivos
+     */
+
+
+    /**
+     * Modificar el estado de un proyecto
+     */
+
+    /**
+     *Modificar estado de una tarea
+     */
+
+    /**
+     * ver las tareas segun a quien le pertenecen
+     */
+
+    /**
+     * ver solo tareas activas
+     */
+
+    /**
+     * ver solo tareas inactivas
+     */
+
+    /**
+     * asignarle una tarea a un miembro
+     */
 }

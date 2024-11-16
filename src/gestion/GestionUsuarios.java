@@ -16,22 +16,6 @@ import usuario.Usuario;
 public class GestionUsuarios {
     public GestionUsuarios() {}
 
-    // Se lanza la Exception personalizada si el miembro ya existe en el equipo
-    public static void agregarMiembroAlEquipo(MiembroEquipo miembroEquipo, Proyecto p) throws UsuarioExisteException {
-        if(p.getEquipo().contains(miembroEquipo)){
-            throw new UsuarioExisteException("El miembro que quieres agregar al proyecto ya existe.");
-        }
-        p.agregarMiembro(miembroEquipo);
-    }
-
-    // Se lanza la Exception personalizada si el miembro no existe en el equipo
-    public static void eliminarMiembroDelEquipo(MiembroEquipo miembroEquipo, Proyecto p) throws UsuarioNoEncontradoException {
-        if(!p.getEquipo().contains(miembroEquipo)){
-            throw new UsuarioNoEncontradoException("El miembro que estas queriendo eliminar no se encuentra en el proyecto.");
-        }
-        p.eliminarMiembro(miembroEquipo);
-    }
-
     public static Usuario crearUsuario(String nombre, String apellido, String email, String titulo, Rol rol) {
         return new MiembroEquipo(nombre, apellido, email, titulo, rol);
     }
@@ -63,7 +47,6 @@ public class GestionUsuarios {
             e.printStackTrace();
         }
     }
-
 
     // Exception personalizada si ya existe el lider que se quiere agregar
     public static void agregarUsuario(Lider lider) throws UsuarioExisteException {
@@ -112,8 +95,8 @@ public class GestionUsuarios {
         }
     }
 
-    // Los 3 metodos que siguen puede arrojar el error si el usuario no existe dentro del sistema
-    public static void eliminarUsuario(MiembroEquipo miembroEquipo) {
+    // Exception personalizada si el usuario que se quiere eliminar no se encuentra
+    public static void eliminarUsuario(MiembroEquipo miembroEquipo) throws UsuarioNoEncontradoException {
         JSONObject usuariosJSON = null;
         JSONArray miembrosJSON = null;
 
@@ -140,12 +123,16 @@ public class GestionUsuarios {
 
                 i++;
             }
+            if(!miembroEncontrado){
+                throw new UsuarioNoEncontradoException("El usuario que quieres eliminar no existe.");
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
 
-    public static void eliminarUsuario(Lider lider) {
+    // Exception personalizada si el usuario que se quiere eliminar no se encuentra
+    public static void eliminarUsuario(Lider lider) throws UsuarioNoEncontradoException {
         JSONObject usuariosJSON = null;
         JSONArray lideresJSON = null;
 
@@ -172,12 +159,16 @@ public class GestionUsuarios {
 
                 i++;
             }
+            if(!liderEncontrado){
+                throw new UsuarioNoEncontradoException("El usuario que quieres eliminar no existe.");
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
 
-    public static void eliminarUsuario(Administrador administrador) {
+    // Exception personalizada si el usuario que se quiere eliminar no se encuentra
+    public static void eliminarUsuario(Administrador administrador) throws UsuarioNoEncontradoException {
         JSONObject usuariosJSON = null;
         JSONArray adminsJSON = null;
 
@@ -203,6 +194,9 @@ public class GestionUsuarios {
                 }
 
                 i++;
+            }
+            if(!adminEncontrado){
+                throw new UsuarioNoEncontradoException("El usuario que quieres eliminar no existe.");
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -350,8 +344,8 @@ public class GestionUsuarios {
         return false;
     }
 
-    // Los 3 metodos pueden arrojar un error si el usuario existe dentro del archivo
-    public static MiembroEquipo buscarMiembroEquipo(int id) {
+    // Exception personalizada si no se encuentra el id de busqueda, que se pasa por parametro
+    public static MiembroEquipo buscarMiembroEquipo(int id) throws UsuarioNoEncontradoException{
         JSONObject usuariosJSON = null;
 
         try {
@@ -364,6 +358,7 @@ public class GestionUsuarios {
                 if (m.getId() == id)
                     return m;
             }
+            throw new UsuarioNoEncontradoException("El usuario con el ID: " + id + " no se encuentra");
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -371,7 +366,8 @@ public class GestionUsuarios {
         return null;
     }
 
-    public static Administrador buscarAdministrador(int id) {
+    // Exception personalizada si no se encuentra el id de busqueda, que se pasa por parametro
+    public static Administrador buscarAdministrador(int id) throws UsuarioNoEncontradoException {
         JSONObject usuariosJSON = null;
 
         try {
@@ -384,6 +380,7 @@ public class GestionUsuarios {
                 if (a.getId() == id)
                     return a;
             }
+            throw new UsuarioNoEncontradoException("El usuario con el ID: " + id + " no se encuentra");
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -391,7 +388,8 @@ public class GestionUsuarios {
         return null;
     }
 
-    public static Lider buscarLider(int id) {
+    // Exception personalizada si no se encuentra el id de busqueda, que se pasa por parametro
+    public static Lider buscarLider(int id) throws UsuarioNoEncontradoException {
         JSONObject usuariosJSON = null;
 
         try {
@@ -404,6 +402,7 @@ public class GestionUsuarios {
                 if (l.getId() == id)
                     return l;
             }
+            throw new UsuarioNoEncontradoException("El usuario con el ID: " + id + " no se encuentra");
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -411,9 +410,15 @@ public class GestionUsuarios {
         return null;
     }
 
-    // Los 3 metodos que siguen pueden arrojar un error si el usuario no existe dentro del archivo
+    // Captura de Exception personalizada
     public static String modificarUsuario(Administrador viejo, Administrador nuevo) {
-        Administrador encontrado = buscarAdministrador(viejo.getId());
+        Administrador encontrado=null;
+        try{
+            encontrado = buscarAdministrador(viejo.getId());
+        }catch (UsuarioNoEncontradoException e){
+            e.printStackTrace();
+        }
+
         JSONObject usuariosJSON = null;
 
         if (encontrado != null) {
@@ -443,8 +448,14 @@ public class GestionUsuarios {
         }
     }
 
+    // Captura de Exception personalizada
     public static String modificarUsuario(Lider viejo, Lider nuevo) {
-        Lider encontrado = buscarLider(viejo.getId());
+        Lider encontrado=null;
+        try {
+            encontrado = buscarLider(viejo.getId());
+        }catch (UsuarioNoEncontradoException e){
+            e.printStackTrace();
+        }
         JSONObject usuariosJSON = null;
 
         if (encontrado != null) {
@@ -474,8 +485,15 @@ public class GestionUsuarios {
         }
     }
 
+    // Captura de Exception personalizada
     public static String modificarUsuario(MiembroEquipo viejo, MiembroEquipo nuevo) {
-        MiembroEquipo encontrado = buscarMiembroEquipo(viejo.getId());
+        MiembroEquipo encontrado= null;
+       try{
+           encontrado = buscarMiembroEquipo(viejo.getId());
+       }catch (UsuarioNoEncontradoException e){
+           e.printStackTrace();
+       }
+
         JSONObject usuariosJSON = null;
 
         if (encontrado != null) {
