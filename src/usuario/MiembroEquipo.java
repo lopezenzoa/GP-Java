@@ -82,7 +82,7 @@ public class MiembroEquipo extends Usuario implements ABMLable<MiembroEquipo> {
     }
 
     /**
-     * Serializa la calse MiembroEquipo.
+     * Serializa la clase MiembroEquipo.
      * @return un objeto de tipo JSONObject con los atributos de la clase.
      * @author Ailen.
      * */
