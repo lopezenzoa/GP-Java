@@ -16,22 +16,6 @@ import usuario.Usuario;
 public class GestionUsuarios {
     public GestionUsuarios() {}
 
-    // Se lanza la Exception personalizada si el miembro ya existe en el equipo
-    public static void agregarMiembroAlEquipo(MiembroEquipo miembroEquipo, Proyecto p) throws UsuarioExisteException {
-        if(p.getEquipo().contains(miembroEquipo)){
-            throw new UsuarioExisteException("El miembro que quieres agregar al proyecto ya existe.");
-        }
-        p.agregarMiembro(miembroEquipo);
-    }
-
-    // Se lanza la Exception personalizada si el miembro no existe en el equipo
-    public static void eliminarMiembroDelEquipo(MiembroEquipo miembroEquipo, Proyecto p) throws UsuarioNoEncontradoException {
-        if(!p.getEquipo().contains(miembroEquipo)){
-            throw new UsuarioNoEncontradoException("El miembro que estas queriendo eliminar no se encuentra en el proyecto.");
-        }
-        p.eliminarMiembro(miembroEquipo);
-    }
-
     public static Usuario crearUsuario(String nombre, String apellido, String email, String titulo, Rol rol) {
         return new MiembroEquipo(nombre, apellido, email, titulo, rol);
     }
