@@ -1,5 +1,7 @@
 package gestion;
 
+import exception.ProyectoNoEncontradoException;
+import exception.TareaNoEncontradaException;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -91,7 +93,7 @@ public class GestionProyecto {
 
     /**
      * @param proyectosJSON en un JSONObject que tiene un JSONArray con todos los proyectos
-     * lo guarda en el archivo .
+     * lo guarda en el archivo.
      * @author Emilia
      */
     public void guardarProyectosEnArchivo(JSONObject proyectosJSON) {
@@ -121,11 +123,12 @@ public class GestionProyecto {
 
     /**
      * Este metódo agrega una tarea y actualiza el archivo.
+     * Exception personalizada si no se encuentra el id del proyecto.
      * @param idProyecto es el id del proyecto en donde esta a tarea.
      * @param nuevaTarea es la tarea que se agrega.
      * @author Emilia
      */
-    public void agregarTareaAlProyecto(int idProyecto, Tarea nuevaTarea) {
+    public void agregarTareaAlProyecto(int idProyecto, Tarea nuevaTarea) throws ProyectoNoEncontradoException {
         JSONObject proyectosJSON = null;
         JSONArray proyectosArray = null;
         try {
@@ -151,12 +154,10 @@ public class GestionProyecto {
                 }
             }
 
-            if (proyectoEncontrado) {
-                // Serializar el objeto `proyectosJSON` nuevamente al archivo
-                guardarProyectosEnArchivo(proyectosJSON);
-            } else {
-                System.out.println("Proyecto no encontrado con ID: " + idProyecto);
+            if (!proyectoEncontrado) {
+                throw new ProyectoNoEncontradoException("El proyecto con ID: " + idProyecto + " no ha sido encontrado.");
             }
+                guardarProyectosEnArchivo(proyectosJSON);
         }catch(JSONException e){
             e.printStackTrace();
         }
@@ -164,11 +165,13 @@ public class GestionProyecto {
 
     /**
      * Este metódo da de baja una tarea y actualiza el archivo.
+     * Exception personalizada si no encuentra el id del proyecto.
+     * Exception personalizada si no se encuentra el id de la tarea.
      * @param idProyecto es el id del proyecto en donde esta a tarea.
      * @param idTarea es el id de la tarea que se va a der de baja.
      * @author Emilia
      */
-    public void darDeBajaTarea(int idProyecto, int idTarea) {
+    public void darDeBajaTarea(int idProyecto, int idTarea) throws TareaNoEncontradaException, ProyectoNoEncontradoException {
         JSONObject proyectosJSON = null;
         JSONArray proyectosArray = null;
 
@@ -200,7 +203,7 @@ public class GestionProyecto {
                     }
 
                     if (!tareaEncontrada) {
-                        System.out.println("Tarea no encontrada con ID: " + idTarea);
+                       throw new TareaNoEncontradaException("Tarea no encontrada con ID: " + idTarea);
                     }
 
                     break; // Salir del bucle una vez que encontramos el proyecto
@@ -211,7 +214,7 @@ public class GestionProyecto {
                 // Serializar el objeto `proyectosJSON` nuevamente al archivo
                 guardarProyectosEnArchivo(proyectosJSON);
             } else {
-                System.out.println("Proyecto no encontrado con ID: " + idProyecto);
+                throw new ProyectoNoEncontradoException("El proyecto con ID: " + idProyecto + " no se encuentra.");
             }
         } catch (JSONException e) {
             e.printStackTrace();
