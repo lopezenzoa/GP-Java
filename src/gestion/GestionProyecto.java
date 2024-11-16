@@ -2,12 +2,15 @@ package gestion;
 
 import exception.ProyectoNoEncontradoException;
 import exception.TareaNoEncontradaException;
+import exception.UsuarioExisteException;
+import exception.UsuarioNoEncontradoException;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 import proyecto.Proyecto;
 import proyecto.Tarea;
+import usuario.MiembroEquipo;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -221,4 +224,109 @@ public class GestionProyecto {
         }
     }
 
+    /**
+     * Este metódo agrega un miembro al equipo.
+     * @param idProyecto es el id del proyecto al que se quiere agregar el miembro.
+     * @param miembroEquipo es el miembro del equipo que se quiere agregar.
+     * @author Enzo.
+     */
+    public void agregarMiembroAlEquipo(int idProyecto, MiembroEquipo miembroEquipo) throws UsuarioExisteException {
+        JSONObject proyectosJSON = null;
+        JSONArray proyectosArray = null;
+
+        try {
+            proyectosJSON = leerArchivoProyectos();
+            proyectosArray = proyectosJSON.getJSONArray("proyectos");
+            boolean proyectoEncontrado = false;
+
+            for (int i = 0; i < proyectosArray.length(); i++) {
+                JSONObject proyectoJSON = proyectosArray.getJSONObject(i);
+
+                // Suponiendo que cada proyecto tiene un ID
+                if (proyectoJSON.getInt("id") == idProyecto) {
+                    Proyecto proyecto = new Proyecto(proyectoJSON);
+                    proyectoEncontrado = true;
+
+                    // Crear el JSONObject del nuevo miembro
+                    JSONObject miembroJSON = miembroEquipo.serializar();
+
+                    // Agregar el miembro al proyecto
+                    JSONArray miembrosJSON = proyectoJSON.getJSONArray("equipo");
+
+                    if (proyecto.getEquipo().contains(miembroEquipo)){
+                        throw new UsuarioExisteException("El miembro que quieres agregar al proyecto ya existe.");
+                    }
+
+                    miembrosJSON.put(miembroJSON);
+
+                    break; // Salir del bucle una vez que encontramos el proyecto
+                }
+            }
+
+            if (proyectoEncontrado) {
+                // Serializar el objeto `proyectosJSON` nuevamente al archivo
+                guardarProyectosEnArchivo(proyectosJSON);
+            } else {
+                System.out.println("Proyecto no encontrado con ID: " + idProyecto);
+            }
+        } catch(JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Este metódo agrega un miembro al equipo.
+     * @param idProyecto es el id del proyecto al que se quiere agregar el miembro.
+     * @param idMiembroEquipo es el miembro del equipo que se quiere agregar.
+     * @author Enzo.
+     */
+    public void eliminarMiembroDelEquipo(int idProyecto, int idMiembroEquipo) throws UsuarioNoEncontradoException {
+        JSONObject proyectosJSON = null;
+        JSONArray proyectosArray = null;
+
+        try {
+            proyectosJSON = leerArchivoProyectos();
+            proyectosArray = proyectosJSON.getJSONArray("proyectos");
+            boolean proyectoEncontrado = false;
+
+            for (int i = 0; i < proyectosArray.length(); i++) {
+                JSONObject proyectoJSON = proyectosArray.getJSONObject(i);
+
+                // Verificar si el proyecto coincide con el ID proporcionado
+                if (proyectoJSON.getInt("id") == idProyecto) {
+                    proyectoEncontrado = true;
+
+                    // Obtener el arreglo de tareas del proyecto
+                    JSONArray equipoJSON = proyectoJSON.getJSONArray("equipo");
+                    boolean miembroEncontrado = false;
+
+                    // Buscar el miembro por su ID y eliminarlo si se encuentra
+                    for (int j = 0; j < equipoJSON.length(); j++) {
+                        JSONObject miembroJSON = equipoJSON.getJSONObject(j);
+
+                        if (miembroJSON.getInt("id") == idMiembroEquipo) {
+                            equipoJSON.remove(j); // Eliminar el usuario
+                            miembroEncontrado = true;
+                            break; // Salir del bucle una vez que encontramos el miembro
+                        }
+                    }
+
+                    if (!miembroEncontrado) {
+                        throw new UsuarioNoEncontradoException("El Miembro no pudo ser encontrado dentro del equipo");
+                    }
+
+                    break; // Salir del bucle una vez que encontramos el proyecto
+                }
+            }
+
+            if (proyectoEncontrado) {
+                // Serializar el objeto `proyectosJSON` nuevamente al archivo
+                guardarProyectosEnArchivo(proyectosJSON);
+            } else {
+                System.out.println("Proyecto no encontrado con ID: " + idProyecto);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
 }
