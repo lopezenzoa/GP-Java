@@ -87,6 +87,14 @@ public class Tarea implements ABMLable<Tarea> {
         this.estado = estado;
     }
 
+    public AltaBaja getAltaObaja() {
+        return altaObaja;
+    }
+
+    public void setAltaObaja(AltaBaja altaObaja) {
+        this.altaObaja = altaObaja;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
