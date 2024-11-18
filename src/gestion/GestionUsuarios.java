@@ -344,57 +344,20 @@ public class GestionUsuarios {
         return false;
     }
 
-    // Exception personalizada si no se encuentra el id de busqueda, que se pasa por parametro
-    public static MiembroEquipo buscarMiembroEquipo(int id) throws UsuarioNoEncontradoException{
+    /**
+     * Busca al usuario dentro del archivo usuarios.json.
+     * @param id es el ID del usuario que se busca.
+     * @author Enzo.
+     * */
+    public static Usuario buscarUsuario(int id) throws UsuarioNoEncontradoException {
         JSONObject usuariosJSON = null;
 
         try {
             usuariosJSON = new JSONObject(OperacionesLectoEscritura.leer("usuarios.json"));
-            JSONArray miembrosJSON = usuariosJSON.getJSONArray("miembrosEquipo");
 
-            for (int i = 0; i < miembrosJSON.length(); i++) {
-                MiembroEquipo m = new MiembroEquipo(miembrosJSON.getJSONObject(i));
-
-                if (m.getId() == id)
-                    return m;
-            }
-            throw new UsuarioNoEncontradoException("El usuario con el ID: " + id + " no se encuentra");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        return null;
-    }
-
-    // Exception personalizada si no se encuentra el id de busqueda, que se pasa por parametro
-    public static Administrador buscarAdministrador(int id) throws UsuarioNoEncontradoException {
-        JSONObject usuariosJSON = null;
-
-        try {
-            usuariosJSON = new JSONObject(OperacionesLectoEscritura.leer("usuarios.json"));
-            JSONArray adminsJSON = usuariosJSON.getJSONArray("administradores");
-
-            for (int i = 0; i < adminsJSON.length(); i++) {
-                Administrador a = new Administrador(adminsJSON.getJSONObject(i));
-
-                if (a.getId() == id)
-                    return a;
-            }
-            throw new UsuarioNoEncontradoException("El usuario con el ID: " + id + " no se encuentra");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        return null;
-    }
-
-    // Exception personalizada si no se encuentra el id de busqueda, que se pasa por parametro
-    public static Lider buscarLider(int id) throws UsuarioNoEncontradoException {
-        JSONObject usuariosJSON = null;
-
-        try {
-            usuariosJSON = new JSONObject(OperacionesLectoEscritura.leer("usuarios.json"));
             JSONArray lideresJSON = usuariosJSON.getJSONArray("lideres");
+            JSONArray adminsJSON = usuariosJSON.getJSONArray("administradores");
+            JSONArray miembrosJSON = usuariosJSON.getJSONArray("miembrosEquipo");
 
             for (int i = 0; i < lideresJSON.length(); i++) {
                 Lider l = new Lider(lideresJSON.getJSONObject(i));
@@ -402,6 +365,21 @@ public class GestionUsuarios {
                 if (l.getId() == id)
                     return l;
             }
+
+            for (int i = 0; i < adminsJSON.length(); i++) {
+                Administrador a = new Administrador(adminsJSON.getJSONObject(i));
+
+                if (a.getId() == id)
+                    return a;
+            }
+
+            for (int i = 0; i < miembrosJSON.length(); i++) {
+                MiembroEquipo m = new MiembroEquipo(miembrosJSON.getJSONObject(i));
+
+                if (m.getId() == id)
+                    return m;
+            }
+
             throw new UsuarioNoEncontradoException("El usuario con el ID: " + id + " no se encuentra");
         } catch (JSONException e) {
             e.printStackTrace();
@@ -412,9 +390,9 @@ public class GestionUsuarios {
 
     // Captura de Exception personalizada
     public static String modificarUsuario(Administrador viejo, Administrador nuevo) {
-        Administrador encontrado=null;
+        Usuario encontrado=null;
         try{
-            encontrado = buscarAdministrador(viejo.getId());
+            encontrado = buscarUsuario(viejo.getId());
         }catch (UsuarioNoEncontradoException e){
             e.printStackTrace();
         }
@@ -450,9 +428,9 @@ public class GestionUsuarios {
 
     // Captura de Exception personalizada
     public static String modificarUsuario(Lider viejo, Lider nuevo) {
-        Lider encontrado=null;
+        Usuario encontrado=null;
         try {
-            encontrado = buscarLider(viejo.getId());
+            encontrado = buscarUsuario(viejo.getId());
         }catch (UsuarioNoEncontradoException e){
             e.printStackTrace();
         }
@@ -487,9 +465,9 @@ public class GestionUsuarios {
 
     // Captura de Exception personalizada
     public static String modificarUsuario(MiembroEquipo viejo, MiembroEquipo nuevo) {
-        MiembroEquipo encontrado= null;
+        Usuario encontrado= null;
        try{
-           encontrado = buscarMiembroEquipo(viejo.getId());
+           encontrado = buscarUsuario(viejo.getId());
        }catch (UsuarioNoEncontradoException e){
            e.printStackTrace();
        }
