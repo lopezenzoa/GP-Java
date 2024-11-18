@@ -1,5 +1,11 @@
 package gestion;
 
+import proyecto.Proyecto;
+import proyecto.Tarea;
+import usuario.Lider;
+import usuario.MiembroEquipo;
+import usuario.Usuario;
+
 import java.io.IOException;
 import java.util.Scanner;
 
@@ -7,7 +13,7 @@ public class Menu {
     /**
      * @author Emilia
      */
-    public static void menu(String[] args) {
+    public static void menu(Usuario usuario) {
         Scanner scanner = new Scanner(System.in);
         int option;
         while (true) {
@@ -45,30 +51,78 @@ public class Menu {
             // Manejo de las opciones
             switch (option) {
                 case 1:
-                    System.out.println("Crear usuario"); //Solo administrador
+                    // Se tiene que pedir los datos para crear el usuario con un Scanner
+                    GestionUsuarios.agregarUsuario(GestionUsuarios.crearUsuario());//Solo administrador
                     break;
                 case 2:
-                    System.out.println("Dar de baja unu usuario");//Solo administrador
+                    // Se tiene que pedir el ID del usuario que se quiere eliminar con Scanner
+                    int ID;
+                    GestionUsuarios.eliminarUsuario(GestionUsuarios.buscarUsuario(ID)); //Solo administrador
                     break;
                 case 3:
-                    System.out.println("Crear proyecto"); // solo administrador y lider
+                    // Pedir los datos del proyecto para contruirlo con Scanner
+                    Proyecto p = new Proyecto();
+                    GestionProyecto.addProyecto(p); // solo administrador y lider
                     break;
                 case 4:
-                    System.out.println("Dar de baja un proyecto."); // solo administrador y lider
+                    // Se pide el ID del proyecto que se quiere eliminar y lo busca dentro del archivo proyectos.json
+                    // Se tiene que crear el metodo buscarProyectoPorID() en la clase GestionProyecto
+                    int ID;
+                    GestionProyecto.removeProyecto(GestionProyecto.buscarProyectoPorID(ID)); // solo administrador y lider
                     break;
                 case 5:
-                    System.out.println("Ver todos los proyectos inactivos"); // solo administrador y lider
-                    System.out.println(GestionProyecto.verProyectosinactivos().toString());
+                    System.out.println(GestionProyecto.verProyectosinactivos().toString()); // solo administrador y lider
                     break;
                 case 6:
-                    System.out.println("Ver todos los proyectos activos:"); // solo administrador y lider
-                    System.out.println(GestionProyecto.verProyectosActivos().toString());
+                    System.out.println(GestionProyecto.verProyectosActivos().toString()); // solo administrador y lider
                     break;
                 case 7:
-                    System.out.println("Ver mis proyectos y mis tareas"); // solo miembros
+                    MiembroEquipo m = (MiembroEquipo) usuario;
+                    System.out.println(m.getProyectosEnCurso());
+
+                    // Pedir el ID del proyecto que se quiere consultar
+                    int idProyecto;
+                    System.out.println(GestionProyecto.tareasDeMiembro(idProyecto, m));// solo miembros
                     break;
                 case 8:
-                    System.out.println("Has elegido la Opción 8.");
+                    // Pedir el ID del proyecto y del miembro que se quiere agregar
+                    int idProyecto;
+                    int idMiembro;
+
+                    // Pedir los datos para crear un MiembroEquipo
+                    MiembroEquipo m = (MiembroEquipo) GestionUsuarios.buscarUsuario(idMiembro);
+                    GestionProyecto.agregarMiembroAlEquipo(idProyecto, m); // solo administrador y lider
+
+                    // Se agrega el proyecto a la lista de proyectos en curso del miembro
+                    MiembroEquipo m_modificado = m;
+
+                    Proyecto p = GestionProyecto.buscarProyectoPorID(idProyecto);
+                    m_modificado.agregarProyecto(p.getNombre());
+
+                    GestionUsuarios.modificarUsuario(m, m_modificado);
+                case 9:
+                    // Pedir el ID del miembro y del proyecto que se quiere eliminar
+                    int idProyecto;
+                    int idMiembro;
+                    MiembroEquipo m = (MiembroEquipo) GestionUsuarios.buscarUsuario(idMiembro);
+                    GestionProyecto.agregarMiembroAlEquipo(idProyecto, m); // solo administrador y lider
+
+                    // Se elimina el proyecto de la lista de proyectos en curso del miembro
+                    MiembroEquipo m_modificado = m;
+
+                    Proyecto p = GestionProyecto.buscarProyectoPorID(idProyecto);
+                    m_modificado.eliminarProyecto(p.getNombre());
+
+                    GestionUsuarios.modificarUsuario(m, m_modificado); // solo administrador y lider
+                case 10:
+                    // Pedir al usuario el ID del responsable de la tarea
+                    int idResponsable;
+                    // Pedir al usuario el ID del proyecto al que se quiere agregar la tarea
+                    // Pedir al usuario los atributos de las tareas
+                    MiembroEquipo responable = GestionUsuarios.buscarUsuario(idResponsable);
+                    Tarea t = new Tarea();
+
+                    GestionProyecto.agregarTareaAlProyecto(idProyecto, t); // solo administrador y lider
                     break;
                 default:
                     System.out.println("Opción no válida, por favor inténtalo de nuevo.");

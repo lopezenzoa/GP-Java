@@ -13,6 +13,7 @@ import org.json.JSONTokener;
 import proyecto.Proyecto;
 import proyecto.Tarea;
 import usuario.Administrador;
+import usuario.Lider;
 import usuario.MiembroEquipo;
 
 import java.io.BufferedReader;
@@ -520,4 +521,34 @@ public class GestionProyecto {
     /**
      * ver solo las tareas inactivas.
      */
+
+    /**
+     * Busca un proeycto dado su ID dentro del archivo proyectos.json
+     * @param idProyecto es el ID del proyecto que se busca.
+     * @author Enzo.
+     * */
+    public static Proyecto buscarProyectoPorID(int idProyecto) throws ProyectoNoEncontradoException {
+        JSONObject proyectosJSON = null;
+        JSONArray proyectosArray = null;
+
+        try {
+            proyectosJSON = new JSONObject(OperacionesLectoEscritura.leer("proyectos.json"));
+            proyectosArray = proyectosJSON.getJSONArray("proyectos");
+
+            for (int i = 0; i < proyectosArray.length(); i++) {
+                JSONObject proyectoJSON = proyectosArray.getJSONObject(i);
+                Proyecto p = new Proyecto(proyectoJSON);
+
+                if (p.getId() == idProyecto) {
+                    return p;
+                }
+            }
+
+            throw new ProyectoNoEncontradoException("El proyecto con el ID: " + idProyecto + " no se encuentra");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
 }
