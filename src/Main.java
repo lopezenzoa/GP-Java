@@ -1,10 +1,7 @@
 import enums.Rol;
 import exception.UsuarioExisteException;
 import exception.UsuarioNoEncontradoException;
-import gestion.GestionProyecto;
-import gestion.GestionUsuarios;
-import gestion.Login;
-import gestion.OperacionesLectoEscritura;
+import gestion.*;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import proyecto.Proyecto;
@@ -51,11 +48,11 @@ public class Main  {
 
         GestionProyecto gestionProyecto = new GestionProyecto();
 
-        gestionProyecto.addProyecto(p1);
-        gestionProyecto.addProyecto(p2);
-        gestionProyecto.addProyecto(p3);
-        gestionProyecto.addProyecto(p4);
-        gestionProyecto.addProyecto(p5);
+        GestionProyecto.addProyecto(p1);
+        GestionProyecto.addProyecto(p2);
+        GestionProyecto.addProyecto(p3);
+        GestionProyecto.addProyecto(p4);
+        GestionProyecto.addProyecto(p5);
 
         /* Agregando los JSONObject para el archivo (15 usuarios) */
         /*
@@ -141,24 +138,25 @@ public class Main  {
 
          */
 
+        /* Simulacion Proyecto Real */
         /* Prueba de autenticacion y obtencion de datos */
-        /*
         try {
-            MiembroEquipo m1 = GestionUsuarios.buscarMiembroEquipo(5431);
-            Administrador a1 = GestionUsuarios.buscarAdministrador(13476);
+            Usuario u1 = GestionUsuarios.buscarUsuario(5431);
+            Usuario u2 = GestionUsuarios.buscarUsuario(13476);
 
-            System.out.println(m1.getId() + " - " + m1.hashCode());
-            System.out.println(a1.getId() + " - " + a1.hashCode());
+            // Se imprimen estas lineas como ayuda para no perder tiempo en el login
+            System.out.println(u1.getId() + " - " + u2.hashCode());
+            System.out.println(u1.getId() + " - " + u2.hashCode());
         } catch (UsuarioNoEncontradoException e) {
             System.err.println(e.getMessage());
         }
 
-        System.out.println();
-
         HashMap<String, Integer> datosDeAutenticacion = Login.obtenerDatosDeAutenticacion();
         Usuario u = Login.autenticar(datosDeAutenticacion);
 
-        System.out.println(u);
+
+        /*
+        Menu.menu(u);
 
          */
     }
