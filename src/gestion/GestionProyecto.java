@@ -74,10 +74,10 @@ public class GestionProyecto {
         JSONObject proyectosJSON = null;
         JSONArray listaProyectosJSON = null;
         try {
-            proyectosJSON = new JSONObject(OperacionesLectoEscritura.leer("proyecto.json"));
+            proyectosJSON = new JSONObject(OperacionesLectoEscritura.leer("proyectos.json"));
             listaProyectosJSON = proyectosJSON.getJSONArray("proyectos");
             listaProyectosJSON.put(proyecto.serializar());
-            OperacionesLectoEscritura.grabar("proyecto.json", proyectosJSON);
+            OperacionesLectoEscritura.grabar("proyectos.json", proyectosJSON);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -139,7 +139,7 @@ public class GestionProyecto {
     }
 
     /**
-     * Este metódo lee el contenido del archivo "proyecto.json" y lo combierte en un JSONObject.
+     * Este metódo lee el contenido del archivo "proyectos.json" y lo combierte en un JSONObject.
      *
      * @return retorna un JSONObject que contiene un JSONArray con todos los proyectos.
      * @author Emilia
