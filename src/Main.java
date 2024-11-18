@@ -3,6 +3,7 @@ import exception.UsuarioExisteException;
 import exception.UsuarioNoEncontradoException;
 import gestion.GestionProyecto;
 import gestion.GestionUsuarios;
+import gestion.Login;
 import gestion.OperacionesLectoEscritura;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -11,8 +12,10 @@ import proyecto.Tarea;
 import usuario.Administrador;
 import usuario.Lider;
 import usuario.MiembroEquipo;
+import usuario.Usuario;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Main  {
     public static void main(String[] args) {
@@ -135,6 +138,27 @@ public class Main  {
         } catch (UsuarioNoEncontradoException e) {
             System.err.println(e.getMessage());
         }
+
+         */
+
+        /* Prueba de autenticacion y obtencion de datos */
+        /*
+        try {
+            MiembroEquipo m1 = GestionUsuarios.buscarMiembroEquipo(5431);
+            Administrador a1 = GestionUsuarios.buscarAdministrador(13476);
+
+            System.out.println(m1.getId() + " - " + m1.hashCode());
+            System.out.println(a1.getId() + " - " + a1.hashCode());
+        } catch (UsuarioNoEncontradoException e) {
+            System.err.println(e.getMessage());
+        }
+
+        System.out.println();
+
+        HashMap<String, Integer> datosDeAutenticacion = Login.obtenerDatosDeAutenticacion();
+        Usuario u = Login.autenticar(datosDeAutenticacion);
+
+        System.out.println(u);
 
          */
     }
