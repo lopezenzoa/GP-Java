@@ -119,6 +119,8 @@ public class GestionUsuarios {
                     // Se agrega el arreglo modificado al objeto
                     usuariosJSON.put("miembrosEquipo", miembrosJSON);
                     OperacionesLectoEscritura.grabar("usuarios.json", usuariosJSON);
+                    miembroEncontrado = true;
+                    break;
                 }
 
                 i++;

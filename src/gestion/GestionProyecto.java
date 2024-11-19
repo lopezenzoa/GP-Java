@@ -32,7 +32,7 @@ public class GestionProyecto {
      *
      * @author Emilia
      */
-    public static void removeProyecto(Proyecto proyecto) throws ProyectoNoEncontradoException {
+    public static void removeProyecto(int idProyecto) throws ProyectoNoEncontradoException {
 
         JSONObject proyectosJSON = null;
         JSONArray listaProyectosJSON = null;
@@ -46,13 +46,14 @@ public class GestionProyecto {
             while (!proyectoEncontrado && i < listaProyectosJSON.length()) {
                 Proyecto a = new Proyecto(listaProyectosJSON.getJSONObject(i));
 
-                if (a.equals(listaProyectosJSON)) {
+                if (a.getId() == idProyecto) {
                     a.baja();
                     listaProyectosJSON.put(i, a.serializar());
 
                     // Se agrega el arreglo modificado al objeto
                     proyectosJSON.put("proyectos", listaProyectosJSON);
                     OperacionesLectoEscritura.grabar("proyectos.json", proyectosJSON);
+                    proyectoEncontrado = true;
                 }
 
                 i++;
@@ -164,19 +165,21 @@ public class GestionProyecto {
      */
     public static ArrayList<Proyecto> verProyectosActivos() {
         ArrayList<Proyecto> listaProyectos = new ArrayList<>();
+        ArrayList<Proyecto> listaProyectosActivos = new ArrayList<>();
         JSONObject proyectosJSON = null;
+
         try {
             proyectosJSON = leerArchivoProyectos();
             listaProyectos = deserializarListaProyectos(proyectosJSON);
-            for (Proyecto o : listaProyectos) {
-                if (o.getAltaObaja() == AltaBaja.ACTIVO) {
-                    listaProyectos.add(o);
+            for (Object o : listaProyectos.toArray()) {
+                if (((Proyecto)o).getAltaObaja() == AltaBaja.ACTIVO) {
+                    listaProyectosActivos.add((Proyecto) o);
                 }
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        return listaProyectos;
+        return listaProyectosActivos;
     }
 
     /**
@@ -187,19 +190,21 @@ public class GestionProyecto {
      */
     public static ArrayList<Proyecto> verProyectosinactivos() {
         ArrayList<Proyecto> listaProyectos = new ArrayList<>();
+        ArrayList<Proyecto> listaProyectosInactivos = new ArrayList<>();
         JSONObject proyectosJSON = null;
         try {
             proyectosJSON = leerArchivoProyectos();
             listaProyectos = deserializarListaProyectos(proyectosJSON);
-            for (Proyecto o : listaProyectos) {
-                if (o.getAltaObaja() == AltaBaja.INACTIVO) {
-                    listaProyectos.add(o);
+
+            for (Object o : listaProyectos.toArray()) {
+                if (((Proyecto)o).getAltaObaja() == AltaBaja.INACTIVO) {
+                    listaProyectosInactivos.add((Proyecto) o);
                 }
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        return listaProyectos;
+        return listaProyectosInactivos;
     }
 
     /**
@@ -226,11 +231,13 @@ public class GestionProyecto {
                     proyectoEncontrado = true;
                     // Obtener el arreglo de tareas del proyecto
                     JSONArray tareasArray = proyectoJSON.getJSONArray("tareas");
-                    for (int u = 0; tareasArray.length() <= u; u++) {
 
-                        Tarea tareaDeserializada = new Tarea(tareasArray.getJSONObject(u));
-                        if (tareaDeserializada.getResponsable().equals(responsable) && tareaDeserializada.getAltaObaja() == AltaBaja.ACTIVO) {
-                            listaTareas.add(tareaDeserializada);
+                    if (!tareasArray.isEmpty()) {
+                        for (int u = 0; tareasArray.length() <= u; u++) {
+                            Tarea tareaDeserializada = new Tarea(tareasArray.getJSONObject(u));
+                            if (tareaDeserializada.getResponsable().equals(responsable) && tareaDeserializada.getAltaObaja() == AltaBaja.ACTIVO) {
+                                listaTareas.add(tareaDeserializada);
+                            }
                         }
                     }
                     break; // Salir del bucle una vez que encontramos el proyecto

@@ -1,4 +1,5 @@
 import enums.Rol;
+import exception.ProyectoNoEncontradoException;
 import exception.UsuarioExisteException;
 import exception.UsuarioNoEncontradoException;
 import gestion.*;
@@ -16,6 +17,8 @@ import java.util.HashMap;
 
 public class Main  {
     public static void main(String[] args) {
+        /*
+        // Se intancian 15 usuarios (5 para cada rango de privilegios)
         MiembroEquipo Enzo = new MiembroEquipo("Enzo", "Fernandez", "elmaleducado21@gmail.com", "Futbolista", Rol.DEVOPS);
         MiembroEquipo Lionel = new MiembroEquipo("Lionel", "Messi", "lapulga10@gmail.com", "Futbolista", Rol.DEVOPS);
         MiembroEquipo Sergio = new MiembroEquipo("Sergio", "Aguero", "kunaguero@gmail.com", "Streamer", Rol.DEVOPS);
@@ -48,14 +51,14 @@ public class Main  {
 
         GestionProyecto gestionProyecto = new GestionProyecto();
 
-       /* GestionProyecto.addProyecto(p1);
+        // Se agregan 5 proyectos al archivo
+        GestionProyecto.addProyecto(p1);
         GestionProyecto.addProyecto(p2);
         GestionProyecto.addProyecto(p3);
         GestionProyecto.addProyecto(p4);
-        GestionProyecto.addProyecto(p5);*/
+        GestionProyecto.addProyecto(p5);
 
-        /* Agregando los JSONObject para el archivo (15 usuarios) */
-        /*
+        // Se agregan los JSONObject para el archivo usuarios.json (15 usuarios)
         try {
             GestionUsuarios.agregarUsuario(Monica);
             GestionUsuarios.agregarUsuario(Cesar);
@@ -78,34 +81,32 @@ public class Main  {
             System.err.println(e.getMessage());
         }
 
-         */
+        // Se agregan tareas a cada uno de los proyectos
+        try {
+            gestionProyecto.agregarTareaAlProyecto(p1.getId(), tarea1);
+            gestionProyecto.agregarTareaAlProyecto(p1.getId(), tarea2);
+            gestionProyecto.agregarTareaAlProyecto(p1.getId(), tarea3);
+            gestionProyecto.agregarTareaAlProyecto(p1.getId(), tarea4);
+            gestionProyecto.agregarTareaAlProyecto(p1.getId(), tarea5);
 
-        /* Prueba de serializacion de Proyecto y Tarea */
-        // Generando los objetos con informacion ficticia
-        /*
-        JSONObject proyectosJSON = gestionProyecto.serializarListaProyectos();
-        gestionProyecto.guardarProyectosEnArchivo(proyectosJSON);
+            gestionProyecto.agregarTareaAlProyecto(p2.getId(), tarea1);
+            gestionProyecto.agregarTareaAlProyecto(p2.getId(), tarea2);
+            gestionProyecto.agregarTareaAlProyecto(p2.getId(), tarea3);
+            gestionProyecto.agregarTareaAlProyecto(p2.getId(), tarea4);
 
-        gestionProyecto.agregarTareaAlProyecto(p1.getId(), tarea1);
-        gestionProyecto.agregarTareaAlProyecto(p1.getId(), tarea2);
-        gestionProyecto.agregarTareaAlProyecto(p1.getId(), tarea3);
-        gestionProyecto.agregarTareaAlProyecto(p1.getId(), tarea4);
-        gestionProyecto.agregarTareaAlProyecto(p1.getId(), tarea5);
+            gestionProyecto.agregarTareaAlProyecto(p3.getId(), tarea1);
+            gestionProyecto.agregarTareaAlProyecto(p3.getId(), tarea2);
+            gestionProyecto.agregarTareaAlProyecto(p3.getId(), tarea3);
 
-        gestionProyecto.agregarTareaAlProyecto(p2.getId(), tarea1);
-        gestionProyecto.agregarTareaAlProyecto(p2.getId(), tarea2);
-        gestionProyecto.agregarTareaAlProyecto(p2.getId(), tarea3);
-        gestionProyecto.agregarTareaAlProyecto(p2.getId(), tarea4);
+            gestionProyecto.agregarTareaAlProyecto(p4.getId(), tarea1);
+            gestionProyecto.agregarTareaAlProyecto(p4.getId(), tarea2);
 
-        gestionProyecto.agregarTareaAlProyecto(p3.getId(), tarea1);
-        gestionProyecto.agregarTareaAlProyecto(p3.getId(), tarea2);
-        gestionProyecto.agregarTareaAlProyecto(p3.getId(), tarea3);
+            gestionProyecto.agregarTareaAlProyecto(p5.getId(), tarea1);
+        } catch (ProyectoNoEncontradoException e) {
+            System.err.println(e.getMessage());
+        }
 
-        gestionProyecto.agregarTareaAlProyecto(p4.getId(), tarea1);
-        gestionProyecto.agregarTareaAlProyecto(p4.getId(), tarea2);
-
-        gestionProyecto.agregarTareaAlProyecto(p5.getId(), tarea1);
-
+        // Se conforman los equipos para cada uno de los proyectos
         try {
             gestionProyecto.agregarMiembroAlEquipo(p1.getId(), Enzo);
             gestionProyecto.agregarMiembroAlEquipo(p1.getId(), Lionel);
@@ -130,48 +131,41 @@ public class Main  {
             System.err.println(e.getMessage());
         }
 
-        try {
-            gestionProyecto.eliminarMiembroDelEquipo(p1.getId(), Enzo.getId());
-        } catch (UsuarioNoEncontradoException e) {
-            System.err.println(e.getMessage());
-        }
 
          */
 
+
         /* Simulacion Proyecto Real */
-        /* Prueba de autenticacion y obtencion de datos */
+        // Se prueba la autenticacion y obtencion de datos
         try {
-            Usuario u1 = GestionUsuarios.buscarUsuario(5431);
-            Usuario u2 = GestionUsuarios.buscarUsuario(13476);
+            Usuario u1 = GestionUsuarios.buscarUsuario(52915);
+            Usuario u2 = GestionUsuarios.buscarUsuario(20494);
+            Usuario u3 = GestionUsuarios.buscarUsuario(22426);
 
             // Se imprimen estas lineas como ayuda para no perder tiempo en el login
-            System.out.println(u1.getId() + " - " + u1.hashCode());
-            System.out.println(u2.getId() + " - " + u2.hashCode());
+            System.out.println(u1.getId() + " - " + u1.hashCode() + " (Miembro Equipo)");
+            System.out.println(u2.getId() + " - " + u2.hashCode() + " (Administrador)");
+            System.out.println(u3.getId() + " - " + u3.hashCode() + " (Lider)");
         } catch (UsuarioNoEncontradoException e) {
             System.err.println(e.getMessage());
         }
 
-        System.out.println(Enzo.getId());
+        /*
         HashMap<String, Integer> datosDeAutenticacion = Login.obtenerDatosDeAutenticacion();
         Usuario u = Login.autenticar(datosDeAutenticacion);
 
+         */
 
-        Menu.menu(u);
+        Usuario u = null;
 
-        // HAY QUE INGRESAR 5 DIGITOS PARA EL PIN ( sino te lanza la excepcion de que no se encuentra el usuario)
-        // verificar si anote bien lo que hace cada opcion
-        // deberiamos consultar si quiere realizar otra operacion... vuelve al menu principal solo
-        //OPCION 2: cuando ingreso el id del usuario me dice que no existe, se termina de ejecutar mal el programa
-        //OPCION 3: no funciona, lanza una exception personaliza y no se termina de ejercutar
-        //OPCION 4: me lanza una exception personalizada y lo mismo que arriba
-        //OPCION 5: funciona bien ( imprime proyectos en estado PENDIENTE )
-        //OPCION 6: me tira una exception ConcurrentModificationException
-        //OPCION 7: no anda, lanza un error de json --> JSONArray[0] not found.
-        //OPCION 8: cuando ingreso el id del miembro todo bien, error cuando pongo el id del proyecto
-        // OPCION 9: hay que ingresar miembros a los proyectos (chequear que las excepciones continuen el flujo del programa
-        // me lanza ademas de las excepciones otros errores
-        // OPCION 10:
+        try {
+            u = GestionUsuarios.buscarUsuario(52915); // para ingresar como miembro
+            // u = GestionUsuarios.buscarUsuario(20494); // para ingresar como administrador
+        } catch (UsuarioNoEncontradoException e) {
+            throw new RuntimeException(e);
+        }
 
-
+        if (u != null)
+            Menu.menu(u);
     }
 }

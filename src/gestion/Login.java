@@ -29,7 +29,9 @@ public class Login {
         Scanner scanner = new Scanner(System.in);
 
         try {
-            System.out.println("Ingrese su ID");
+            System.out.println();
+            System.out.println("\tGP-Java | Login");
+            System.out.println("* A continuación, ingrese su ID");
             int ID = scanner.nextInt();
             scanner.nextLine(); // Consume el salto de linea
 
@@ -37,7 +39,7 @@ public class Login {
             El PIN fue pensado para que sea un numero que representa el hash del objeto de tipo usuario que se guarda en el archivo.
             El PIN solo contempla los primeros 5 numeros del hash del objeto.
              */
-            System.out.println("Ingrese su PIN");
+            System.out.println("* A continuación, ingrese su PIN");
             int PIN = scanner.nextInt();
 
             datos.put("ID", ID);
