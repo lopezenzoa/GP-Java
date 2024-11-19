@@ -131,41 +131,16 @@ public class Main  {
             System.err.println(e.getMessage());
         }
 
-
          */
 
 
         /* Simulacion Proyecto Real */
-        // Se prueba la autenticacion y obtencion de datos
-        try {
-            Usuario u1 = GestionUsuarios.buscarUsuario(52915);
-            Usuario u2 = GestionUsuarios.buscarUsuario(20494);
-            Usuario u3 = GestionUsuarios.buscarUsuario(22426);
+        // 79152 - 20124 (Miembro)
+        // 24690 - 20099 (Lider)
+        // 21447 - 18190 (Administrador)
 
-            // Se imprimen estas lineas como ayuda para no perder tiempo en el login
-            System.out.println(u1.getId() + " - " + u1.hashCode() + " (Miembro Equipo)");
-            System.out.println(u2.getId() + " - " + u2.hashCode() + " (Administrador)");
-            System.out.println(u3.getId() + " - " + u3.hashCode() + " (Lider)");
-        } catch (UsuarioNoEncontradoException e) {
-            System.err.println(e.getMessage());
-        }
-
-        /*
         HashMap<String, Integer> datosDeAutenticacion = Login.obtenerDatosDeAutenticacion();
         Usuario u = Login.autenticar(datosDeAutenticacion);
-
-         */
-
-        // Usuario u = null;
-
-        Usuario u = null;
-
-        try {
-            u = GestionUsuarios.buscarUsuario(52915); // para ingresar como miembro
-            // u = GestionUsuarios.buscarUsuario(20494); // para ingresar como administrador
-        } catch (UsuarioNoEncontradoException e) {
-            throw new RuntimeException(e);
-        }
 
         if (u != null)
             Menu.menu(u);

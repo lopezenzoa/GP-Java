@@ -7,7 +7,6 @@ import exception.UsuarioNoEncontradoException;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import proyecto.Proyecto;
 import usuario.Administrador;
 import usuario.Lider;
 import usuario.MiembroEquipo;
@@ -16,11 +15,15 @@ import usuario.Usuario;
 public class GestionUsuarios {
     public GestionUsuarios() {}
 
-    public static Usuario crearUsuario(String nombre, String apellido, String email, String titulo, Rol rol) {
+    public static MiembroEquipo crearMiembroEquipo(String nombre, String apellido, String email, String titulo, Rol rol) {
         return new MiembroEquipo(nombre, apellido, email, titulo, rol);
     }
 
-    public static Usuario crearUsuario(String nombre, String apellido, String email, String titulo) {
+    public static Lider crearLider(String nombre, String apellido, String email, String titulo) {
+        return new Lider(nombre, apellido, email, titulo);
+    }
+
+    public static Administrador crearAdministrador(String nombre, String apellido, String email, String titulo) {
         return new Administrador(nombre, apellido, email, titulo);
     }
 
@@ -109,7 +112,7 @@ public class GestionUsuarios {
             while (!miembroEncontrado && i < miembrosJSON.length()) {
                 MiembroEquipo m = new MiembroEquipo(miembrosJSON.getJSONObject(i));
 
-                if (m.equals(miembroEquipo)) {
+                if (m.getId() == miembroEquipo.getId()) {
                     m.baja();
 
                     // Se reemplaza el usuario en el arreglo
@@ -147,7 +150,7 @@ public class GestionUsuarios {
             while (!liderEncontrado && i < lideresJSON.length()) {
                 Lider l = new Lider(lideresJSON.getJSONObject(i));
 
-                if (l.equals(lider)) {
+                if (l.getId() == lider.getId()) {
                     l.baja();
 
                     // Se reemplaza el usuario en el arreglo
@@ -157,6 +160,7 @@ public class GestionUsuarios {
                     // Se agrega el arreglo modificado al objeto
                     usuariosJSON.put("lideres", lideresJSON);
                     OperacionesLectoEscritura.grabar("usuarios.json", usuariosJSON);
+                    liderEncontrado = true;
                 }
 
                 i++;
@@ -193,6 +197,7 @@ public class GestionUsuarios {
                     // Se agrega el arreglo modificado al objeto
                     usuariosJSON.put("administradores", adminsJSON);
                     OperacionesLectoEscritura.grabar("usuarios.json", usuariosJSON);
+                    adminEncontrado = true;
                 }
 
                 i++;
