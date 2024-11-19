@@ -43,12 +43,8 @@ public class Menu {
                 System.out.println("9. ELIMINAR MIEMBRO DEL PROYECTO");
                 System.out.println("10. CREAR TAREA EN PROYECTO");
             } else if (usuario instanceof Lider) {
-                System.out.println("1. CREAR USUARIO");
-                System.out.println("3. CREAR NUEVO PROYECTO");
-                System.out.println("4. ELIMINAR PROYECTO");
                 System.out.println("5. PROYECTOS INACTIVOS");
                 System.out.println("6. PROYECTOS ACTIVOS");
-                System.out.println("7. VER TAREAS");
                 System.out.println("8. AGREGAR MIEMBRO A UN PROYECTO");
                 System.out.println("9. ELIMINAR MIEMBRO DEL PROYECTO");
                 System.out.println("10. CREAR TAREA EN PROYECTO");
@@ -161,7 +157,7 @@ public class Menu {
                     }
                     break;
                 case 3:
-                    if (usuario instanceof Administrador || usuario instanceof Lider) {
+                    if (usuario instanceof Administrador) {
                         try {
                             System.out.println("* A continuacion, ingrese el ID del Lider del Proyecto");
                             int ID = scanner.nextInt();
@@ -192,7 +188,7 @@ public class Menu {
                     }
                     break;
                 case 4:
-                    if (usuario instanceof Administrador || usuario instanceof Lider) {
+                    if (usuario instanceof Administrador) {
                         try {
                             System.out.println("* A continuacion, ingrese el ID del Proyecto a eliminar");
                             int id = scanner.nextInt();

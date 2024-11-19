@@ -138,8 +138,8 @@ public class Main  {
 
         /* Niveles de Acceso */
         // 79152 - 20124 (Miembro)
-        // 21447 - 20099 (Lider)
-        // 24690 - 18190 (Administrador)
+        // 21447 - 18190 (Lider)
+        // 24690 - 20099 (Administrador)
 
         /* Eliminacion de Usuarios */
         // 57804 (Miembro)
