@@ -32,20 +32,33 @@ public class Menu {
             System.out.println("\tBienvenido/a " + usuario.getNombre());
             System.out.println();
             System.out.println("\t***** MENU USUARIO *****");
-            System.out.println("1. CREAR USUARIO");
-            System.out.println("2. ELIMINAR USUARIO");
-            System.out.println("3. CREAR NUEVO PROYECTO");
-            System.out.println("4. ELIMINAR PROYECTO");
-            System.out.println("5. PROYECTOS INACTIVOS");
-            System.out.println("6. PROYECTOS ACTIVOS");
-            System.out.println("7. VER TAREAS");
-            System.out.println("8. AGREGAR MIEMBRO A UN PROYECTO");
-            System.out.println("9. ELIMINAR MIEMBRO DEL PROYECTO");
-            System.out.println("10. CREAR TAREA EN PROYECTO");
-            System.out.println("11. FINALIZAR PROYECTO");
-            System.out.println("12. FINALIZAR TAREA");
-            System.out.println("13. VER TAREAS PENDIENTES DE UN PROYECTO");
-            System.out.println("14. VER TAREAS FINALIZADAS DE UN PROYECTO");
+            if (usuario instanceof Administrador) {
+                System.out.println("1. CREAR USUARIO");
+                System.out.println("2. ELIMINAR USUARIO");
+                System.out.println("3. CREAR NUEVO PROYECTO");
+                System.out.println("4. ELIMINAR PROYECTO");
+                System.out.println("5. PROYECTOS INACTIVOS");
+                System.out.println("6. PROYECTOS ACTIVOS");
+                System.out.println("8. AGREGAR MIEMBRO A UN PROYECTO");
+                System.out.println("9. ELIMINAR MIEMBRO DEL PROYECTO");
+                System.out.println("10. CREAR TAREA EN PROYECTO");
+            } else if (usuario instanceof Lider) {
+                System.out.println("1. CREAR USUARIO");
+                System.out.println("3. CREAR NUEVO PROYECTO");
+                System.out.println("4. ELIMINAR PROYECTO");
+                System.out.println("5. PROYECTOS INACTIVOS");
+                System.out.println("6. PROYECTOS ACTIVOS");
+                System.out.println("7. VER TAREAS");
+                System.out.println("8. AGREGAR MIEMBRO A UN PROYECTO");
+                System.out.println("9. ELIMINAR MIEMBRO DEL PROYECTO");
+                System.out.println("10. CREAR TAREA EN PROYECTO");
+            } else if (usuario instanceof MiembroEquipo) {
+                System.out.println("7. VER TAREAS");
+            } else {
+                System.out.println("No tienes permisos para acceder a este menú.");
+                return; // Sale del método si no hay ningún rol válido
+            }
+
             System.out.println("S. Salir");
 
             // Leer la opción del usuario
@@ -70,356 +83,294 @@ public class Menu {
             // Manejo de las opciones
             switch (option) {
                 case 1:
-                    clearConsole();
+                    if (usuario instanceof Administrador) {
+                        try {
+                            int caso = -1;
+                            System.out.println("* Ingrese tipo de Usuario a crear: \n [0] Miembro Equipo \n [1] Lider \n [2] Administrador");
+                            caso = scanner.nextInt();
+                            scanner.nextLine();
 
-                    try {
-                        int caso = -1;
-                        System.out.println("* Ingrese tipo de Usuario a crear: \n [0] Miembro Equipo \n [1] Lider \n [2] Administrador");
-                        caso = scanner.nextInt();
-                        scanner.nextLine();
+                            System.out.print("Ingrese Nombre del Usuario a crear: ");
+                            String nombre = scanner.nextLine();
+                            System.out.print("Ingrese Apellido del Usuario a crear: ");
+                            String apellido = scanner.nextLine();
+                            System.out.print("Ingrese Correo del Usuario a crear: ");
+                            String correo = scanner.nextLine();
+                            System.out.print("Ingrese el Titulo del Usuario a crear: ");
+                            String titulo = scanner.nextLine();
 
-                        System.out.print("Ingrese Nombre del Usuario a crear: ");
-                        String nombre = scanner.nextLine();
-                        System.out.print("Ingrese Apellido del Usuario a crear: ");
-                        String apellido = scanner.nextLine();
-                        System.out.print("Ingrese Correo del Usuario a crear: ");
-                        String correo = scanner.nextLine();
-                        System.out.print("Ingrese el Titulo del Usuario a crear: ");
-                        String titulo = scanner.nextLine();
-
-                        if (caso == 0 ) {
-                            try {
-                                GestionUsuarios.agregarUsuario(GestionUsuarios.crearMiembroEquipo(nombre,apellido,correo,titulo, Rol.DEVOPS));
-                            } catch (UsuarioExisteException e) {
+                            if (caso == 0) {
+                                try {
+                                    GestionUsuarios.agregarUsuario(GestionUsuarios.crearMiembroEquipo(nombre, apellido, correo, titulo, Rol.DEVOPS));
+                                } catch (UsuarioExisteException e) {
+                                    System.err.println(e.getMessage());
+                                    continue;
+                                }
+                            } else if (caso == 1) {
+                                try {
+                                    GestionUsuarios.agregarUsuario(GestionUsuarios.crearLider(nombre, apellido, correo, titulo));
+                                } catch (UsuarioExisteException e) {
+                                    System.err.println(e.getMessage());
+                                    continue;
+                                }
+                            } else if (caso == 2) {
+                                try {
+                                    GestionUsuarios.agregarUsuario(GestionUsuarios.crearAdministrador(nombre, apellido, correo, titulo));
+                                } catch (UsuarioExisteException e) {
+                                    System.err.println(e.getMessage());
+                                    continue;
+                                }
+                            } else {
+                                System.out.println();
+                                System.out.print("Opcion incorrecta");
+                            }
+                        } catch (Exception e) {
                                 System.err.println(e.getMessage());
                                 continue;
-                            }
-                        } else if(caso == 1) {
-                            try {
-                                GestionUsuarios.agregarUsuario(GestionUsuarios.crearLider(nombre,apellido,correo,titulo));
-                            } catch (UsuarioExisteException e) {
-                                System.err.println(e.getMessage());
-                                continue;
-                            }
-                        } else if(caso == 2) {
-                            try {
-                                GestionUsuarios.agregarUsuario(GestionUsuarios.crearAdministrador(nombre,apellido,correo,titulo));
-                            } catch (UsuarioExisteException e) {
-                                System.err.println(e.getMessage());
-                                continue;
-                            }
-                        } else {
-                            System.out.println();
-                            System.out.print("Opcion incorrecta");
                         }
-                    } catch (Exception e) {
-                        System.err.println(e.getMessage());
-                        continue;
+                    } else {
+                        System.out.println("No tienes permisos para crear un usuario.");
                     }
                     break;
                 case 2:
-                    try {
-                        int ID;
-                        System.out.println("* A continuacion, ingrese el ID del Usuario a eliminar");
-                        ID = scanner.nextInt();
-                        scanner.nextLine();
+                    if (usuario instanceof Administrador) {
+                        try {
+                            System.out.println("* A continuacion, ingrese el ID del Usuario que quiere eliminar");
+                            int ID = scanner.nextInt();
+                            scanner.nextLine();
 
-                        Usuario usuarioAeliminar = GestionUsuarios.buscarUsuario(ID);
+                            Usuario usuarioAeliminar = GestionUsuarios.buscarUsuario(ID);
 
-                        if (usuarioAeliminar instanceof Administrador) {
-                            GestionUsuarios.eliminarUsuario((Administrador) usuarioAeliminar);
-                        } else if(usuarioAeliminar instanceof Lider){
-                            GestionUsuarios.eliminarUsuario((Lider) usuarioAeliminar);
-                        } else if(usuarioAeliminar instanceof MiembroEquipo){
-                            GestionUsuarios.eliminarUsuario((MiembroEquipo) usuarioAeliminar);
+                            if (usuarioAeliminar instanceof Administrador) {
+                                GestionUsuarios.eliminarUsuario((Administrador) usuarioAeliminar);
+                            } else if (usuarioAeliminar instanceof Lider) {
+                                GestionUsuarios.eliminarUsuario((Lider) usuarioAeliminar);
+                            } else if (usuarioAeliminar instanceof MiembroEquipo) {
+                                GestionUsuarios.eliminarUsuario((MiembroEquipo) usuarioAeliminar);
+                            }
+
+                            System.out.println();
+                            System.out.println("El usuario se pudo modificar con exito!");
+                            System.out.println();
+                        } catch (UsuarioNoEncontradoException | InputMismatchException e) {
+                            System.err.println(e.getMessage());
+                            continue;
                         }
-
-                        System.out.println();
-                        System.out.println("El usuario se pudo modificar con exito!");
-                        System.out.println();
-                    } catch (UsuarioNoEncontradoException | InputMismatchException e) {
-                        System.err.println(e.getMessage());
-                        continue;
+                    } else {
+                        System.out.println("No tienes permisos para eliminar un usuario.");
                     }
                     break;
                 case 3:
-                    try {
-                        System.out.println("* A continuacion, ingrese el ID del Lider del Proyecto");
-                        int ID = scanner.nextInt();
-                        scanner.nextLine();
+                    if (usuario instanceof Administrador || usuario instanceof Lider) {
+                        try {
+                            System.out.println("* A continuacion, ingrese el ID del Lider del Proyecto");
+                            int ID = scanner.nextInt();
+                            scanner.nextLine();
 
-                        System.out.println("* A conitnuacion, ingrese el Nombre del Proyecto");
-                        String nombreProyecto = scanner.nextLine();
+                            System.out.println("* A conitnuacion, ingrese el Nombre del Proyecto");
+                            String nombreProyecto = scanner.nextLine();
 
-                        Proyecto p = null;
+                            Proyecto p = null;
+                            try {
+                                p = new Proyecto((Administrador) usuario, (Lider) GestionUsuarios.buscarUsuario(ID), nombreProyecto);
+                            } catch (UsuarioNoEncontradoException e) {
+                                throw new RuntimeException(e);
+                            }
 
-                        p = new Proyecto((Administrador)usuario, (Lider)GestionUsuarios.buscarUsuario(ID),nombreProyecto);
+                            p = new Proyecto((Administrador) usuario, (Lider) GestionUsuarios.buscarUsuario(ID), nombreProyecto);
 
-                        GestionProyecto.addProyecto(p); // solo administrador
-                        System.out.println();
-                        System.out.println("El proyecto fue creado con exito!");
-                        System.out.println();
-                    } catch (UsuarioNoEncontradoException | InputMismatchException e) {
-                        System.err.println(e.getMessage());
-                        continue;
+                            GestionProyecto.addProyecto(p); // solo administrador
+                            System.out.println();
+                            System.out.println("El proyecto fue creado con exito!");
+                            System.out.println();
+                        } catch (UsuarioNoEncontradoException | InputMismatchException e) {
+                            System.err.println(e.getMessage());
+                            continue;
+                        }
+                    } else {
+                        System.out.println("No tienes permisos para crear un nuevo proyecto.");
                     }
                     break;
                 case 4:
-                    try {
-                        System.out.println("* A continuacion, ingrese el ID del Proyecto a eliminar");
-                        int id = scanner.nextInt();
-                        scanner.nextLine();
+                    if (usuario instanceof Administrador || usuario instanceof Lider) {
+                        try {
+                            System.out.println("* A continuacion, ingrese el ID del Proyecto a eliminar");
+                            int id = scanner.nextInt();
+                            scanner.nextLine();
 
-                        Proyecto aEliminar = GestionProyecto.buscarProyectoPorID(id);
-                        GestionProyecto.removeProyecto(aEliminar.getId()); // solo administrador y lider
+                            Proyecto aEliminar = GestionProyecto.buscarProyectoPorID(id);
+                            GestionProyecto.removeProyecto(aEliminar.getId()); // solo administrador y lider
 
-                        System.out.println();
-                        System.out.println("El Proyecto con ID " + id + " se elimino con exito!");
-                        System.out.println();
-                    } catch (ProyectoNoEncontradoException | InputMismatchException e) {
-                        System.err.println(e.getMessage());
-                        continue;
+                            System.out.println();
+                            System.out.println("El Proyecto con ID " + id + " se elimino con exito!");
+                            System.out.println();
+                        } catch (ProyectoNoEncontradoException | InputMismatchException e) {
+                            System.err.println(e.getMessage());
+                            continue;
+                        }
+                    } else {
+                        System.out.println("No tienes permisos para eliminar un proyecto.");
                     }
                     break;
                 case 5:
-                    ArrayList<Proyecto> proyectosInactivos = GestionProyecto.verProyectosinactivos();
-
-                    System.out.println();
-                    if (proyectosInactivos.isEmpty())
-                        System.out.println("No hay proyectos inactivos");
-                    else
-                        for (Proyecto o : proyectosInactivos)
-                            System.out.println(o); // solo administrador y lider
-                    System.out.println();
-                    break;
-                case 6:
-                    ArrayList<Proyecto> proyectosActivos = GestionProyecto.verProyectosActivos();
-
-                    System.out.println();
-                    if (proyectosActivos.isEmpty())
-                        System.out.println("No hay proyectos activos");
-                    else
-                        for (Proyecto o : proyectosActivos)
-                            System.out.println(o); // solo administrador y lider
-                    System.out.println(); // solo administrador y lider
-                    break;
-                case 7:
-                    try {
-                        MiembroEquipo m = (MiembroEquipo) usuario;
+                    if (usuario instanceof Administrador || usuario instanceof Lider) {
+                        ArrayList<Proyecto> proyectosInactivos = GestionProyecto.verProyectosinactivos();
 
                         System.out.println();
-                        System.out.println(m.getProyectosEnCurso());
+                        if (proyectosInactivos.isEmpty())
+                            System.out.println("No hay proyectos inactivos");
+                        else
+                            for (Proyecto o : proyectosInactivos)
+                                System.out.println(o); // solo administrador y lider
+                        System.out.println();
+                    } else {
+                        System.out.println("No tienes permisos para ver proyectos inactivos.");
+                    }
+                    break;
+                case 6:
+                    if (usuario instanceof Administrador || usuario instanceof Lider ) {
+                        ArrayList<Proyecto> proyectosActivos = GestionProyecto.verProyectosActivos();
 
-                        // Pedir el ID del proyecto que se quiere consultar
-                        System.out.println("* A continuacion, ingrese el ID del Proyecto a consultar");
-                        int idProyecto = scanner.nextInt();
-                        scanner.nextLine();
+                        System.out.println();
+                        if (proyectosActivos.isEmpty())
+                            System.out.println("No hay proyectos activos");
+                        else
+                            for (Proyecto o : proyectosActivos)
+                                System.out.println(o); // solo administrador y lider
+                        System.out.println(); // solo administrador y lider
+                    } else {
+                        System.out.println("No tienes permisos para ver proyectos activos.");
+                    }
+                    break;
+                case 7:
+                    if (usuario instanceof MiembroEquipo) {
+                        try {
+                            MiembroEquipo m = (MiembroEquipo) usuario;
 
-                        ArrayList<Tarea> tareas = GestionProyecto.tareasDeMiembro(idProyecto, m);
-                        for (Tarea t : tareas)
-                            System.out.println(t); // solo miembros
-                    } catch (ProyectoNoEncontradoException | InputMismatchException | ClassCastException e) {
-                        System.err.println(e.getMessage());
-                        continue;
+                            System.out.println();
+                            System.out.println(m.getProyectosEnCurso());
+
+                            // Pedir el ID del proyecto que se quiere consultar
+                            System.out.println("* A continuacion, ingrese el ID del Proyecto a consultar");
+                            int idProyecto = scanner.nextInt();
+                            scanner.nextLine();
+
+                            ArrayList<Tarea> tareas = GestionProyecto.tareasDeMiembro(idProyecto, m);
+                            for (Tarea t : tareas)
+                                System.out.println(t);
+                        } catch (ProyectoNoEncontradoException | InputMismatchException | ClassCastException e) {
+                            System.err.println(e.getMessage());
+                            continue;
+                        }
+                    } else {
+                        System.out.println("No tienes permisos para ver tareas.");
                     }
                     break;
                 case 8:
-                    MiembroEquipo m = null;
-                    int idProyecto;
+                    if (usuario instanceof Administrador || usuario instanceof Lider) {
+                        MiembroEquipo m = null;
+                        int idProyecto;
 
-                    try {
-                        System.out.println("* A continuacion, ingrese el ID del Proyecto");
-                        idProyecto = scanner.nextInt();
-                        scanner.nextLine();
+                        try {
+                            System.out.println("* A continuacion, ingrese el ID del Proyecto");
+                            idProyecto = scanner.nextInt();
+                            scanner.nextLine();
 
-                        System.out.println("* A continuacion, ingrese el ID del Miembro que integrara el equipo del Proyecto");
-                        int idMiembro = scanner.nextInt();
-                        scanner.nextLine();
+                            System.out.println("* A continuacion, ingrese el ID del Miembro que integrara el equipo del Proyecto");
+                            int idMiembro = scanner.nextInt();
+                            scanner.nextLine();
 
-                        m = (MiembroEquipo) GestionUsuarios.buscarUsuario(idMiembro);
-                        GestionProyecto.agregarMiembroAlEquipo(idProyecto, m); // solo administrador y lider
-                    } catch (UsuarioNoEncontradoException | UsuarioExisteException | InputMismatchException e) {
-                        System.err.println(e.getMessage());
-                        continue;
-                    }
+                            m = (MiembroEquipo) GestionUsuarios.buscarUsuario(idMiembro);
+                            GestionProyecto.agregarMiembroAlEquipo(idProyecto, m); // solo administrador y lider
 
-                    // Se agrega el proyecto a la lista de proyectos en curso del miembro
-                    try {
-                        MiembroEquipo m_modificado = m;
-                        Proyecto p = GestionProyecto.buscarProyectoPorID(idProyecto);
+                            MiembroEquipo m_modificado = m;
+                            Proyecto p = null;
 
-                        // Se agrega al atributo 'proyectosEnCurso' del miembro
-                        m_modificado.agregarProyecto(p.getNombre());
-                        GestionUsuarios.modificarUsuario(m, m_modificado);
+                            p = GestionProyecto.buscarProyectoPorID(idProyecto);
 
-                        System.out.println();
-                        System.out.println("El usuario fue agregado al equipo con exito!");
-                        System.out.println();
-                    } catch (ProyectoNoEncontradoException | ClassCastException e) {
-                        System.err.println(e.getMessage());
-                        continue;
+                            // Se agrega al atributo 'proyectosEnCurso' del miembro
+                            m_modificado.agregarProyecto(p.getNombre());
+                            GestionUsuarios.modificarUsuario(m, m_modificado);
+
+                            System.out.println();
+                            System.out.println("El usuario fue agregado al equipo con exito!");
+                            System.out.println();
+                        } catch (UsuarioNoEncontradoException | UsuarioExisteException | InputMismatchException | ProyectoNoEncontradoException e) {
+                            System.err.println(e.getMessage());
+                            continue;
+                        }
+                    } else {
+                        System.out.println("No tienes permisos para agregar miembros a un proyecto.");
                     }
                     break;
                 case 9:
-                    try {
-                        System.out.println("* A continuacion, ingrese el ID del Proyecto");
-                        idProyecto = scanner.nextInt();
-                        scanner.nextLine();
+                    if (usuario instanceof Administrador || usuario instanceof Lider) {
+                        try {
+                            System.out.println("* A continuacion, ingrese el ID del Proyecto");
+                            int idProyecto = scanner.nextInt();
+                            scanner.nextLine();
 
-                        System.out.println("* A continuacion, ingrese el ID del Miembro que ya no integrara el equipo del Proyecto");
-                        int idMiembro = scanner.nextInt();
-                        scanner.nextLine();
+                            System.out.println("* A continuacion, ingrese el ID del Miembro que ya no integrara el equipo del Proyecto");
+                            int idMiembro = scanner.nextInt();
+                            scanner.nextLine();
 
-                        m = (MiembroEquipo) GestionUsuarios.buscarUsuario(idMiembro);
-                        GestionProyecto.eliminarMiembroDelEquipo(idProyecto, m.getId()); // solo administrador y lider
-                    } catch (UsuarioNoEncontradoException | InputMismatchException e) {
-                        System.err.println(e.getMessage());
-                        continue;
-                    }
+                            MiembroEquipo m = null;
 
-                    // Se agrega el proyecto a la lista de proyectos en curso del miembro
-                    try {
-                        MiembroEquipo m_modificado = m;
-                        Proyecto p = GestionProyecto.buscarProyectoPorID(idProyecto);
+                            m = (MiembroEquipo) GestionUsuarios.buscarUsuario(idMiembro);
+                            GestionProyecto.eliminarMiembroDelEquipo(idProyecto, m.getId());
 
-                        // Se elimina atributo 'proyectosEnCurso' del miembro
-                        m_modificado.eliminarProyecto(p.getNombre());
-                        GestionUsuarios.modificarUsuario(m, m_modificado);
+                            MiembroEquipo m_modificado = m;
+                            Proyecto p = GestionProyecto.buscarProyectoPorID(idProyecto);
 
-                        System.out.println();
-                        System.out.println("El usuario fue eliminado del equipo con exito!");
-                        System.out.println();
-                    } catch (ProyectoNoEncontradoException | ClassCastException e) {
-                        System.err.println(e.getMessage());
-                        continue;
+                            // Se elimina atributo 'proyectosEnCurso' del miembro
+                            m_modificado.eliminarProyecto(p.getNombre());
+                            GestionUsuarios.modificarUsuario(m, m_modificado);
+
+                            System.out.println();
+                            System.out.println("El usuario fue eliminado del equipo con exito!");
+                            System.out.println();
+                        } catch (UsuarioNoEncontradoException | InputMismatchException | ProyectoNoEncontradoException | ClassCastException e) {
+                            System.err.println(e.getMessage());
+                            continue;
+                        }
+                    } else {
+                        System.out.println("No tienes permisos para eliminar miembros de un proyecto.");
                     }
                     break;
                 case 10:
-                    MiembroEquipo responsable = null;
-
-                    try {
+                    if (usuario instanceof Administrador || usuario instanceof Lider) {
+                        MiembroEquipo responsable = null;
                         int idResponsable;
-                        System.out.println("* A continuacion, ingrese el ID del responsable de la tarea");
-                        idResponsable = scanner.nextInt();
-                        scanner.nextLine();
 
-                        responsable = (MiembroEquipo)GestionUsuarios.buscarUsuario(idResponsable);
-                    } catch (UsuarioNoEncontradoException | InputMismatchException | ClassCastException e) {
-                        System.err.println(e.getMessage());
-                        continue;
-                    }
+                        try {
+                            System.out.println("* A continuacion, ingrese el ID del responsable de la tarea");
+                            idResponsable = scanner.nextInt();
+                            scanner.nextLine();
 
-                    // Pedir al usuario el ID del proyecto al que se quiere agregar la tarea
-                    try {
-                        System.out.println("* A continuacion, ingrese el ID del Proyecto");
-                        idProyecto = scanner.nextInt();
-                        scanner.nextLine();
+                            responsable = (MiembroEquipo) GestionUsuarios.buscarUsuario(idResponsable);
 
-                        System.out.println("* A continuacion, ingrese el titulo de la Tarea");
-                        String titulo = scanner.nextLine();
+                            System.out.println("* A continuacion, ingrese el ID del Proyecto");
+                            int idProyecto = scanner.nextInt();
+                            scanner.nextLine();
 
-                        System.out.println("* Por ultimo, ingrese la descripcion de la Tarea");
-                        String descripcion = scanner.nextLine();
+                            System.out.println("* A continuacion, ingrese el titulo de la Tarea");
+                            String titulo = scanner.nextLine();
 
-                        Tarea t = new Tarea(titulo,descripcion,responsable);
+                            System.out.println("* Por ultimo, ingrese la descripcion de la Tarea");
+                            String descripcion = scanner.nextLine();
 
-                        GestionProyecto.agregarTareaAlProyecto(idProyecto, t); // solo administrador y lider
+                            Tarea t = new Tarea(titulo, descripcion, responsable);
+                            GestionProyecto.agregarTareaAlProyecto(idProyecto, t); // solo administrador y lider
 
-                        System.out.println();
-                        System.out.println("La tarea fue agregada con exito al proyecto");
-                        System.out.println();
-                    } catch (ProyectoNoEncontradoException | InputMismatchException e) {
-                        System.err.println(e.getMessage());
-                        continue;
-                    }
-                    break;
-                case 11:
-                    // Solo administradores y lideres
-
-                    // Pedir al usuario el ID del proyecto al que se quiere finalizar
-
-                    try {
-                        System.out.println("* A continuacion, ingrese el ID del Proyecto");
-                        idProyecto = scanner.nextInt();
-                        scanner.nextLine();
-
-                        Proyecto p = GestionProyecto.buscarProyectoPorID(idProyecto);
-                        GestionProyecto.finalizarProyecto(p);
-
-                        System.out.println();
-                        System.out.println("El Proyecto fue finalizado con exito!");
-                        System.out.println();
-                    } catch (ProyectoNoEncontradoException | InputMismatchException e) {
-                        System.err.println(e.getMessage());
-                        continue;
-                    }
-                    break;
-                case 12:
-                    // Solo para administradores y lideres
-                    // Pedir al usuario el ID del proyecto al que se quiere finalizar
-                    try {
-                        System.out.println("* A continuacion, ingrese el ID del Proyecto");
-                        idProyecto = scanner.nextInt();
-                        scanner.nextLine();
-
-                        // Pedir al usuario el ID de la tarea que se quiere finalizar
-                        System.out.println("* A continuacion, ingrese el ID de la Tarea que quiere finalizar");
-                        int idTarea = scanner.nextInt();
-                        scanner.nextLine();
-
-                        Tarea t = GestionProyecto.buscarTareaPorID(idProyecto, idTarea);
-                        GestionProyecto.finalizarTarea(idProyecto, t);
-
-                        System.out.println();
-                        System.out.println("La tarea fue finalizada con exito!");
-                        System.out.println();
-                    } catch (ProyectoNoEncontradoException | TareaNoEncontradaException | InputMismatchException e) {
-                        System.err.println(e.getMessage());
-                        continue;
-                    }
-                    break;
-                case 13:
-                    // Solo administradores y lideres
-                    // Pedir al usuario el ID del proyecto al que se quiere finalizar
-                    try {
-                        System.out.println("* A continuacion, ingrese el ID del Proyecto");
-                        idProyecto = scanner.nextInt();
-                        scanner.nextLine();
-
-                        ArrayList<Tarea> tareasPendientes = GestionProyecto.verTareasPendientes(idProyecto);
-
-                        System.out.println();
-                        if (tareasPendientes.isEmpty())
-                            System.out.println("No hay Tareas pendientes");
-                        else
-                            for (Tarea tarea : tareasPendientes)
-                                System.out.println(tarea); // solo administrador y lider
-                        System.out.println();
-                    } catch (ProyectoNoEncontradoException | InputMismatchException e) {
-                        System.err.println(e.getMessage());
-                        continue;
-                    }
-                    break;
-                case 14:
-                    // Solo administradores y lideres
-                    // Pedir al usuario el ID del proyecto al que se quiere finalizar
-                    try {
-                        System.out.println("* A continuacion, ingrese el ID del Proyecto");
-                        idProyecto = scanner.nextInt();
-                        scanner.nextLine();
-
-                        ArrayList<Tarea> tareasFinalizadas = GestionProyecto.verTareasFinalizadas(idProyecto);
-
-                        System.out.println();
-                        if (tareasFinalizadas.isEmpty())
-                            System.out.println("No hya tareas finalizadas");
-                        else
-                            for (Tarea tarea : tareasFinalizadas)
-                                System.out.println(tarea); // solo administrador y lider
-                        System.out.println();
-                    } catch (ProyectoNoEncontradoException | InputMismatchException e) {
-                        System.err.println(e.getMessage());
-                        continue;
+                            System.out.println();
+                            System.out.println("La tarea fue agregada con exito al proyecto");
+                            System.out.println();
+                        } catch (UsuarioNoEncontradoException | InputMismatchException | ClassCastException | ProyectoNoEncontradoException e) {
+                            System.err.println(e.getMessage());
+                            continue;
+                        }
+                    } else {
+                        System.out.println("No tienes permisos para crear tareas en un proyecto.");
                     }
                     break;
                 default:
@@ -436,9 +387,8 @@ public class Menu {
         try {
             // Ejecuta el comando cls en Windows
             new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-        } catch (InterruptedException | IOException e) {
+        } catch (IOException | InterruptedException e) {
             System.out.println("No se pudo limpiar la consola.");
         }
     }
-
 }
