@@ -19,8 +19,9 @@ public class MiembroEquipo extends Usuario implements ABMLable<MiembroEquipo> {
                          String apellido,
                          String email,
                          String titulo,
+                         int password,
                          Rol rol) {
-        super(nombre, apellido, email, titulo);
+        super(nombre, apellido, email, titulo, password);
         this.proyectosEnCurso = new HashSet<>();
         this.rol = rol;
     }

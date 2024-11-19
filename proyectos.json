@@ -4,20 +4,22 @@
       "altaObaja": "ACTIVO",
       "administrador": {
         "estado": "ACTIVO",
+        "password": 1234,
         "lideresACargo": [],
         "apellido": "Richiardi",
         "titulo": "Computer Science",
-        "id": 78952,
+        "id": 73488,
         "nombre": "Monica",
         "email": "moni@hotmail.com"
       },
       "estado": "PENDIENTE",
       "lider": {
         "estado": "ACTIVO",
+        "password": 1234,
         "miembrosACargo": [],
         "apellido": "Wazowszki",
         "titulo": "Asustador",
-        "id": 21447,
+        "id": 13253,
         "nombre": "Mike",
         "email": "Mikewazawski@gmail.com",
         "proyectosEnCurso": []
@@ -25,9 +27,10 @@
       "equipo": [
         {
           "estado": "ACTIVO",
+          "password": 1234,
           "apellido": "Fernandez",
           "titulo": "Futbolista",
-          "id": 57804,
+          "id": 30519,
           "nombre": "Enzo",
           "email": "elmaleducado21@gmail.com",
           "rol": "DEVOPS",
@@ -35,9 +38,10 @@
         },
         {
           "estado": "ACTIVO",
+          "password": 1234,
           "apellido": "Messi",
           "titulo": "Futbolista",
-          "id": 79152,
+          "id": 52035,
           "nombre": "Lionel",
           "email": "lapulga10@gmail.com",
           "rol": "DEVOPS",
@@ -45,9 +49,10 @@
         },
         {
           "estado": "ACTIVO",
+          "password": 1234,
           "apellido": "Aguero",
           "titulo": "Streamer",
-          "id": 37880,
+          "id": 53015,
           "nombre": "Sergio",
           "email": "kunaguero@gmail.com",
           "rol": "DEVOPS",
@@ -55,9 +60,10 @@
         },
         {
           "estado": "ACTIVO",
+          "password": 1234,
           "apellido": "DiMaria",
           "titulo": "Futbolista",
-          "id": 94743,
+          "id": 28673,
           "nombre": "Angel",
           "email": "fideo11@gmail.com",
           "rol": "DEVOPS",
@@ -65,16 +71,17 @@
         },
         {
           "estado": "ACTIVO",
+          "password": 1234,
           "apellido": "Martinez",
           "titulo": "Arquero",
-          "id": 69424,
+          "id": 53469,
           "nombre": "Emiliano",
           "email": "dibu1@gmail.com",
           "rol": "DEVOPS",
           "proyectosEnCurso": []
         }
       ],
-      "id": 87599,
+      "id": 90750,
       "tareas": [
         {
           "descripcion": "Creamos e instanciamos las clases. Primer commit",
@@ -82,16 +89,17 @@
           "estado": "PENDIENTE",
           "responsable": {
             "estado": "ACTIVO",
+            "password": 1234,
             "apellido": "Fernandez",
             "titulo": "Futbolista",
-            "id": 57804,
+            "id": 30519,
             "nombre": "Enzo",
             "email": "elmaleducado21@gmail.com",
             "rol": "DEVOPS",
             "proyectosEnCurso": []
           },
           "titulo": "Sprint 1",
-          "id": 20740
+          "id": 70315
         },
         {
           "descripcion": "Instanciar clases. Segundo commit",
@@ -99,16 +107,17 @@
           "estado": "PENDIENTE",
           "responsable": {
             "estado": "ACTIVO",
+            "password": 1234,
             "apellido": "Messi",
             "titulo": "Futbolista",
-            "id": 79152,
+            "id": 52035,
             "nombre": "Lionel",
             "email": "lapulga10@gmail.com",
             "rol": "DEVOPS",
             "proyectosEnCurso": []
           },
           "titulo": "Sprint 2",
-          "id": 13293
+          "id": 71745
         },
         {
           "descripcion": "Primer prueba",
@@ -116,16 +125,17 @@
           "estado": "PENDIENTE",
           "responsable": {
             "estado": "ACTIVO",
+            "password": 1234,
             "apellido": "DiMaria",
             "titulo": "Futbolista",
-            "id": 94743,
+            "id": 28673,
             "nombre": "Angel",
             "email": "fideo11@gmail.com",
             "rol": "DEVOPS",
             "proyectosEnCurso": []
           },
           "titulo": "Sprint 3",
-          "id": 16312
+          "id": 33408
         },
         {
           "descripcion": "Implementamos los métodos principales y realizamos pruebas iniciales",
@@ -133,16 +143,17 @@
           "estado": "PENDIENTE",
           "responsable": {
             "estado": "ACTIVO",
+            "password": 1234,
             "apellido": "Aguero",
             "titulo": "Streamer",
-            "id": 37880,
+            "id": 53015,
             "nombre": "Sergio",
             "email": "kunaguero@gmail.com",
             "rol": "DEVOPS",
             "proyectosEnCurso": []
           },
           "titulo": "Sprint 2",
-          "id": 11272
+          "id": 39534
         },
         {
           "descripcion": "Optimizamos el código y documentamos el proyecto",
@@ -150,16 +161,17 @@
           "estado": "PENDIENTE",
           "responsable": {
             "estado": "ACTIVO",
+            "password": 1234,
             "apellido": "Martinez",
             "titulo": "Arquero",
-            "id": 69424,
+            "id": 53469,
             "nombre": "Emiliano",
             "email": "dibu1@gmail.com",
             "rol": "DEVOPS",
             "proyectosEnCurso": []
           },
           "titulo": "Sprint 3",
-          "id": 4578
+          "id": 34786
         }
       ],
       "nombre": "TPFINAL"
@@ -168,20 +180,22 @@
       "altaObaja": "ACTIVO",
       "administrador": {
         "estado": "ACTIVO",
+        "password": 1234,
         "lideresACargo": [],
         "apellido": "II",
         "titulo": "Emperador",
-        "id": 24690,
+        "id": 39940,
         "nombre": "Cesar",
         "email": "ceseremperador@hotmail.com"
       },
       "estado": "PENDIENTE",
       "lider": {
         "estado": "ACTIVO",
+        "password": 1234,
         "miembrosACargo": [],
         "apellido": "Mikelson",
         "titulo": "Asustador",
-        "id": 19965,
+        "id": 4487,
         "nombre": "Sullivan",
         "email": "sullivan@gmail.com",
         "proyectosEnCurso": []
@@ -189,9 +203,10 @@
       "equipo": [
         {
           "estado": "ACTIVO",
+          "password": 1234,
           "apellido": "Fernandez",
           "titulo": "Futbolista",
-          "id": 57804,
+          "id": 30519,
           "nombre": "Enzo",
           "email": "elmaleducado21@gmail.com",
           "rol": "DEVOPS",
@@ -199,9 +214,10 @@
         },
         {
           "estado": "ACTIVO",
+          "password": 1234,
           "apellido": "Messi",
           "titulo": "Futbolista",
-          "id": 79152,
+          "id": 52035,
           "nombre": "Lionel",
           "email": "lapulga10@gmail.com",
           "rol": "DEVOPS",
@@ -209,9 +225,10 @@
         },
         {
           "estado": "ACTIVO",
+          "password": 1234,
           "apellido": "Aguero",
           "titulo": "Streamer",
-          "id": 37880,
+          "id": 53015,
           "nombre": "Sergio",
           "email": "kunaguero@gmail.com",
           "rol": "DEVOPS",
@@ -219,16 +236,17 @@
         },
         {
           "estado": "ACTIVO",
+          "password": 1234,
           "apellido": "DiMaria",
           "titulo": "Futbolista",
-          "id": 94743,
+          "id": 28673,
           "nombre": "Angel",
           "email": "fideo11@gmail.com",
           "rol": "DEVOPS",
           "proyectosEnCurso": []
         }
       ],
-      "id": 42975,
+      "id": 63416,
       "tareas": [
         {
           "descripcion": "Creamos e instanciamos las clases. Primer commit",
@@ -236,16 +254,17 @@
           "estado": "PENDIENTE",
           "responsable": {
             "estado": "ACTIVO",
+            "password": 1234,
             "apellido": "Fernandez",
             "titulo": "Futbolista",
-            "id": 57804,
+            "id": 30519,
             "nombre": "Enzo",
             "email": "elmaleducado21@gmail.com",
             "rol": "DEVOPS",
             "proyectosEnCurso": []
           },
           "titulo": "Sprint 1",
-          "id": 20740
+          "id": 70315
         },
         {
           "descripcion": "Instanciar clases. Segundo commit",
@@ -253,16 +272,17 @@
           "estado": "PENDIENTE",
           "responsable": {
             "estado": "ACTIVO",
+            "password": 1234,
             "apellido": "Messi",
             "titulo": "Futbolista",
-            "id": 79152,
+            "id": 52035,
             "nombre": "Lionel",
             "email": "lapulga10@gmail.com",
             "rol": "DEVOPS",
             "proyectosEnCurso": []
           },
           "titulo": "Sprint 2",
-          "id": 13293
+          "id": 71745
         },
         {
           "descripcion": "Primer prueba",
@@ -270,16 +290,17 @@
           "estado": "PENDIENTE",
           "responsable": {
             "estado": "ACTIVO",
+            "password": 1234,
             "apellido": "DiMaria",
             "titulo": "Futbolista",
-            "id": 94743,
+            "id": 28673,
             "nombre": "Angel",
             "email": "fideo11@gmail.com",
             "rol": "DEVOPS",
             "proyectosEnCurso": []
           },
           "titulo": "Sprint 3",
-          "id": 16312
+          "id": 33408
         },
         {
           "descripcion": "Implementamos los métodos principales y realizamos pruebas iniciales",
@@ -287,16 +308,17 @@
           "estado": "PENDIENTE",
           "responsable": {
             "estado": "ACTIVO",
+            "password": 1234,
             "apellido": "Aguero",
             "titulo": "Streamer",
-            "id": 37880,
+            "id": 53015,
             "nombre": "Sergio",
             "email": "kunaguero@gmail.com",
             "rol": "DEVOPS",
             "proyectosEnCurso": []
           },
           "titulo": "Sprint 2",
-          "id": 11272
+          "id": 39534
         }
       ],
       "nombre": "Aplicación Web"
@@ -305,20 +327,22 @@
       "altaObaja": "ACTIVO",
       "administrador": {
         "estado": "ACTIVO",
+        "password": 1234,
         "lideresACargo": [],
         "apellido": "González",
         "titulo": "Information Systems",
-        "id": 45426,
+        "id": 25419,
         "nombre": "Lucas",
         "email": "lucas.gonzalez@example.com"
       },
       "estado": "PENDIENTE",
       "lider": {
         "estado": "ACTIVO",
+        "password": 1234,
         "miembrosACargo": [],
         "apellido": "Boggs",
         "titulo": "Asustador Experto",
-        "id": 51610,
+        "id": 94033,
         "nombre": "Randall",
         "email": "randall.boggs@gmail.com",
         "proyectosEnCurso": []
@@ -326,9 +350,10 @@
       "equipo": [
         {
           "estado": "ACTIVO",
+          "password": 1234,
           "apellido": "Fernandez",
           "titulo": "Futbolista",
-          "id": 57804,
+          "id": 30519,
           "nombre": "Enzo",
           "email": "elmaleducado21@gmail.com",
           "rol": "DEVOPS",
@@ -336,9 +361,10 @@
         },
         {
           "estado": "ACTIVO",
+          "password": 1234,
           "apellido": "Messi",
           "titulo": "Futbolista",
-          "id": 79152,
+          "id": 52035,
           "nombre": "Lionel",
           "email": "lapulga10@gmail.com",
           "rol": "DEVOPS",
@@ -346,16 +372,17 @@
         },
         {
           "estado": "ACTIVO",
+          "password": 1234,
           "apellido": "Aguero",
           "titulo": "Streamer",
-          "id": 37880,
+          "id": 53015,
           "nombre": "Sergio",
           "email": "kunaguero@gmail.com",
           "rol": "DEVOPS",
           "proyectosEnCurso": []
         }
       ],
-      "id": 43369,
+      "id": 4791,
       "tareas": [
         {
           "descripcion": "Creamos e instanciamos las clases. Primer commit",
@@ -363,16 +390,17 @@
           "estado": "PENDIENTE",
           "responsable": {
             "estado": "ACTIVO",
+            "password": 1234,
             "apellido": "Fernandez",
             "titulo": "Futbolista",
-            "id": 57804,
+            "id": 30519,
             "nombre": "Enzo",
             "email": "elmaleducado21@gmail.com",
             "rol": "DEVOPS",
             "proyectosEnCurso": []
           },
           "titulo": "Sprint 1",
-          "id": 20740
+          "id": 70315
         },
         {
           "descripcion": "Instanciar clases. Segundo commit",
@@ -380,16 +408,17 @@
           "estado": "PENDIENTE",
           "responsable": {
             "estado": "ACTIVO",
+            "password": 1234,
             "apellido": "Messi",
             "titulo": "Futbolista",
-            "id": 79152,
+            "id": 52035,
             "nombre": "Lionel",
             "email": "lapulga10@gmail.com",
             "rol": "DEVOPS",
             "proyectosEnCurso": []
           },
           "titulo": "Sprint 2",
-          "id": 13293
+          "id": 71745
         },
         {
           "descripcion": "Primer prueba",
@@ -397,16 +426,17 @@
           "estado": "PENDIENTE",
           "responsable": {
             "estado": "ACTIVO",
+            "password": 1234,
             "apellido": "DiMaria",
             "titulo": "Futbolista",
-            "id": 94743,
+            "id": 28673,
             "nombre": "Angel",
             "email": "fideo11@gmail.com",
             "rol": "DEVOPS",
             "proyectosEnCurso": []
           },
           "titulo": "Sprint 3",
-          "id": 16312
+          "id": 33408
         }
       ],
       "nombre": "Diseño de la DB"
@@ -415,20 +445,22 @@
       "altaObaja": "ACTIVO",
       "administrador": {
         "estado": "ACTIVO",
+        "password": 1234,
         "lideresACargo": [],
         "apellido": "Ramírez",
         "titulo": "Software Engineering",
-        "id": 87973,
+        "id": 71390,
         "nombre": "Carla",
         "email": "carla.ramirez@example.com"
       },
       "estado": "PENDIENTE",
       "lider": {
         "estado": "ACTIVO",
+        "password": 1234,
         "miembrosACargo": [],
         "apellido": "Doe",
         "titulo": "Supervisora",
-        "id": 78000,
+        "id": 74260,
         "nombre": "Roz",
         "email": "roz.doe@gmail.com",
         "proyectosEnCurso": []
@@ -436,9 +468,10 @@
       "equipo": [
         {
           "estado": "ACTIVO",
+          "password": 1234,
           "apellido": "Fernandez",
           "titulo": "Futbolista",
-          "id": 57804,
+          "id": 30519,
           "nombre": "Enzo",
           "email": "elmaleducado21@gmail.com",
           "rol": "DEVOPS",
@@ -446,16 +479,17 @@
         },
         {
           "estado": "ACTIVO",
+          "password": 1234,
           "apellido": "Messi",
           "titulo": "Futbolista",
-          "id": 79152,
+          "id": 52035,
           "nombre": "Lionel",
           "email": "lapulga10@gmail.com",
           "rol": "DEVOPS",
           "proyectosEnCurso": []
         }
       ],
-      "id": 44968,
+      "id": 9859,
       "tareas": [
         {
           "descripcion": "Creamos e instanciamos las clases. Primer commit",
@@ -463,16 +497,17 @@
           "estado": "PENDIENTE",
           "responsable": {
             "estado": "ACTIVO",
+            "password": 1234,
             "apellido": "Fernandez",
             "titulo": "Futbolista",
-            "id": 57804,
+            "id": 30519,
             "nombre": "Enzo",
             "email": "elmaleducado21@gmail.com",
             "rol": "DEVOPS",
             "proyectosEnCurso": []
           },
           "titulo": "Sprint 1",
-          "id": 20740
+          "id": 70315
         },
         {
           "descripcion": "Instanciar clases. Segundo commit",
@@ -480,16 +515,17 @@
           "estado": "PENDIENTE",
           "responsable": {
             "estado": "ACTIVO",
+            "password": 1234,
             "apellido": "Messi",
             "titulo": "Futbolista",
-            "id": 79152,
+            "id": 52035,
             "nombre": "Lionel",
             "email": "lapulga10@gmail.com",
             "rol": "DEVOPS",
             "proyectosEnCurso": []
           },
           "titulo": "Sprint 2",
-          "id": 13293
+          "id": 71745
         }
       ],
       "nombre": "Rediseño de la pagina principal"
@@ -498,20 +534,22 @@
       "altaObaja": "ACTIVO",
       "administrador": {
         "estado": "ACTIVO",
+        "password": 1234,
         "lideresACargo": [],
         "apellido": "Fernández",
         "titulo": "Data Science",
-        "id": 95694,
+        "id": 14268,
         "nombre": "Diego",
         "email": "diego.fernandez@example.com"
       },
       "estado": "PENDIENTE",
       "lider": {
         "estado": "ACTIVO",
+        "password": 1234,
         "miembrosACargo": [],
         "apellido": "Mae",
         "titulo": "Recepcionista",
-        "id": 93894,
+        "id": 47153,
         "nombre": "Celia",
         "email": "celia.mae@gmail.com",
         "proyectosEnCurso": []
@@ -519,16 +557,17 @@
       "equipo": [
         {
           "estado": "ACTIVO",
+          "password": 1234,
           "apellido": "Fernandez",
           "titulo": "Futbolista",
-          "id": 57804,
+          "id": 30519,
           "nombre": "Enzo",
           "email": "elmaleducado21@gmail.com",
           "rol": "DEVOPS",
           "proyectosEnCurso": []
         }
       ],
-      "id": 25303,
+      "id": 57613,
       "tareas": [
         {
           "descripcion": "Creamos e instanciamos las clases. Primer commit",
@@ -536,16 +575,17 @@
           "estado": "PENDIENTE",
           "responsable": {
             "estado": "ACTIVO",
+            "password": 1234,
             "apellido": "Fernandez",
             "titulo": "Futbolista",
-            "id": 57804,
+            "id": 30519,
             "nombre": "Enzo",
             "email": "elmaleducado21@gmail.com",
             "rol": "DEVOPS",
             "proyectosEnCurso": []
           },
           "titulo": "Sprint 1",
-          "id": 20740
+          "id": 70315
         }
       ],
       "nombre": "Otro Proyecto"

@@ -13,14 +13,16 @@ public abstract class Usuario {
     private String email;
     private String titulo;
     private AltaBaja altaObaja;
+    private int password;
 
-    public Usuario(String nombre, String apellido, String email, String titulo) {
+    public Usuario(String nombre, String apellido, String email, String titulo, int password) {
         this.id = (int) (Math.random() * 100000 + 1);
         this.nombre = nombre;
         this.apellido = apellido;
         this.email = email;
         this.titulo = titulo;
         this.altaObaja = AltaBaja.ACTIVO;
+        this.password = password;
     }
 
     /**
@@ -35,6 +37,7 @@ public abstract class Usuario {
             this.apellido = jsonObject.getString("apellido");
             this.email = jsonObject.getString("email");
             this.titulo = jsonObject.getString("titulo");
+            this.password = jsonObject.getInt("password");
 
             String altaOBajaJSON = jsonObject.getString("estado");
             this.altaObaja = AltaBaja.valueOf(altaOBajaJSON);
@@ -91,6 +94,10 @@ public abstract class Usuario {
         this.altaObaja = altaObaja;
     }
 
+    public int getPassword() {
+        return password;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -128,7 +135,8 @@ public abstract class Usuario {
             usuarioJson.put("apellido", apellido);
             usuarioJson.put("email", email);
             usuarioJson.put("titulo", titulo);
-            usuarioJson.put("estado", altaObaja.toString() );
+            usuarioJson.put("estado", altaObaja.toString());
+            usuarioJson.put("password", password);
 
         } catch (JSONException e){
             e.printStackTrace();

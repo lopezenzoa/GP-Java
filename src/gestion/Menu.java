@@ -94,24 +94,27 @@ public class Menu {
                             String correo = scanner.nextLine();
                             System.out.print("Ingrese el Titulo del Usuario a crear: ");
                             String titulo = scanner.nextLine();
+                            System.out.print("Ingrese el Password del Usuario a crear: ");
+                            int password = scanner.nextInt();
+                            scanner.nextLine();
 
                             if (caso == 0) {
                                 try {
-                                    GestionUsuarios.agregarUsuario(GestionUsuarios.crearMiembroEquipo(nombre, apellido, correo, titulo, Rol.DEVOPS));
+                                    GestionUsuarios.agregarUsuario(GestionUsuarios.crearMiembroEquipo(nombre, apellido, correo, titulo, password, Rol.DEVOPS));
                                 } catch (UsuarioExisteException e) {
                                     System.err.println(e.getMessage());
                                     continue;
                                 }
                             } else if (caso == 1) {
                                 try {
-                                    GestionUsuarios.agregarUsuario(GestionUsuarios.crearLider(nombre, apellido, correo, titulo));
+                                    GestionUsuarios.agregarUsuario(GestionUsuarios.crearLider(nombre, apellido, correo, titulo, password));
                                 } catch (UsuarioExisteException e) {
                                     System.err.println(e.getMessage());
                                     continue;
                                 }
                             } else if (caso == 2) {
                                 try {
-                                    GestionUsuarios.agregarUsuario(GestionUsuarios.crearAdministrador(nombre, apellido, correo, titulo));
+                                    GestionUsuarios.agregarUsuario(GestionUsuarios.crearAdministrador(nombre, apellido, correo, titulo, password));
                                 } catch (UsuarioExisteException e) {
                                     System.err.println(e.getMessage());
                                     continue;
@@ -166,14 +169,7 @@ public class Menu {
                             System.out.println("* A conitnuacion, ingrese el Nombre del Proyecto");
                             String nombreProyecto = scanner.nextLine();
 
-                            Proyecto p = null;
-                            try {
-                                p = new Proyecto((Administrador) usuario, (Lider) GestionUsuarios.buscarUsuario(ID), nombreProyecto);
-                            } catch (UsuarioNoEncontradoException e) {
-                                throw new RuntimeException(e);
-                            }
-
-                            p = new Proyecto((Administrador) usuario, (Lider) GestionUsuarios.buscarUsuario(ID), nombreProyecto);
+                            Proyecto p = new Proyecto((Administrador) usuario, (Lider) GestionUsuarios.buscarUsuario(ID), nombreProyecto);
 
                             GestionProyecto.addProyecto(p); // solo administrador
                             System.out.println();

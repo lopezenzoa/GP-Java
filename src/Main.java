@@ -19,23 +19,23 @@ public class Main  {
     public static void main(String[] args) {
         /*
         // Se intancian 15 usuarios (5 para cada rango de privilegios)
-        MiembroEquipo Enzo = new MiembroEquipo("Enzo", "Fernandez", "elmaleducado21@gmail.com", "Futbolista", Rol.DEVOPS);
-        MiembroEquipo Lionel = new MiembroEquipo("Lionel", "Messi", "lapulga10@gmail.com", "Futbolista", Rol.DEVOPS);
-        MiembroEquipo Sergio = new MiembroEquipo("Sergio", "Aguero", "kunaguero@gmail.com", "Streamer", Rol.DEVOPS);
-        MiembroEquipo Angel = new MiembroEquipo("Angel", "DiMaria", "fideo11@gmail.com", "Futbolista", Rol.DEVOPS);
-        MiembroEquipo Emiliano = new MiembroEquipo("Emiliano", "Martinez", "dibu1@gmail.com", "Arquero", Rol.DEVOPS);
+        MiembroEquipo Enzo = new MiembroEquipo("Enzo", "Fernandez", "elmaleducado21@gmail.com", "Futbolista", 1234, Rol.DEVOPS);
+        MiembroEquipo Lionel = new MiembroEquipo("Lionel", "Messi", "lapulga10@gmail.com", "Futbolista", 1234, Rol.DEVOPS);
+        MiembroEquipo Sergio = new MiembroEquipo("Sergio", "Aguero", "kunaguero@gmail.com", "Streamer", 1234, Rol.DEVOPS);
+        MiembroEquipo Angel = new MiembroEquipo("Angel", "DiMaria", "fideo11@gmail.com", "Futbolista", 1234, Rol.DEVOPS);
+        MiembroEquipo Emiliano = new MiembroEquipo("Emiliano", "Martinez", "dibu1@gmail.com", "Arquero", 1234, Rol.DEVOPS);
 
-        Administrador Monica = new Administrador("Monica", "Richiardi", "moni@hotmail.com", "Computer Science");
-        Administrador Cesar = new Administrador("Cesar", "II", "ceseremperador@hotmail.com", "Emperador");
-        Administrador Lucas = new Administrador("Lucas", "González", "lucas.gonzalez@example.com", "Information Systems");
-        Administrador Carla = new Administrador("Carla", "Ramírez", "carla.ramirez@example.com", "Software Engineering");
-        Administrador Diego = new Administrador("Diego", "Fernández", "diego.fernandez@example.com", "Data Science");
+        Administrador Monica = new Administrador("Monica", "Richiardi", "moni@hotmail.com", "Computer Science", 1234);
+        Administrador Cesar = new Administrador("Cesar", "II", "ceseremperador@hotmail.com", "Emperador", 1234);
+        Administrador Lucas = new Administrador("Lucas", "González", "lucas.gonzalez@example.com", "Information Systems", 1234);
+        Administrador Carla = new Administrador("Carla", "Ramírez", "carla.ramirez@example.com", "Software Engineering", 1234);
+        Administrador Diego = new Administrador("Diego", "Fernández", "diego.fernandez@example.com", "Data Science", 1234);
 
-        Lider Mike = new Lider("Mike", "Wazowszki", "Mikewazawski@gmail.com", "Asustador");
-        Lider Sullivan = new Lider("Sullivan", "Mikelson", "sullivan@gmail.com", "Asustador");
-        Lider Randall = new Lider("Randall", "Boggs", "randall.boggs@gmail.com", "Asustador Experto");
-        Lider Roz = new Lider("Roz", "Doe", "roz.doe@gmail.com", "Supervisora");
-        Lider Celia = new Lider("Celia", "Mae", "celia.mae@gmail.com", "Recepcionista");
+        Lider Mike = new Lider("Mike", "Wazowszki", "Mikewazawski@gmail.com", "Asustador", 1234);
+        Lider Sullivan = new Lider("Sullivan", "Mikelson", "sullivan@gmail.com", "Asustador", 1234);
+        Lider Randall = new Lider("Randall", "Boggs", "randall.boggs@gmail.com", "Asustador Experto", 1234);
+        Lider Roz = new Lider("Roz", "Doe", "roz.doe@gmail.com", "Supervisora", 1234);
+        Lider Celia = new Lider("Celia", "Mae", "celia.mae@gmail.com", "Recepcionista", 1234);
 
         Tarea tarea1 = new Tarea("Sprint 1", "Creamos e instanciamos las clases. Primer commit", Enzo);
         Tarea tarea2 = new Tarea("Sprint 2", "Instanciar clases. Segundo commit", Lionel);
@@ -137,9 +137,9 @@ public class Main  {
         /* Simulacion Proyecto Real */
 
         /* Niveles de Acceso */
-        // 79152 - 20124 (Miembro)
-        // 21447 - 18190 (Lider)
-        // 24690 - 20099 (Administrador)
+        // 30519 - 1234 (Miembro)
+        // 13253 - 1234 (Lider)
+        // 73488 - 1234 (Administrador)
 
         /* Eliminacion de Usuarios */
         // 57804 (Miembro)
@@ -147,18 +147,18 @@ public class Main  {
         // 78952 (Administrador)
 
         /* Busqueda de Proyectos */
-        // 87599
-        // 42975
-        // 43369
-        // 44968
-        // 25303
+        // 90750
+        // 63416
+        // 4791
+        // 9859
+        // 57613
 
         /* Finalizacion de Tareas */
-        // 87599 - 20740, 13293, 16312, 11272, 4578
-        // 42975 - 20740, 13293, 16312, 11272
-        // 43369 - 20740, 13293, 16312
-        // 44968 - 20740, 13293
-        // 25303 - 20740
+        // 90750 - 70315, 71745, 33408, 39534, 34786
+        // 63416 - 70315, 71745, 33408, 39534
+        // 4791 - 70315, 71745, 33408
+        // 9859 - 70315, 71745
+        // 57613 - 70315
 
         HashMap<String, Integer> datosDeAutenticacion = Login.obtenerDatosDeAutenticacion();
         Usuario u = Login.autenticar(datosDeAutenticacion);

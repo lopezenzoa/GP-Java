@@ -15,16 +15,16 @@ import usuario.Usuario;
 public class GestionUsuarios {
     public GestionUsuarios() {}
 
-    public static MiembroEquipo crearMiembroEquipo(String nombre, String apellido, String email, String titulo, Rol rol) {
-        return new MiembroEquipo(nombre, apellido, email, titulo, rol);
+    public static MiembroEquipo crearMiembroEquipo(String nombre, String apellido, String email, String titulo, int password, Rol rol) {
+        return new MiembroEquipo(nombre, apellido, email, titulo, password, rol);
     }
 
-    public static Lider crearLider(String nombre, String apellido, String email, String titulo) {
-        return new Lider(nombre, apellido, email, titulo);
+    public static Lider crearLider(String nombre, String apellido, String email, String titulo, int password) {
+        return new Lider(nombre, apellido, email, titulo, password);
     }
 
-    public static Administrador crearAdministrador(String nombre, String apellido, String email, String titulo) {
-        return new Administrador(nombre, apellido, email, titulo);
+    public static Administrador crearAdministrador(String nombre, String apellido, String email, String titulo, int password) {
+        return new Administrador(nombre, apellido, email, titulo, password);
     }
 
     // Se lanza la Exception personalizada si el miembro existe en el sistema

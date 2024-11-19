@@ -17,8 +17,9 @@ public class Lider extends Usuario implements ABMLable<Lider> {
     public Lider(String nombre,
                  String apellido,
                  String email,
-                 String titulo) {
-        super(nombre, apellido, email, titulo);
+                 String titulo,
+                 int password) {
+        super(nombre, apellido, email, titulo, password);
         this.proyectosEnCurso = new HashSet<>();
         this.miembrosACargo = new HashSet<>();
     }

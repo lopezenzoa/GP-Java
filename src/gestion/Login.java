@@ -12,6 +12,7 @@ import usuario.MiembroEquipo;
 import usuario.Usuario;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -52,18 +53,6 @@ public class Login {
     }
 
     /**
-     * Este metodo toma solo los primeros 5 digitos del hash de un Usuario.
-     * @param u es el objeto de tipo usuario del que se quiere recortar el hash.
-     * @return los primeros 5 digitos del hash del Usuario.
-     * */
-    public static int recortarHashCode(Usuario u) {
-        String hash = Integer.toString(Math.abs(u.hashCode()));
-        String digitosAComparar = hash.length() >= 5 ? hash.substring(0, 5) : hash;
-
-        return Integer.parseInt(digitosAComparar);
-    }
-
-    /**
      * Este metodo comprueba que los datos que el usuario ingreso existan dentro del archivo de usuarios.
      * @param datos es el par de valores que se va a autenticar.
      * @author Enzo.
@@ -86,21 +75,21 @@ public class Login {
             for (int i = 0; i < miembrosJSON.length(); i++) {
                 MiembroEquipo m = new MiembroEquipo(miembrosJSON.getJSONObject(i));
 
-                if (m.getId() == datos.get("ID") && recortarHashCode(m) == datos.get("PIN"))
+                if (m.getId() == datos.get("ID") && m.getPassword() == datos.get("PIN"))
                     return m;
             }
 
             for (int i = 0; i < lideresJSON.length(); i++) {
                 Lider l = new Lider(lideresJSON.getJSONObject(i));
 
-                if (l.getId() == datos.get("ID") && recortarHashCode(l) == datos.get("PIN"))
+                if (l.getId() == datos.get("ID") && l.getPassword() == datos.get("PIN"))
                     return l;
             }
 
             for (int i = 0; i < adminsJSON.length(); i++) {
                 Administrador a = new Administrador(adminsJSON.getJSONObject(i));
 
-                if (a.getId() == datos.get("ID") && recortarHashCode(a) == datos.get("PIN"))
+                if (a.getId() == datos.get("ID") && a.getPassword() == datos.get("PIN"))
                     return a;
             }
 

@@ -2,9 +2,10 @@
   "miembrosEquipo": [
     {
       "estado": "ACTIVO",
+      "password": 1234,
       "apellido": "Fernandez",
       "titulo": "Futbolista",
-      "id": 63912,
+      "id": 30519,
       "nombre": "Enzo",
       "email": "elmaleducado21@gmail.com",
       "rol": "DEVOPS",
@@ -12,9 +13,10 @@
     },
     {
       "estado": "ACTIVO",
+      "password": 1234,
       "apellido": "Messi",
       "titulo": "Futbolista",
-      "id": 52915,
+      "id": 52035,
       "nombre": "Lionel",
       "email": "lapulga10@gmail.com",
       "rol": "DEVOPS",
@@ -22,9 +24,10 @@
     },
     {
       "estado": "ACTIVO",
+      "password": 1234,
       "apellido": "Aguero",
       "titulo": "Streamer",
-      "id": 20102,
+      "id": 53015,
       "nombre": "Sergio",
       "email": "kunaguero@gmail.com",
       "rol": "DEVOPS",
@@ -32,9 +35,10 @@
     },
     {
       "estado": "ACTIVO",
+      "password": 1234,
       "apellido": "DiMaria",
       "titulo": "Futbolista",
-      "id": 84348,
+      "id": 28673,
       "nombre": "Angel",
       "email": "fideo11@gmail.com",
       "rol": "DEVOPS",
@@ -42,9 +46,10 @@
     },
     {
       "estado": "ACTIVO",
+      "password": 1234,
       "apellido": "Martinez",
       "titulo": "Arquero",
-      "id": 86308,
+      "id": 53469,
       "nombre": "Emiliano",
       "email": "dibu1@gmail.com",
       "rol": "DEVOPS",
@@ -54,46 +59,51 @@
   "administradores": [
     {
       "estado": "ACTIVO",
+      "password": 1234,
       "lideresACargo": [],
       "apellido": "Richiardi",
       "titulo": "Computer Science",
-      "id": 15759,
+      "id": 73488,
       "nombre": "Monica",
       "email": "moni@hotmail.com"
     },
     {
       "estado": "ACTIVO",
+      "password": 1234,
       "lideresACargo": [],
       "apellido": "II",
       "titulo": "Emperador",
-      "id": 20494,
+      "id": 39940,
       "nombre": "Cesar",
       "email": "ceseremperador@hotmail.com"
     },
     {
       "estado": "ACTIVO",
+      "password": 1234,
       "lideresACargo": [],
       "apellido": "González",
       "titulo": "Information Systems",
-      "id": 79215,
+      "id": 25419,
       "nombre": "Lucas",
       "email": "lucas.gonzalez@example.com"
     },
     {
       "estado": "ACTIVO",
+      "password": 1234,
       "lideresACargo": [],
       "apellido": "Ramírez",
       "titulo": "Software Engineering",
-      "id": 1451,
+      "id": 71390,
       "nombre": "Carla",
       "email": "carla.ramirez@example.com"
     },
     {
       "estado": "ACTIVO",
+      "password": 1234,
       "lideresACargo": [],
       "apellido": "Fernández",
       "titulo": "Data Science",
-      "id": 48806,
+      "id": 14268,
       "nombre": "Diego",
       "email": "diego.fernandez@example.com"
     }
@@ -101,50 +111,55 @@
   "lideres": [
     {
       "estado": "ACTIVO",
+      "password": 1234,
       "miembrosACargo": [],
       "apellido": "Wazowszki",
       "titulo": "Asustador",
-      "id": 22426,
+      "id": 13253,
       "nombre": "Mike",
       "email": "Mikewazawski@gmail.com",
       "proyectosEnCurso": []
     },
     {
       "estado": "ACTIVO",
+      "password": 1234,
       "miembrosACargo": [],
       "apellido": "Mikelson",
       "titulo": "Asustador",
-      "id": 57033,
+      "id": 4487,
       "nombre": "Sullivan",
       "email": "sullivan@gmail.com",
       "proyectosEnCurso": []
     },
     {
       "estado": "ACTIVO",
+      "password": 1234,
       "miembrosACargo": [],
       "apellido": "Boggs",
       "titulo": "Asustador Experto",
-      "id": 94058,
+      "id": 94033,
       "nombre": "Randall",
       "email": "randall.boggs@gmail.com",
       "proyectosEnCurso": []
     },
     {
       "estado": "ACTIVO",
+      "password": 1234,
       "miembrosACargo": [],
       "apellido": "Doe",
       "titulo": "Supervisora",
-      "id": 45399,
+      "id": 74260,
       "nombre": "Roz",
       "email": "roz.doe@gmail.com",
       "proyectosEnCurso": []
     },
     {
       "estado": "ACTIVO",
+      "password": 1234,
       "miembrosACargo": [],
       "apellido": "Mae",
       "titulo": "Recepcionista",
-      "id": 79260,
+      "id": 47153,
       "nombre": "Celia",
       "email": "celia.mae@gmail.com",
       "proyectosEnCurso": []
