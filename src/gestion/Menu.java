@@ -25,15 +25,18 @@ public class Menu {
         int option;
         while (true) {
             // Mostrar el menú
+            System.out.println("----- MENU USUARIO ----- ");
             System.out.println("Por favor, elija una opción:");
-            System.out.println("1. Opción 1");
-            System.out.println("2. Opción 2");
-            System.out.println("3. Opción 3");
-            System.out.println("4. Opción 4");
-            System.out.println("5. Opción 5");
-            System.out.println("6. Opción 6");
-            System.out.println("7. Opción 7");
-            System.out.println("8. Opción 8");
+            System.out.println("1. CREAR USUARIO ");
+            System.out.println("2. ELIMINAR USUARIO ");
+            System.out.println("3. CREAR NUEVO PROYECTO ");
+            System.out.println("4. ELIMINAR PROYECTO ");
+            System.out.println("5. PROYECTOS INACTIVOS ");
+            System.out.println("6. PROYECTOS ACTIVOS ");
+            System.out.println("7. TAREAS ");
+            System.out.println("8. AGREGAR MIEMBRO A PROYECTO ");
+            System.out.println("9. ELIMINAR MIEMBRO DEL PROYECTO ");
+            System.out.println("10. CREAR TAREA EN PROYECTO ");
             System.out.println("S. Salir");
 
             // Leer la opción del usuario
@@ -50,7 +53,7 @@ public class Menu {
             try {
                 option = Integer.parseInt(input);
             } catch (NumberFormatException e) {
-                System.out.println("Opción no válida, por favor elija un número del 1 al 8 o S para salir.");
+                System.out.println("Opción no válida, por favor elija un número del 1 al 10 o S para salir.");
                 clearConsole();
                 continue; // Volver al inicio del bucle
             }
@@ -62,18 +65,18 @@ public class Menu {
                     int caso = -1;
                     System.out.print("Ingrese tipo de Usuario a crear: [0] Miembro equipo, [1] Lider, [2] Administrador ");
                     caso = scanner.nextInt();
-                    System.out.println("Ingrese Nombre del Usuario a crear: ");
+                    scanner.nextLine();
+                    System.out.print("Ingrese Nombre del Usuario a crear: ");
                     String nombre = scanner.nextLine();
                     System.out.print("Ingrese Apellido del Usuario a crear: ");
                     String apellido = scanner.nextLine();
                     System.out.print("Ingrese Correo del Usuario a crear: ");
                     String correo = scanner.nextLine();
-                    System.out.println("Ingrese el titulo del Usuario a crear: ");
+                    System.out.print("Ingrese el Titulo del Usuario a crear: ");
                     String titulo = scanner.nextLine();
 
                     if(caso == 0 ){
                         try {
-                            System.out.println("Ingrese ROL");
                             GestionUsuarios.agregarUsuario((MiembroEquipo)GestionUsuarios.crearUsuario(nombre,apellido,correo,titulo, Rol.DEVOPS));
                         } catch (UsuarioExisteException e) {
                             throw new RuntimeException(e);
@@ -97,7 +100,7 @@ public class Menu {
                 case 2:
 
                     int ID;
-                    System.out.print("Ingrese ID del usuario a eliminar ");
+                    System.out.print("Ingrese ID del Usuario a eliminar ");
                     ID = scanner.nextInt();
                     try {
                         Usuario usuarioAeliminar = GestionUsuarios.buscarUsuario(ID);
@@ -129,7 +132,7 @@ public class Menu {
                     GestionProyecto.addProyecto(p); // solo administrador y lider
                     break;
                 case 4:
-                    System.out.println("Ingrese ID del proyecto a eliminar");
+                    System.out.println("Ingrese ID del Proyecto a eliminar");
                     int id = scanner.nextInt();
                     try {
                         GestionProyecto.removeProyecto(GestionProyecto.buscarProyectoPorID(id)); // solo administrador y lider
@@ -148,7 +151,7 @@ public class Menu {
                     System.out.println(m.getProyectosEnCurso());
 
                     // Pedir el ID del proyecto que se quiere consultar
-                    System.out.println("Ingrese id del proyecto a consultar");
+                    System.out.println("Ingrese ID del Proyecto a consultar");
                     int idProyecto = scanner.nextInt();
                     try {
                         System.out.println(GestionProyecto.tareasDeMiembro(idProyecto, m));// solo miembros
@@ -159,9 +162,9 @@ public class Menu {
                 case 8:
                     // Pedir el ID del proyecto y del miembro que se quiere agregar
                     //int idProyecto;
-                    System.out.println("Ingrese id del miembro a agergar al proyecto");
+                    System.out.println("Ingrese ID del Miembro a agregar al Proyecto");
                     int idMiembro = scanner.nextInt();
-                    System.out.println("Ingrese id del proyecto");
+                    System.out.println("Ingrese ID del Proyecto");
                     idProyecto = scanner.nextInt();
 
                     // Pedir los datos para crear un MiembroEquipo
@@ -193,9 +196,9 @@ public class Menu {
                     break;
                 case 9:
                     // Pedir el ID del miembro y del proyecto que se quiere eliminar
-                    System.out.println("Ingrese id del miembro a eliminar del proyecto");
+                    System.out.println("Ingrese ID del Miembro a eliminar del Proyecto");
                     idMiembro = scanner.nextInt();
-                    System.out.println("Ingrese id del proyecto");
+                    System.out.println("Ingrese ID del Proyecto");
                     idProyecto = scanner.nextInt();
 
                     // Pedir los datos para crear un MiembroEquipo
@@ -231,7 +234,7 @@ public class Menu {
                     System.out.println("Ingrese ID del responsable de la tarea");
                     idResponsable = scanner.nextInt();
                     // Pedir al usuario el ID del proyecto al que se quiere agregar la tarea
-                    System.out.println("Ingrese ID del proyecto");
+                    System.out.println("Ingrese ID del Proyecto");
                     idProyecto = scanner.nextInt();
                     // Pedir al usuario los atributos de las tareas
                     MiembroEquipo responsable = null;
@@ -241,9 +244,9 @@ public class Menu {
                         throw new RuntimeException(e);
                     }
 
-                    System.out.println("Ingrese titulo de la tarea:");
+                    System.out.println("Ingrese titulo de la Tarea:");
                     titulo = scanner.nextLine();
-                    System.out.println("Ingrese descripcion de la tarea:`");
+                    System.out.println("Ingrese descripcion de la Tarea:`");
                     String descripcion = scanner.nextLine();
                     Tarea t = new Tarea(titulo,descripcion,responsable);
 
