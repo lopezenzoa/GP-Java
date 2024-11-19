@@ -249,6 +249,8 @@ public class GestionProyecto {
             } else {
                 throw new ProyectoNoEncontradoException("El proyecto con ID: " + idProyecto + " no se encuentra.");
             }
+        }catch (ProyectoNoEncontradoException e){
+            System.out.println(e.getMessage());
         } catch (JSONException e) {
             e.printStackTrace();
         }
