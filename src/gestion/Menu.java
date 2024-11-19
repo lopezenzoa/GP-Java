@@ -374,11 +374,8 @@ public class Menu {
 
     // Método para limpiar la consola en Windows
     private static void clearConsole() {
-        try {
-            // Ejecuta el comando cls en Windows
-            new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-        } catch (IOException | InterruptedException e) {
-            System.out.println("No se pudo limpiar la consola.");
+        for (int i = 0; i < 100; i++) {
+            System.out.println();
         }
     }
 
