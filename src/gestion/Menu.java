@@ -65,8 +65,9 @@ public class Menu {
             // Manejo de las opciones
             switch (option) {
                 case 1:
+                    clearConsole();
                     int caso = -1;
-                    System.out.println("* Ingrese tipo de Usuario a crear: \n [0] Miembro equipo, \n [1] Lider, \n [2] Administrador");
+                    System.out.println("* Ingrese tipo de Usuario a crear: \n [0] Miembro Equipo \n [1] Lider \n [2] Administrador");
                     caso = scanner.nextInt();
                     scanner.nextLine();
 
@@ -190,7 +191,9 @@ public class Menu {
                     scanner.nextLine();
 
                     try {
-                        System.out.println(GestionProyecto.tareasDeMiembro(idProyecto, m));// solo miembros
+                        ArrayList<Tarea> tareas = GestionProyecto.tareasDeMiembro(idProyecto, m);
+                        for (Tarea t : tareas)
+                            System.out.println(t); // solo miembros
                     } catch (ProyectoNoEncontradoException e) {
                         throw new RuntimeException(e);
                     }
@@ -307,18 +310,15 @@ public class Menu {
                     System.out.println("Opción no válida, por favor inténtalo de nuevo.");
             }
 
-            // Limpiar la consola después de cada opción
-            clearConsole();
+            System.out.println("Presione ENTER para continuar");
+            scanner.nextLine();
         }
     }
 
     // Método para limpiar la consola en Windows
     private static void clearConsole() {
-        try {
-            // Ejecuta el comando cls en Windows
-            new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-        } catch (IOException | InterruptedException e) {
-            System.out.println("No se pudo limpiar la consola.");
+        for (int i = 0; i < 50; i++) {
+            System.out.println(); // Imprimir líneas en blanco
         }
     }
 

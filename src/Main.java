@@ -150,20 +150,21 @@ public class Main  {
             System.err.println(e.getMessage());
         }
 
-        /*
+
         HashMap<String, Integer> datosDeAutenticacion = Login.obtenerDatosDeAutenticacion();
         Usuario u = Login.autenticar(datosDeAutenticacion);
 
-         */
+        // Usuario u = null;
 
-        Usuario u = null;
-
+        /*
         try {
             u = GestionUsuarios.buscarUsuario(52915); // para ingresar como miembro
             // u = GestionUsuarios.buscarUsuario(20494); // para ingresar como administrador
         } catch (UsuarioNoEncontradoException e) {
             throw new RuntimeException(e);
         }
+
+         */
 
         if (u != null)
             Menu.menu(u);

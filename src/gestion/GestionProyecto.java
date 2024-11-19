@@ -233,9 +233,9 @@ public class GestionProyecto {
                     JSONArray tareasArray = proyectoJSON.getJSONArray("tareas");
 
                     if (!tareasArray.isEmpty()) {
-                        for (int u = 0; tareasArray.length() <= u; u++) {
+                        for (int u = 0; u < tareasArray.length(); u++) {
                             Tarea tareaDeserializada = new Tarea(tareasArray.getJSONObject(u));
-                            if (tareaDeserializada.getResponsable().equals(responsable) && tareaDeserializada.getAltaObaja() == AltaBaja.ACTIVO) {
+                            if (tareaDeserializada.getResponsable().getId() == responsable.getId() && tareaDeserializada.getAltaObaja() == AltaBaja.ACTIVO) {
                                 listaTareas.add(tareaDeserializada);
                             }
                         }

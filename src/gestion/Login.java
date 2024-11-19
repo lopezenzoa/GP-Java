@@ -57,7 +57,7 @@ public class Login {
      * @return los primeros 5 digitos del hash del Usuario.
      * */
     public static int recortarHashCode(Usuario u) {
-        String hash = Integer.toString(u.hashCode());
+        String hash = Integer.toString(Math.abs(u.hashCode()));
         String digitosAComparar = hash.length() >= 5 ? hash.substring(0, 5) : hash;
 
         return Integer.parseInt(digitosAComparar);
