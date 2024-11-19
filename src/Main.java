@@ -135,9 +135,30 @@ public class Main  {
 
 
         /* Simulacion Proyecto Real */
+
+        /* Niveles de Acceso */
         // 79152 - 20124 (Miembro)
-        // 24690 - 20099 (Lider)
-        // 21447 - 18190 (Administrador)
+        // 21447 - 20099 (Lider)
+        // 24690 - 18190 (Administrador)
+
+        /* Eliminacion de Usuarios */
+        // 57804 (Miembro)
+        // 19965 (Lider)
+        // 78952 (Administrador)
+
+        /* Busqueda de Proyectos */
+        // 87599
+        // 42975
+        // 43369
+        // 44968
+        // 25303
+
+        /* Finalizacion de Tareas */
+        // 87599 - 20740, 13293, 16312, 11272, 4578
+        // 42975 - 20740, 13293, 16312, 11272
+        // 43369 - 20740, 13293, 16312
+        // 44968 - 20740, 13293
+        // 25303 - 20740
 
         HashMap<String, Integer> datosDeAutenticacion = Login.obtenerDatosDeAutenticacion();
         Usuario u = Login.autenticar(datosDeAutenticacion);
