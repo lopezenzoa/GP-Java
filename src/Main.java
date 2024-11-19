@@ -131,39 +131,37 @@ public class Main  {
             System.err.println(e.getMessage());
         }
 
-
          */
 
 
         /* Simulacion Proyecto Real */
-        // Se prueba la autenticacion y obtencion de datos
-        try {
-            Usuario u1 = GestionUsuarios.buscarUsuario(52915);
-            Usuario u2 = GestionUsuarios.buscarUsuario(20494);
-            Usuario u3 = GestionUsuarios.buscarUsuario(22426);
 
-            // Se imprimen estas lineas como ayuda para no perder tiempo en el login
-            System.out.println(u1.getId() + " - " + u1.hashCode() + " (Miembro Equipo)");
-            System.out.println(u2.getId() + " - " + u2.hashCode() + " (Administrador)");
-            System.out.println(u3.getId() + " - " + u3.hashCode() + " (Lider)");
-        } catch (UsuarioNoEncontradoException e) {
-            System.err.println(e.getMessage());
-        }
+        /* Niveles de Acceso */
+        // 79152 - 20124 (Miembro)
+        // 21447 - 20099 (Lider)
+        // 24690 - 18190 (Administrador)
 
-        /*
+        /* Eliminacion de Usuarios */
+        // 57804 (Miembro)
+        // 19965 (Lider)
+        // 78952 (Administrador)
+
+        /* Busqueda de Proyectos */
+        // 87599
+        // 42975
+        // 43369
+        // 44968
+        // 25303
+
+        /* Finalizacion de Tareas */
+        // 87599 - 20740, 13293, 16312, 11272, 4578
+        // 42975 - 20740, 13293, 16312, 11272
+        // 43369 - 20740, 13293, 16312
+        // 44968 - 20740, 13293
+        // 25303 - 20740
+
         HashMap<String, Integer> datosDeAutenticacion = Login.obtenerDatosDeAutenticacion();
         Usuario u = Login.autenticar(datosDeAutenticacion);
-
-         */
-
-        Usuario u = null;
-
-        try {
-            u = GestionUsuarios.buscarUsuario(52915); // para ingresar como miembro
-            // u = GestionUsuarios.buscarUsuario(20494); // para ingresar como administrador
-        } catch (UsuarioNoEncontradoException e) {
-            throw new RuntimeException(e);
-        }
 
         if (u != null)
             Menu.menu(u);

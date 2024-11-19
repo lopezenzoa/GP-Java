@@ -233,9 +233,9 @@ public class GestionProyecto {
                     JSONArray tareasArray = proyectoJSON.getJSONArray("tareas");
 
                     if (!tareasArray.isEmpty()) {
-                        for (int u = 0; tareasArray.length() <= u; u++) {
+                        for (int u = 0; u < tareasArray.length(); u++) {
                             Tarea tareaDeserializada = new Tarea(tareasArray.getJSONObject(u));
-                            if (tareaDeserializada.getResponsable().equals(responsable) && tareaDeserializada.getAltaObaja() == AltaBaja.ACTIVO) {
+                            if (tareaDeserializada.getResponsable().getId() == responsable.getId() && tareaDeserializada.getAltaObaja() == AltaBaja.ACTIVO) {
                                 listaTareas.add(tareaDeserializada);
                             }
                         }
@@ -275,12 +275,13 @@ public class GestionProyecto {
             while (!proyectoEncontrado && i < listaProyectosJSON.length()) {
                 Proyecto a = new Proyecto(listaProyectosJSON.getJSONObject(i));
 
-                if (a.equals(listaProyectosJSON)) {
+                if (a.equals(proyecto)) {
                     a.setEstado(Estado.FINALIZADO);
                     listaProyectosJSON.put(i, a.serializar());
                     // Se agrega el arreglo modificado al objeto
                     proyectosJSON.put("proyectos", listaProyectosJSON);
                     OperacionesLectoEscritura.grabar("proyectos.json", proyectosJSON);
+                    proyectoEncontrado = true;
                 }
                 i++;
             }
@@ -523,13 +524,90 @@ public class GestionProyecto {
     }
 
     /**
-     * ver solo las tareas activas.
-     * Primero las que estan en estado pendiente y al final las finalilzadas.
+     * Devuelve una lista con las tareas en estado pendientes dentro del archivo proyectos.json
+     * @param idProyecto es el ID del proyecto donde se consulta las tareas.
+     * @return una lista de tipo parametrizado Tarea con las tareas pendientes.
+     * @author Enzo.
      */
+    public static ArrayList<Tarea> verTareasPendientes(int idProyecto) throws ProyectoNoEncontradoException {
+        JSONObject proyectosJSON = null;
+        JSONArray proyectosArray = null;
+        ArrayList<Tarea> tareasPendientes = new ArrayList<>();
+
+        try {
+            proyectosJSON = new JSONObject(OperacionesLectoEscritura.leer("proyectos.json"));
+            proyectosArray = proyectosJSON.getJSONArray("proyectos");
+
+            for (int i = 0; i < proyectosArray.length(); i++) {
+                JSONObject proyectoJSON = proyectosArray.getJSONObject(i);
+                Proyecto p = new Proyecto(proyectoJSON);
+
+                if (p.getId() == idProyecto) {
+                    JSONArray tareasJSON = proyectoJSON.getJSONArray("tareas");
+
+                    if (!tareasJSON.isEmpty()) {
+                        for (int j = 0; j < tareasJSON.length(); j++) {
+                            JSONObject tareaJSON = tareasJSON.getJSONObject(j);
+                            Tarea t = new Tarea(tareaJSON);
+
+                            if (t.getAltaObaja() == AltaBaja.ACTIVO && t.getEstado().equals(Estado.PENDIENTE)) {
+                                tareasPendientes.add(t);
+                            }
+                        }
+                    }
+
+                    break;
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return tareasPendientes;
+    }
 
     /**
-     * ver solo las tareas inactivas.
+     * Devuelve una lista con las tareas en estado finalizado dentro del archivo proyectos.json
+     * @param idProyecto es el ID del proyecto donde se consulta las tareas.
+     * @return una lista de tipo parametrizado Tarea con las tareas finalizadas.
+     * @author Enzo.
      */
+    public static ArrayList<Tarea> verTareasFinalizadas(int idProyecto) throws ProyectoNoEncontradoException {
+        JSONObject proyectosJSON = null;
+        JSONArray proyectosArray = null;
+        ArrayList<Tarea> tareasFinalizadas = new ArrayList<>();
+
+        try {
+            proyectosJSON = new JSONObject(OperacionesLectoEscritura.leer("proyectos.json"));
+            proyectosArray = proyectosJSON.getJSONArray("proyectos");
+
+            for (int i = 0; i < proyectosArray.length(); i++) {
+                JSONObject proyectoJSON = proyectosArray.getJSONObject(i);
+                Proyecto p = new Proyecto(proyectoJSON);
+
+                if (p.getId() == idProyecto) {
+                    JSONArray tareasJSON = proyectoJSON.getJSONArray("tareas");
+
+                    if (!tareasJSON.isEmpty()) {
+                        for (int j = 0; j < tareasJSON.length(); j++) {
+                            JSONObject tareaJSON = tareasJSON.getJSONObject(j);
+                            Tarea t = new Tarea(tareaJSON);
+
+                            if (t.getAltaObaja() == AltaBaja.ACTIVO && t.getEstado() == Estado.FINALIZADO) {
+                                tareasFinalizadas.add(t);
+                            }
+                        }
+                    }
+
+                    break;
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return tareasFinalizadas;
+    }
 
     /**
      * Busca un proeycto dado su ID dentro del archivo proyectos.json
@@ -555,6 +633,49 @@ public class GestionProyecto {
 
             throw new ProyectoNoEncontradoException("El proyecto con el ID: " + idProyecto + " no se encuentra");
         } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    /**
+     * Busca una tarea dentro del archivo proyectos.json, dado su ID.
+     * @param idProyecto es el ID del proyecto en el que se encuentra la tarea.
+     * @param idTarea es el ID de la tarea que se busca.
+     * @return un objeto de tipo Tarea.
+     * @author Enzo.
+     * */
+    public static Tarea buscarTareaPorID(int idProyecto, int idTarea) throws ProyectoNoEncontradoException, TareaNoEncontradaException {
+        JSONObject proyectosJSON = null;
+        JSONArray proyectosArray = null;
+
+        try {
+            proyectosJSON = new JSONObject(OperacionesLectoEscritura.leer("proyectos.json"));
+            proyectosArray = proyectosJSON.getJSONArray("proyectos");
+
+            for (int i = 0; i < proyectosArray.length(); i++) {
+                JSONObject proyectoJSON = proyectosArray.getJSONObject(i);
+                Proyecto p = new Proyecto(proyectoJSON);
+
+                if (p.getId() == idProyecto) {
+                    JSONArray tareasJSON = proyectoJSON.getJSONArray("tareas");
+
+                    for (int j = 0; j < tareasJSON.length(); j++) {
+                        JSONObject tareaJSON = tareasJSON.getJSONObject(j);
+                        Tarea t = new Tarea(tareaJSON);
+
+                        if (t.getId() == idTarea) {
+                            return t;
+                        }
+                    }
+
+                    throw new TareaNoEncontradaException("La tarea con el ID " + idTarea + " no se encuentra dentro del proyecto");
+                }
+            }
+
+            throw new ProyectoNoEncontradoException("El proyecto con el ID: " + idProyecto + " no se encuentra");
+        } catch (JSONException | TareaNoEncontradaException e) {
             e.printStackTrace();
         }
 
