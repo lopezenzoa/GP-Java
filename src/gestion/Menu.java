@@ -2,6 +2,7 @@ package gestion;
 
 import enums.Rol;
 import exception.ProyectoNoEncontradoException;
+import exception.TareaNoEncontradaException;
 import exception.UsuarioExisteException;
 import exception.UsuarioNoEncontradoException;
 import proyecto.Proyecto;
@@ -41,6 +42,10 @@ public class Menu {
             System.out.println("8. AGREGAR MIEMBRO A UN PROYECTO");
             System.out.println("9. ELIMINAR MIEMBRO DEL PROYECTO");
             System.out.println("10. CREAR TAREA EN PROYECTO");
+            System.out.println("11. FINALIZAR PROYECTO");
+            System.out.println("12. FINALIZAR TAREA");
+            System.out.println("13. VER TAREAS PENDIENTES DE UN PROYECTO");
+            System.out.println("14. VER TAREAS FINALIZADAS DE UN PROYECTO");
             System.out.println("S. Salir");
 
             // Leer la opción del usuario
@@ -305,6 +310,85 @@ public class Menu {
                     System.out.println();
                     System.out.println("La tarea fue agregada con exito al proyecto");
                     System.out.println();
+                    break;
+                case 11:
+                    // Solo administradores y lideres
+
+                    // Pedir al usuario el ID del proyecto al que se quiere finalizar
+                    System.out.println("* A continuacion, ingrese el ID del Proyecto");
+                    idProyecto = scanner.nextInt();
+                    scanner.nextLine();
+
+                    try {
+                        p = GestionProyecto.buscarProyectoPorID(idProyecto);
+                        GestionProyecto.finalizarProyecto(p);
+                    } catch (ProyectoNoEncontradoException e) {
+                        throw new RuntimeException(e);
+                    }
+
+                    System.out.println();
+                    System.out.println("El Proyecto fue finalizado con exito!");
+                    System.out.println();
+                    break;
+                case 12:
+                    // Solo para administradores y lideres
+                    // Pedir al usuario el ID del proyecto al que se quiere finalizar
+                    System.out.println("* A continuacion, ingrese el ID del Proyecto");
+                    idProyecto = scanner.nextInt();
+                    scanner.nextLine();
+
+                    // Pedir al usuario el ID de la tarea que se quiere finalizar
+                    System.out.println("* A continuacion, ingrese el ID de la Tarea que quiere finalizar");
+                    int idTarea = scanner.nextInt();
+                    scanner.nextLine();
+
+                    try {
+                        t = GestionProyecto.buscarTareaPorID(idProyecto, idTarea);
+                        GestionProyecto.finalizarTarea(idProyecto, t);
+                    } catch (ProyectoNoEncontradoException | TareaNoEncontradaException e) {
+                        throw new RuntimeException(e);
+                    }
+
+                    System.out.println();
+                    System.out.println("La tarea fue finalizada con exito!");
+                    System.out.println();
+                    break;
+                case 13:
+                    // Solo administradores y lideres
+                    // Pedir al usuario el ID del proyecto al que se quiere finalizar
+                    System.out.println("* A continuacion, ingrese el ID del Proyecto");
+                    idProyecto = scanner.nextInt();
+                    scanner.nextLine();
+
+                    try {
+                        ArrayList<Tarea> tareasPendientes = GestionProyecto.verTareasPendientes(idProyecto);
+
+                        System.out.println();
+                        for (Tarea tarea : tareasPendientes)
+                            System.out.println(tarea); // solo administrador y lider
+                        System.out.println();
+
+                    } catch (ProyectoNoEncontradoException e) {
+                        throw new RuntimeException(e);
+                    }
+                    break;
+                case 14:
+                    // Solo administradores y lideres
+                    // Pedir al usuario el ID del proyecto al que se quiere finalizar
+                    System.out.println("* A continuacion, ingrese el ID del Proyecto");
+                    idProyecto = scanner.nextInt();
+                    scanner.nextLine();
+
+                    try {
+                        ArrayList<Tarea> tareasFinalizadas = GestionProyecto.verTareasFinalizadas(idProyecto);
+
+                        System.out.println();
+                        for (Tarea tarea : tareasFinalizadas)
+                            System.out.println(tarea); // solo administrador y lider
+                        System.out.println();
+                    } catch (ProyectoNoEncontradoException e) {
+                        throw new RuntimeException(e);
+                    }
                     break;
                 default:
                     System.out.println("Opción no válida, por favor inténtalo de nuevo.");
