@@ -28,11 +28,15 @@ public class Login {
     public static HashMap<String, Integer> obtenerDatosDeAutenticacion() {
         HashMap<String, Integer> datos = new HashMap<>();
         Scanner scanner = new Scanner(System.in);
+        boolean loginExitoso= false;
+
+        while(!loginExitoso){
 
         try {
             System.out.println();
             System.out.println("\tGP-Java | Login");
             System.out.println("* A continuación, ingrese su ID");
+
             int ID = scanner.nextInt();
             scanner.nextLine(); // Consume el salto de linea
 
@@ -45,8 +49,12 @@ public class Login {
 
             datos.put("ID", ID);
             datos.put("PIN", PIN);
+
+            System.out.println("Login exitoso.");
+            loginExitoso = true;
         } catch (InputMismatchException e) {
-            System.err.println(e.getMessage());
+            System.out.println("Entrada invalida, ingrese numeros.");
+            scanner.nextLine();}
         }
 
         return datos;
