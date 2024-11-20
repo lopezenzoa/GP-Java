@@ -50,8 +50,13 @@ public class Login {
             datos.put("ID", ID);
             datos.put("PIN", PIN);
 
-            System.out.println("Login exitoso.");
-            loginExitoso = true;
+            Usuario u = autenticar(datos);
+
+            if (u != null) {
+                loginExitoso = true;
+                System.out.println("Login Existoso");
+                System.out.println();
+            }
         } catch (InputMismatchException e) {
             System.out.println("Entrada invalida, ingrese numeros.");
             scanner.nextLine();}
@@ -101,9 +106,9 @@ public class Login {
                     return a;
             }
 
-            // Si se llega hasta esta linea, significa que el usuario no esta dentro de ninguno de los arreglos.
-            throw new UsuarioNoEncontradoException("El usuario no pudo ser encontrado en la base de datos");
-        } catch (JSONException | UsuarioNoEncontradoException e) {
+            System.out.println("ID o PIN Invalidos.");
+            System.out.println();
+        } catch (JSONException e) {
             e.printStackTrace();
         }
 

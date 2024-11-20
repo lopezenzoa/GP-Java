@@ -161,7 +161,9 @@ public class Main  {
         // 57613 - 70315
 
 
-        HashMap<String, Integer> datosDeAutenticacion = Login.obtenerDatosDeAutenticacion();
+        HashMap<String, Integer> datosDeAutenticacion;
+
+        datosDeAutenticacion = Login.obtenerDatosDeAutenticacion();
         Usuario u = Login.autenticar(datosDeAutenticacion);
 
         if (u != null)
