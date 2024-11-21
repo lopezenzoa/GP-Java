@@ -389,6 +389,9 @@ public class GestionProyecto {
                     // Crear el JSONObject del nuevo miembro
                     JSONObject miembroJSON = miembroEquipo.serializar();
 
+                    // Modificar el usuario en el archivo usuarios.json
+                    miembroEquipo.agregarProyecto(idProyecto);
+
                     // Agregar el miembro al proyecto
                     JSONArray miembrosJSON = proyectoJSON.getJSONArray("equipo");
 

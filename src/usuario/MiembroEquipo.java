@@ -12,7 +12,7 @@ import proyecto.Proyecto;
 import enums.Rol;
 
 public class MiembroEquipo extends Usuario implements ABMLable<MiembroEquipo> {
-    private HashSet<String> proyectosEnCurso;
+    private HashSet<Integer> proyectosEnCurso;
     private Rol rol;
 
     public MiembroEquipo(String nombre,
@@ -38,8 +38,8 @@ public class MiembroEquipo extends Usuario implements ABMLable<MiembroEquipo> {
         try {
             this.proyectosEnCurso = new HashSet<>();
 
-            for (Object proyectoJSON : jsonObject.getJSONArray("proyectosEnCurso"))
-                proyectosEnCurso.add(proyectoJSON.toString());
+            for (Object idProyectoJSON : jsonObject.getJSONArray("proyectosEnCurso"))
+                proyectosEnCurso.add(Integer.parseInt(idProyectoJSON.toString()));
 
             String rolJSON = jsonObject.getString("rol");
             this.rol = Rol.valueOf(rolJSON);
@@ -48,11 +48,11 @@ public class MiembroEquipo extends Usuario implements ABMLable<MiembroEquipo> {
         }
     }
 
-    public HashSet<String> getProyectosEnCurso() {
+    public HashSet<Integer> getProyectosEnCurso() {
         return proyectosEnCurso;
     }
 
-    public void setProyectosEnCurso(HashSet<String> proyectosEnCurso) {
+    public void setProyectosEnCurso(HashSet<Integer> proyectosEnCurso) {
         this.proyectosEnCurso = proyectosEnCurso;
     }
 
@@ -66,20 +66,20 @@ public class MiembroEquipo extends Usuario implements ABMLable<MiembroEquipo> {
 
     /**
      * Agrega un proyecto a la coleccion proyectosEnCurso.
-     * @param proyecto es el nombre del proyecto que se quiere agregar.
+     * @param idProyecto es el nombre del proyecto que se quiere agregar.
      * @author Enzo.
      * */
-    public void agregarProyecto(String proyecto) {
-        proyectosEnCurso.add(proyecto);
+    public void agregarProyecto(int idProyecto) {
+        proyectosEnCurso.add(idProyecto);
     }
 
     /**
      * Elimina un proyecto de la coleccion proyectosEnCurso.
-     * @param proyecto es el nombre del proyecto que se quiere eliminar.
+     * @param idProyecto es el nombre del proyecto que se quiere eliminar.
      * @author Enzo.
      * */
-    public void eliminarProyecto(String proyecto) {
-        proyectosEnCurso.remove(proyecto);
+    public void eliminarProyecto(int idProyecto) {
+        proyectosEnCurso.remove(idProyecto);
     }
 
     /**
@@ -96,8 +96,8 @@ public class MiembroEquipo extends Usuario implements ABMLable<MiembroEquipo> {
             miembroJSON = super.serializar();
             JSONArray proyectosEnCursoJSON = new JSONArray();
 
-            for (String nombreProyecto : proyectosEnCurso)
-                proyectosEnCursoJSON.put(nombreProyecto);
+            for (int idProyecto : proyectosEnCurso)
+                proyectosEnCursoJSON.put(idProyecto);
 
             miembroJSON.put("proyectosEnCurso", proyectosEnCursoJSON);
             miembroJSON.put("rol", rol.toString());
