@@ -1,5 +1,6 @@
 package gestion;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
@@ -50,6 +51,39 @@ public class OperacionesLectoEscritura {
         }
 
         return jsonTokener;
+    }
+
+    /**
+     * Limpia los archivos. (Solo para debugging)
+     * @author Enzo.
+     * */
+    public static void limpiarArchivos() {
+        JSONObject proyectosJSON = null;
+        JSONObject usuariosJSON = null;
+
+        try {
+            proyectosJSON = new JSONObject();
+            usuariosJSON = new JSONObject();
+
+            JSONArray proyectos = new JSONArray();
+            JSONArray miembros = new JSONArray();
+
+            proyectosJSON.put("proyectos", proyectos);
+
+            usuariosJSON.put("miembrosEquipo", miembros);
+            usuariosJSON.put("administradores", miembros);
+            usuariosJSON.put("lideres", miembros);
+
+            FileWriter fileWriter = new FileWriter("usuarios.json");
+            fileWriter.write(usuariosJSON.toString());
+            fileWriter.close();
+
+            fileWriter = new FileWriter("proyectos.json");
+            fileWriter.write(proyectosJSON.toString());
+            fileWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }
