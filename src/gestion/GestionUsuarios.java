@@ -12,6 +12,8 @@ import usuario.Lider;
 import usuario.MiembroEquipo;
 import usuario.Usuario;
 
+import java.util.HashMap;
+
 public class GestionUsuarios {
     public GestionUsuarios() {}
 
@@ -214,11 +216,12 @@ public class GestionUsuarios {
      * Muestra por consola todos los usuarios que esten activos en el sistema.
      * @author Enzo.
      * */
-    public static void mostrarUsuariosActivos() {
+    public static HashMap<Integer, Usuario> obtenerUsuariosActivos() {
         JSONObject usuariosJSON = null;
         JSONArray miembrosJSON = null;
         JSONArray lideresJSON = null;
         JSONArray adminsJSON = null;
+        HashMap<Integer, Usuario> usuarios = new HashMap<>();
 
         try {
             usuariosJSON = new JSONObject(OperacionesLectoEscritura.leer("usuarios.json"));
@@ -228,7 +231,7 @@ public class GestionUsuarios {
                 MiembroEquipo m = new MiembroEquipo(miembrosJSON.getJSONObject(i));
 
                 if (m.getAltaObaja().equals(AltaBaja.ACTIVO))
-                    System.out.println(m);
+                    usuarios.put(m.getId(), m);
             }
 
             lideresJSON = usuariosJSON.getJSONArray("lideres");
@@ -236,7 +239,7 @@ public class GestionUsuarios {
                 Lider l = new Lider(lideresJSON.getJSONObject(i));
 
                 if (l.getAltaObaja().equals(AltaBaja.ACTIVO))
-                    System.out.println(l);
+                    usuarios.put(l.getId(), l);
             }
 
             adminsJSON = usuariosJSON.getJSONArray("administradores");
@@ -244,11 +247,13 @@ public class GestionUsuarios {
                 Administrador a = new Administrador(adminsJSON.getJSONObject(i));
 
                 if (a.getAltaObaja().equals(AltaBaja.ACTIVO))
-                    System.out.println(a);
+                    usuarios.put(a.getId(), a);
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
+        return usuarios;
     }
 
     /**
@@ -507,5 +512,4 @@ public class GestionUsuarios {
             return "El usuario no pudo ser modificado";
         }
     }
-
 }

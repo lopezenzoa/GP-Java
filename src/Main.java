@@ -14,10 +14,13 @@ import usuario.Usuario;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
 
 public class Main  {
     public static void main(String[] args) {
-        /*
+        OperacionesLectoEscritura.limpiarArchivos();
+
         // Se intancian 15 usuarios (5 para cada rango de privilegios)
         MiembroEquipo Enzo = new MiembroEquipo("Enzo", "Fernandez", "elmaleducado21@gmail.com", "Futbolista", 1234, Rol.DEVOPS);
         MiembroEquipo Lionel = new MiembroEquipo("Lionel", "Messi", "lapulga10@gmail.com", "Futbolista", 1234, Rol.DEVOPS);
@@ -49,29 +52,80 @@ public class Main  {
         Proyecto p4 = new Proyecto(Carla, Roz, "Rediseño de la pagina principal");
         Proyecto p5 = new Proyecto(Diego, Celia, "Otro Proyecto");
 
-        GestionProyecto gestionProyecto = new GestionProyecto();
-
-        // Se agregan 5 proyectos al archivo
+        // Se agregan 5 proyectos al archivo proyectos.json
         GestionProyecto.addProyecto(p1);
         GestionProyecto.addProyecto(p2);
         GestionProyecto.addProyecto(p3);
         GestionProyecto.addProyecto(p4);
         GestionProyecto.addProyecto(p5);
 
-        // Se agregan los JSONObject para el archivo usuarios.json (15 usuarios)
+        // Se agregan tareas a cada uno de los proyectos
         try {
+            GestionProyecto.agregarTareaAlProyecto(p1.getId(), tarea1);
+            GestionProyecto.agregarTareaAlProyecto(p1.getId(), tarea2);
+            GestionProyecto.agregarTareaAlProyecto(p1.getId(), tarea3);
+            GestionProyecto.agregarTareaAlProyecto(p1.getId(), tarea4);
+            GestionProyecto.agregarTareaAlProyecto(p1.getId(), tarea5);
+
+            GestionProyecto.agregarTareaAlProyecto(p2.getId(), tarea1);
+            GestionProyecto.agregarTareaAlProyecto(p2.getId(), tarea2);
+            GestionProyecto.agregarTareaAlProyecto(p2.getId(), tarea3);
+            GestionProyecto.agregarTareaAlProyecto(p2.getId(), tarea4);
+
+            GestionProyecto.agregarTareaAlProyecto(p3.getId(), tarea1);
+            GestionProyecto.agregarTareaAlProyecto(p3.getId(), tarea2);
+            GestionProyecto.agregarTareaAlProyecto(p3.getId(), tarea3);
+
+            GestionProyecto.agregarTareaAlProyecto(p4.getId(), tarea1);
+            GestionProyecto.agregarTareaAlProyecto(p4.getId(), tarea2);
+
+            GestionProyecto.agregarTareaAlProyecto(p5.getId(), tarea1);
+        } catch (ProyectoNoEncontradoException e) {
+            System.err.println(e.getMessage());
+        }
+
+        // Se conforman los equipos para cada uno de los proyectos
+        try {
+            GestionProyecto.agregarMiembroAlEquipo(p1.getId(), Enzo);
+            GestionProyecto.agregarMiembroAlEquipo(p1.getId(), Lionel);
+            GestionProyecto.agregarMiembroAlEquipo(p1.getId(), Sergio);
+            GestionProyecto.agregarMiembroAlEquipo(p1.getId(), Angel);
+            GestionProyecto.agregarMiembroAlEquipo(p1.getId(), Emiliano);
+
+            GestionProyecto.agregarMiembroAlEquipo(p2.getId(), Enzo);
+            GestionProyecto.agregarMiembroAlEquipo(p2.getId(), Lionel);
+            GestionProyecto.agregarMiembroAlEquipo(p2.getId(), Sergio);
+            GestionProyecto.agregarMiembroAlEquipo(p2.getId(), Angel);
+
+            GestionProyecto.agregarMiembroAlEquipo(p3.getId(), Enzo);
+            GestionProyecto.agregarMiembroAlEquipo(p3.getId(), Lionel);
+            GestionProyecto.agregarMiembroAlEquipo(p3.getId(), Sergio);
+
+            GestionProyecto.agregarMiembroAlEquipo(p4.getId(), Enzo);
+            GestionProyecto.agregarMiembroAlEquipo(p4.getId(), Lionel);
+
+            GestionProyecto.agregarMiembroAlEquipo(p5.getId(), Enzo);
+        } catch (UsuarioExisteException e) {
+            System.err.println(e.getMessage());
+        }
+
+        // Se cargan 15 usuarios al archivo usuarios.json
+        try {
+            // Administradores
             GestionUsuarios.agregarUsuario(Monica);
             GestionUsuarios.agregarUsuario(Cesar);
             GestionUsuarios.agregarUsuario(Lucas);
             GestionUsuarios.agregarUsuario(Carla);
             GestionUsuarios.agregarUsuario(Diego);
 
+            // Lideres
             GestionUsuarios.agregarUsuario(Mike);
             GestionUsuarios.agregarUsuario(Sullivan);
             GestionUsuarios.agregarUsuario(Randall);
             GestionUsuarios.agregarUsuario(Roz);
             GestionUsuarios.agregarUsuario(Celia);
 
+            // Miembros de Equipo
             GestionUsuarios.agregarUsuario(Enzo);
             GestionUsuarios.agregarUsuario(Lionel);
             GestionUsuarios.agregarUsuario(Sergio);
@@ -81,84 +135,20 @@ public class Main  {
             System.err.println(e.getMessage());
         }
 
-        // Se agregan tareas a cada uno de los proyectos
-        try {
-            gestionProyecto.agregarTareaAlProyecto(p1.getId(), tarea1);
-            gestionProyecto.agregarTareaAlProyecto(p1.getId(), tarea2);
-            gestionProyecto.agregarTareaAlProyecto(p1.getId(), tarea3);
-            gestionProyecto.agregarTareaAlProyecto(p1.getId(), tarea4);
-            gestionProyecto.agregarTareaAlProyecto(p1.getId(), tarea5);
+        // Debugging
+        HashMap<Integer, Usuario> usuarios = GestionUsuarios.obtenerUsuariosActivos();
 
-            gestionProyecto.agregarTareaAlProyecto(p2.getId(), tarea1);
-            gestionProyecto.agregarTareaAlProyecto(p2.getId(), tarea2);
-            gestionProyecto.agregarTareaAlProyecto(p2.getId(), tarea3);
-            gestionProyecto.agregarTareaAlProyecto(p2.getId(), tarea4);
-
-            gestionProyecto.agregarTareaAlProyecto(p3.getId(), tarea1);
-            gestionProyecto.agregarTareaAlProyecto(p3.getId(), tarea2);
-            gestionProyecto.agregarTareaAlProyecto(p3.getId(), tarea3);
-
-            gestionProyecto.agregarTareaAlProyecto(p4.getId(), tarea1);
-            gestionProyecto.agregarTareaAlProyecto(p4.getId(), tarea2);
-
-            gestionProyecto.agregarTareaAlProyecto(p5.getId(), tarea1);
-        } catch (ProyectoNoEncontradoException e) {
-            System.err.println(e.getMessage());
-        }
-
-        // Se conforman los equipos para cada uno de los proyectos
-        try {
-            gestionProyecto.agregarMiembroAlEquipo(p1.getId(), Enzo);
-            gestionProyecto.agregarMiembroAlEquipo(p1.getId(), Lionel);
-            gestionProyecto.agregarMiembroAlEquipo(p1.getId(), Sergio);
-            gestionProyecto.agregarMiembroAlEquipo(p1.getId(), Angel);
-            gestionProyecto.agregarMiembroAlEquipo(p1.getId(), Emiliano);
-
-            gestionProyecto.agregarMiembroAlEquipo(p2.getId(), Enzo);
-            gestionProyecto.agregarMiembroAlEquipo(p2.getId(), Lionel);
-            gestionProyecto.agregarMiembroAlEquipo(p2.getId(), Sergio);
-            gestionProyecto.agregarMiembroAlEquipo(p2.getId(), Angel);
-
-            gestionProyecto.agregarMiembroAlEquipo(p3.getId(), Enzo);
-            gestionProyecto.agregarMiembroAlEquipo(p3.getId(), Lionel);
-            gestionProyecto.agregarMiembroAlEquipo(p3.getId(), Sergio);
-
-            gestionProyecto.agregarMiembroAlEquipo(p4.getId(), Enzo);
-            gestionProyecto.agregarMiembroAlEquipo(p4.getId(), Lionel);
-
-            gestionProyecto.agregarMiembroAlEquipo(p5.getId(), Enzo);
-        } catch (UsuarioExisteException e) {
-            System.err.println(e.getMessage());
-        }
+        /*
+        for (Map.Entry<Integer, Usuario> entry : usuarios.entrySet())
+            System.out.println(entry.getKey() + " (" + entry.getValue().getClass().getName() + ")");
 
          */
 
-
-        /* Simulacion Proyecto Real */
-
-        /* Niveles de Acceso */
-        // 30519 - 1234 (Miembro)
-        // 13253 - 1234 (Lider)
-        // 73488 - 1234 (Administrador)
-
-        /* Eliminacion de Usuarios */
-        // 57804 (Miembro)
-        // 19965 (Lider)
-        // 78952 (Administrador)
-
-        /* Busqueda de Proyectos */
-        // 90750
-        // 63416
-        // 4791
-        // 9859
-        // 57613
-
-        /* Finalizacion de Tareas */
-        // 90750 - 70315, 71745, 33408, 39534, 34786
-        // 63416 - 70315, 71745, 33408, 39534
-        // 4791 - 70315, 71745, 33408
-        // 9859 - 70315, 71745
-        // 57613 - 70315
+        // Login
+        /*
+        for (Map.Entry<Integer, Usuario> entry : usuarios.entrySet())
+            if (entry.getValue() instanceof MiembroEquipo)
+                System.out.println(entry.getKey());
 
 
         HashMap<String, Integer> datosDeAutenticacion;
@@ -166,7 +156,15 @@ public class Main  {
         datosDeAutenticacion = Login.obtenerDatosDeAutenticacion();
         Usuario u = Login.autenticar(datosDeAutenticacion);
 
+         */
+
+        /* Descomentar la linea para ingresar como: */
+        Usuario u = usuarios.get(Monica.getId()); // Administrador
+        // Usuario u = usuarios.get(Mike.getId()); // Lider
+        // Usuario u = usuarios.get(Enzo.getId()); // Miembro
+
         if (u != null)
             Menu.menu(u);
+
     }
 }
