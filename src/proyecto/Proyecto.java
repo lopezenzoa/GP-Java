@@ -149,15 +149,14 @@ public class Proyecto implements ABMLable<Proyecto> {
 
     @Override
     public String toString() {
-        return "Proyecto {" + "\n" +
+        return "Proyecto " + "\n" +
                 "    ID            : " + id + "\n" +
-                "    Administrador : " + administrador + "\n" +
-                "    Líder         : " + lider + "\n" +
-                "    Miembros      : " + obtenerIDsDelEquipo() + "\n" +
-                "    Tareas        : " + obtenerIDsDeTareas() + "\n" +
                 "    Nombre        : '" + nombre + '\'' + "\n" +
                 "    Estado        : " + estado + "\n" +
-                '}';
+                "    Administrador : " + administrador.getNombre() + " " + administrador.getApellido() + "\n" +
+                "    Líder         : " + lider.getNombre() + " " + lider.getApellido() + "\n" +
+                "    Miembros      : " + nombresToString(obtenerNombresDelEquipo()) + "\n" +
+                "    Tareas        : " + tareasToString(obtenerTareas()) + "\n";
     }
 
     /**
@@ -165,13 +164,24 @@ public class Proyecto implements ABMLable<Proyecto> {
      * @return un Set con los IDs de las tareas.
      * @author Enzo.
      * */
-    public HashSet<Integer> obtenerIDsDeTareas() {
-        HashSet<Integer> IDs = new HashSet<>();
+    public HashSet<String> obtenerTareas() {
+        HashSet<String> descripcionTarea = new HashSet<>();
 
         for (Tarea tarea : tareas)
-            IDs.add(tarea.getId());
+            descripcionTarea.add(tarea.getTitulo());
 
-        return IDs;
+        return descripcionTarea;
+    }
+    public String tareasToString(HashSet<String> tareas){
+        StringBuilder tareasToString = new StringBuilder();
+
+        for (String tarea : tareas) {
+            if (tareasToString.length() > 0) {
+                tareasToString.append(", ");
+            }
+            tareasToString.append(tarea);
+        }
+        return tareasToString.toString();
     }
 
     /**
@@ -179,13 +189,25 @@ public class Proyecto implements ABMLable<Proyecto> {
      * @return un Set con los IDs de los miembros.
      * @author Enzo.
      * */
-    public HashSet<Integer> obtenerIDsDelEquipo() {
-        HashSet<Integer> IDs = new HashSet<>();
+    public HashSet<String> obtenerNombresDelEquipo() {
+        HashSet<String> nombres = new HashSet<>();
 
         for (MiembroEquipo miembro : equipo)
-            IDs.add(miembro.getId());
+            nombres.add(miembro.getNombre());
 
-        return IDs;
+        return nombres;
+    }
+
+    public String nombresToString(HashSet<String> nombres){
+        StringBuilder nombresToString = new StringBuilder();
+
+        for (String nombre : nombres) {
+            if (nombresToString.length() > 0) {
+                nombresToString.append(", ");
+            }
+            nombresToString.append(nombre);
+        }
+        return nombresToString.toString();
     }
 
 
