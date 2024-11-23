@@ -277,6 +277,7 @@ public class GestionProyecto {
 
                 if (a.equals(proyecto)) {
                     a.setEstado(Estado.FINALIZADO);
+                    a.baja();
                     listaProyectosJSON.put(i, a.serializar());
                     // Se agrega el arreglo modificado al objeto
                     proyectosJSON.put("proyectos", listaProyectosJSON);
