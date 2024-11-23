@@ -1,7 +1,6 @@
 package proyecto;
 
-import java.util.HashSet;
-import java.util.LinkedList;
+import java.util.*;
 
 import enums.AltaBaja;
 import interfaces.ABMLable;
@@ -13,9 +12,6 @@ import usuario.Lider;
 
 import enums.Estado;
 import usuario.MiembroEquipo;
-
-import java.util.List;
-import java.util.Objects;
 
 public class Proyecto implements ABMLable<Proyecto> {
     private int id;
@@ -156,7 +152,7 @@ public class Proyecto implements ABMLable<Proyecto> {
                 "    Administrador : " + administrador.getNombre() + " " + administrador.getApellido() + "\n" +
                 "    Líder         : " + lider.getNombre() + " " + lider.getApellido() + "\n" +
                 "    Miembros      : " + nombresToString(obtenerNombresDelEquipo()) + "\n" +
-                "    Tareas        : " + tareasToString(obtenerTareas()) + "\n";
+                "    Tareas        : " + tareasToString(obtenerTareas());
     }
 
     /**
@@ -168,19 +164,26 @@ public class Proyecto implements ABMLable<Proyecto> {
         HashSet<String> descripcionTarea = new HashSet<>();
 
         for (Tarea tarea : tareas)
-            descripcionTarea.add(tarea.getTitulo());
+            descripcionTarea.add(tarea.getDescripcion());
 
         return descripcionTarea;
     }
     public String tareasToString(HashSet<String> tareas){
         StringBuilder tareasToString = new StringBuilder();
+        List<String> listaTareas = new ArrayList<>(tareas);
+        int contador =1;
 
-        for (String tarea : tareas) {
-            if (tareasToString.length() > 0) {
-                tareasToString.append(", ");
+        for (int i = listaTareas.size() - 1; i >= 0; i--) {
+            if (contador == 1) {
+                tareasToString.append("")
+                        .append(listaTareas.get(i));
+            } else {
+                tareasToString.append("\n                    ")
+                        .append(listaTareas.get(i));
             }
-            tareasToString.append(tarea);
+            contador++;
         }
+
         return tareasToString.toString();
     }
 
@@ -193,7 +196,7 @@ public class Proyecto implements ABMLable<Proyecto> {
         HashSet<String> nombres = new HashSet<>();
 
         for (MiembroEquipo miembro : equipo)
-            nombres.add(miembro.getNombre());
+            nombres.add(miembro.getNombre() + " " + miembro.getApellido());
 
         return nombres;
     }
@@ -203,10 +206,11 @@ public class Proyecto implements ABMLable<Proyecto> {
 
         for (String nombre : nombres) {
             if (nombresToString.length() > 0) {
-                nombresToString.append(", ");
+                nombresToString.append("\n                    ");
             }
             nombresToString.append(nombre);
-        }
+
+            }
         return nombresToString.toString();
     }
 

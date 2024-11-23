@@ -563,7 +563,7 @@ public class Menu {
             }
 
             System.out.println("Presione ENTER para continuar");
-            scanner.next();
+            scanner.nextLine();
         }
     }
 
