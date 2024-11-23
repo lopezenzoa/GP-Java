@@ -120,10 +120,8 @@ public class Administrador extends Usuario implements ABMLable<Administrador> {
 
     @Override
     public String toString() {
-        return "Administrador{" +
-                super.toString() +
-                ", lideresACargo=" + obtenerIDsDeLideres() +
-                '}';
+        return "Administrador " + "\n" +
+                super.toString();
     }
 
     /**

@@ -90,9 +90,13 @@ public class Menu {
                         try {
                             int caso = -1;
 
+                            System.out.println();
+
                             System.out.println("* Ingrese el tipo de Usuario a crear: \n[0] Miembro Equipo \n[1] Lider \n[2] Administrador");
                             caso = scanner.nextInt();
                             scanner.nextLine();
+
+                            System.out.println();
 
                             System.out.print("* Ingrese el nombre del Usuario a crear: ");
                             String nombre = scanner.nextLine();
@@ -110,13 +114,13 @@ public class Menu {
                             int password = scanner.nextInt();
                             scanner.nextLine();
 
-                            int id = 0;
-
                             if (caso == 0) {
                                 try {
                                     MiembroEquipo m = GestionUsuarios.crearMiembroEquipo(nombre, apellido, correo, titulo, password, Rol.DEVOPS);
                                     GestionUsuarios.agregarUsuario(m);
-                                    id = m.getId();
+
+                                    System.out.println();
+                                    System.out.println(m);
                                 } catch (UsuarioExisteException e) {
                                     System.err.println(e.getMessage());
                                     continue;
@@ -125,7 +129,9 @@ public class Menu {
                                 try {
                                     Lider l = GestionUsuarios.crearLider(nombre, apellido, correo, titulo, password);
                                     GestionUsuarios.agregarUsuario(l);
-                                    id = l.getId();
+
+                                    System.out.println();
+                                    System.out.println(l);
                                 } catch (UsuarioExisteException e) {
                                     System.err.println(e.getMessage());
                                     continue;
@@ -134,14 +140,13 @@ public class Menu {
                                 try {
                                     Administrador a = GestionUsuarios.crearAdministrador(nombre, apellido, correo, titulo, password);
                                     GestionUsuarios.agregarUsuario(a);
-                                    id = a.getId();
+
+                                    System.out.println();
+                                    System.out.println(a);
                                 } catch (UsuarioExisteException e) {
                                     System.err.println(e.getMessage());
                                     continue;
                                 }
-
-                                System.out.println();
-                                System.out.println("* Se creo el Usuario '" + "' con ID " + id);
                             } else {
                                 System.out.println();
                                 System.out.print("* Por favor, ingrese un numero entre 0 y 2");
@@ -562,8 +567,9 @@ public class Menu {
                     System.out.println("Opción no válida, por favor inténtalo de nuevo.");
             }
 
+            System.out.println();
             System.out.println("Presione ENTER para continuar");
-            scanner.next();
+            scanner.nextLine();
         }
     }
 

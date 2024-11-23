@@ -113,12 +113,12 @@ public abstract class Usuario {
 
     @Override
     public String toString() {
-        return "id=" + id +
-                ", nombre='" + nombre + '\'' +
-                ", apellido='" + apellido + '\'' +
-                ", email='" + email + '\'' +
-                ", titulo='" + titulo + '\'' +
-                ", altaObaja=" + altaObaja;
+        return  "    ID            : " + id + "\n" +
+                "    Nombre        : " + nombre + "\n" +
+                "    Apellido      : " + apellido + "\n" +
+                "    Email         : " + email + "\n" +
+                "    Titulo        : " + titulo + "\n" +
+                "    Password      : " + password + "\n";
     }
 
     /***

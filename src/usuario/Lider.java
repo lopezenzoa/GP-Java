@@ -159,11 +159,8 @@ public class Lider extends Usuario implements ABMLable<Lider> {
 
     @Override
     public String toString() {
-        return "Lider{" +
-                super.toString() +
-                ", proyectosEnCurso=" + proyectosEnCurso +
-                ", miembrosACargo=" + obtenerIDsDeMiembros() +
-                '}';
+        return "Lider " + "\n" +
+                super.toString();
     }
 
     /**
