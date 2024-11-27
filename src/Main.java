@@ -19,8 +19,9 @@ import java.util.Map;
 
 public class Main  {
     public static void main(String[] args) {
-        OperacionesLectoEscritura.limpiarArchivos();
+        // OperacionesLectoEscritura.limpiarArchivos();
 
+        /*
         // Se intancian 15 usuarios (5 para cada rango de privilegios)
         MiembroEquipo Enzo = new MiembroEquipo("Enzo", "Fernandez", "elmaleducado21@gmail.com", "Futbolista", 1234, Rol.DEVOPS);
         MiembroEquipo Lionel = new MiembroEquipo("Lionel", "Messi", "lapulga10@gmail.com", "Futbolista", 1234, Rol.DEVOPS);
@@ -135,38 +136,18 @@ public class Main  {
             System.err.println(e.getMessage());
         }
 
-        // Debugging
-        HashMap<Integer, Usuario> usuarios = GestionUsuarios.obtenerUsuariosActivos();
-
-        /*
-        for (Map.Entry<Integer, Usuario> entry : usuarios.entrySet())
-            System.out.println(entry.getKey() + " (" + entry.getValue().getClass().getName() + ")");
-
          */
 
-        // Login
-        /*
-        for (Map.Entry<Integer, Usuario> entry : usuarios.entrySet())
-            if (entry.getValue() instanceof MiembroEquipo)
-                System.out.println(entry.getKey());
+        /* Datos de Autenticacion para probar:
+            - ID: 69047, Password: 1234 (Miembro de Equipo)
+            - ID: 97322, Password: 1234 (Administrador)
+            - ID: 4624, Password: 1234 (Lider)
+         */
 
-
-        HashMap<String, Integer> datosDeAutenticacion;
-
-        datosDeAutenticacion = Login.obtenerDatosDeAutenticacion();
+        HashMap<String, Integer> datosDeAutenticacion = Login.obtenerDatosDeAutenticacion();
         Usuario u = Login.autenticar(datosDeAutenticacion);
-
-         */
-
-        /* Descomentar la linea para ingresar como: */
-        Usuario u = usuarios.get(Monica.getId()); // Administrador
-        // Usuario u = usuarios.get(Mike.getId()); // Lider
-        // Usuario u = usuarios.get(Enzo.getId()); // Miembro
 
         if (u != null)
             Menu.menu(u);
-
-
-
     }
 }
